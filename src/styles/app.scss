@@ -1,0 +1,13 @@
+// @import "~normalize.css";
+// @import '../../node_modules/vuetify/src/styles/generic/_reset';//vuetify styles
+// @import '../../node_modules/vuetify/src/styles/generic/_elevation';//vuetify styles
+
+@import "vars";
+
+@import 'normalize-scss';
+@include normalize();
+
+@import "./base64";
+@import "./mixins";
+@import "./layout";
+@import "./utilities";
