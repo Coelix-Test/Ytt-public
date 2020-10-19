@@ -4,7 +4,7 @@ export default {
   getPage(params){
     //Possible params
     // role - teacher, student
-    return env.API.get('/users', {
+    return env.API.get('/admin/users', {
       params: params
     });
   },
@@ -23,6 +23,24 @@ export default {
   
   update(id, data){
     return env.API.put('/admin/users/' + id, data);
+  },
+
+  uploadAvatar(file, progressHandler = null) {
+
+    let data = new FormData();
+    data.append('files[]', file);
+
+    let options = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+
+    if(progressHandler !== null){
+      options.onUploadProgress = progressHandler;
+    }
+
+    return env.API.post('/users/avatar', data, options);
   },
   
 }

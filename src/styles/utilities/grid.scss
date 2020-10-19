@@ -1,7 +1,7 @@
-$gutter: 15px;
+$gutter: 19px;
 
 .u-container{
-  max-width: 1300px;
+  max-width: 1308px;
   width: 100%;
   padding: $gutter;
 }
@@ -22,7 +22,8 @@ $cols: 12;
 @while $cols >= 1 {
   .u-col-#{$cols}{
     width: 100%;
-    padding: $gutter;
+    padding-right: $gutter;
+    padding-left: $gutter;
   }
   $cols: $cols - 1;
 }

@@ -14,14 +14,20 @@ import { FilesApi }from '@/api';
 
 export default {
   data: () => ({
-    file: null,
-    accept: 'application/pdf',
     status: 'none',
     percent: 0,
   }),
   props: {
     apiFunc: {
       type: Function,
+    },
+    value: {
+      type: [Object, Array],
+      default: () => null,
+    },
+    accept: {
+      type: String,
+      default: '',
     }
   },
   computed: {
@@ -51,12 +57,23 @@ export default {
       else{
         apiFunc = FilesApi.upload;
       }
-      apiFunc(event.target.files[0], this.handleProgress).then(
+      let file = event.target.files[0];
+      apiFunc(file, this.handleProgress).then(
         response => {
           console.log('response got');
+          this.$emit('input', {
+            file: file,
+            response: response,
+            success: true,
+          });
         },
         error => {
-          console.log('error got');
+          this.$emit('input', {
+            file: file,
+            response: error,
+            success: false,
+          });
+          console.log('error occured', error);
         }
       );
     },

@@ -8,14 +8,19 @@
         <file-upload 
           class="u-my-10"
           :api-func="getPdfUploadFunc()"
-          adaptive
+          @input="onPdfUpload"
+          :value="pdf"
+          accept="application/pdf"
         >
         </file-upload>
 
         <div class="u-my-10">
-          To teachers
-
-          <teacher-list></teacher-list>
+          To teachers:
+          <teacher-list 
+            @input="onSelectTeachers" 
+            :value="teachers"
+          >
+          </teacher-list>
         </div>
 
 
@@ -33,6 +38,12 @@ import FileUpload from '@/components/common/FileUpload/FileUpload.vue';
 import TeacherList from '@/components/teacher/TeacherList.vue';
 
 export default {
+  data: () => ({
+    name: '',
+    description: '',
+    teachers: [],
+    pdf: null,
+  }),
   components: {
     FileUpload,
     TeacherList,
@@ -56,6 +67,12 @@ export default {
     },
     getPdfUploadFunc(){
       return LessonsApi.pdf;
+    },
+    onPdfUpload(file){
+      this.file = file;
+    },
+    onSelectTeachers(value){
+      this.teachers = value;
     }
   },
   mounted(){

@@ -2,7 +2,7 @@
   <app-container>
     <nav-header></nav-header>
     <nav-sidebar></nav-sidebar>
-    <app-main>
+    <app-main class="admin-main">
       <router-view></router-view>
     </app-main>
   </app-container>
@@ -26,4 +26,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/styles/mixins';
+.admin-main{
+  background: rgba(#f9f9f9, .5);
+}
 </style>

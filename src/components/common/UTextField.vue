@@ -12,6 +12,14 @@
         :placeholder="placeholder"
         @input="onInput"
       >
+
+      <div class="u-text-field__append-icon" v-if="appendIcon">
+        <svg
+          v-svg
+          :symbol="appendIcon"
+          size="0 0 20 20"
+        ></svg>
+      </div>
     </div>
     <div class="u-text-field__messages"></div>
   </div>
@@ -42,6 +50,10 @@ export default {
     inset: {
       type: Boolean,
       default: false,
+    },
+    appendIcon: {
+      type: String,
+      default: '',
     }
   },
   computed: {
