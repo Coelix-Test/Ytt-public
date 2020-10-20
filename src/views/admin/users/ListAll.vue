@@ -10,15 +10,10 @@
         <!-- search -->
       </div>
       <div class="u-col-12">
-        <u-tabs v-model="currentTab">
-          <u-tab>Teachers</u-tab>
-          <u-tab>Students</u-tab>
+        <u-tabs>
+          <u-tab label="Teachers">Teachers Tab </u-tab>
+          <u-tab label="Students">Students Tab </u-tab>
         </u-tabs>
-
-        <u-tab-items>
-          <u-tab-item>Teachers List</u-tab-item>
-          <u-tab-item>Students List</u-tab-item>
-        </u-tab-items>
       </div>
 
       {{currentTab}}
@@ -33,15 +28,12 @@ import UCard from '@/components/common/UCard';
 
 import UTabs from '@/components/common/UTabs/UTabs';
 import UTab from '@/components/common/UTabs/UTab';
-import UTabItems from '@/components/common/UTabs/UTabItems';
-import UTabItem from '@/components/common/UTabs/UTabItem';
 
 
 export default {
   components: {
     UCard,
     UTabs,UTab,
-    UTabItems,UTabItem
   },
   data: () => ({
     data: [],
