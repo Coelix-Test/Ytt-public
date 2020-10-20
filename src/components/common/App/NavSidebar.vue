@@ -55,8 +55,8 @@ export default {
       },
       {
         id: 2,
-        text: 'My students',
-        to: {name: 'admin'},
+        text: 'Users',
+        to: {name: 'admin-users-all'},
         icon: 'icon-user-group',
         active: false,
       },
