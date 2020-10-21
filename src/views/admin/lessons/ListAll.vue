@@ -83,45 +83,6 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/vars';
 
-.table-card{
-  box-shadow: 0px 12px 66px rgba(0, 0, 0, 0.15);
-  background: #fff;
-}
-
-.u-data-table{
-  width: 100%;
-  border-spacing: 0;
-  border-collapse: separate;
-
-  &.is-striped{
-    tr:nth-child(even){
-      background-color: #F8F8F8;
-    }
-  }
-
-  tbody>tr:hover,
-  &.is-striped tbody>tr:hover{
-    transition: all .15s ease-in-out;
-    background-color: $clr-blue;
-    color: #fff;
-  }
-
-  svg{
-    fill: $clr-blue;
-  }
-  tr:hover svg{
-    fill: #fff;
-  }
-
-  td{
-    padding: 15px 0;
-    // white-space: nowrap;
-  }
-  th{
-    padding: 22px 0;
-  }
-}
-
 tr:hover .pages-col{
   color: #fff;
 }
