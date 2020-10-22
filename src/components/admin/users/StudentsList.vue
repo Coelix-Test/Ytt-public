@@ -30,25 +30,43 @@
           <td class="grey-col">test@test.com</td>
           <td class="grey-col">08357934739</td>
           <td class="u-pr-25 u-text-right">
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light">Add teacher</button>
+            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal">Add teacher</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <select-teacher 
+      :value="currentSelectedTeacher" 
+      @input="onSelectTeachers"
+    ></select-teacher>
    </u-card>
 </template>
 
 <script>
 import UCard from '@/components/common/UCard';
+import SelectTeacher from '@/components/modals/SelectTeacher';
+
+import { UsersApi } from '@/api';
 
 export default {
+  data: () => ({
+    currentSelectedTeacher: [],
+    items: [],
+  }),
   components: {
     UCard,
+    SelectTeacher,
   },
   methods: {
     getAll(){
       UsersApi.getPage({ role: 2 }).then(response => {this.items = response.data});
-    }
+    },
+    onSelectTeachers(){
+
+    },
+    openSelectTeacherModal(){
+      this.$modal.show('select-teacher');
+    },
   },
   mounted(){
     this.getAll();

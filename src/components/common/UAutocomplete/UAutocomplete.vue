@@ -48,6 +48,10 @@ export default {
     value: {
       type: Array,
       required: true,
+    },
+    multiple: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
@@ -75,7 +79,12 @@ export default {
       })
     },
     toggleItem(item){
-      this.selected.push(item);
+      if(this.multiple){
+        this.selected.push(item);
+      }
+      else{
+        this.selected = item;
+      }
       this.$emit('input', this.selected);
     },
     handleFilter(event){

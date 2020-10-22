@@ -8,25 +8,15 @@
       {{ item.name }}
     </div>
     <button @click="showModal">Add teacher</button>
-    <modal name="select-teacher" width="1250px" height="auto" classes="u-modal" scrollable>
-      <u-card class="u-modal-card u-px-24 u-pt-24 u-pb-15">
-        <div class="u-text-h2 u-text-center">Choose Teacher</div>
-        <u-autocomplete 
-          :value="value"
-          @input="onSelectTeachers"
-        >
-        </u-autocomplete>
-        <div class="u-flex">
-          <button class="u-btn is-dark is-bg-primary is-x-large u-ml-auto u-mr-auto" @click="hideModal">Save</button>
-        </div>
-      </u-card>
-    </modal>
+    <select-teacher :value="value" @input="onSelectTeachers"></select-teacher>
   </div>
 </template>
 
 <script>
 import UCard from '@/components/common/UCard.vue';
 import UAutocomplete from '@/components/common/UAutocomplete/UAutocomplete.vue';
+
+import SelectTeacher from '@/components/modals/SelectTeacher';
 
 import { UsersApi } from '@/api/users.api';
 
@@ -43,6 +33,7 @@ export default {
   components: {
     UCard,
     UAutocomplete,
+    SelectTeacher,
   },
   methods: {
     showModal(){

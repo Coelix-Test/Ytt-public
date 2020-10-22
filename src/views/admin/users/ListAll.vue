@@ -14,11 +14,11 @@
           <u-tab label="Teachers">
             <teachers-list></teachers-list>
           </u-tab>
-          <u-tab label="Students">Students Tab </u-tab>
+          <u-tab label="Students">
+            <students-list></students-list>
+          </u-tab>
         </u-tabs>
       </div>
-
-      {{currentTab}}
     </div>
   </div>
 </template>

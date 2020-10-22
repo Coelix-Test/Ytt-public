@@ -37,6 +37,7 @@ export default {
   max-width: 100%;
   flex-shrink: 0;
   flex-grow: 1;
+  overflow: hidden;
 }
 
 .u-table-card{
