@@ -35,8 +35,6 @@ export default {
   background: #fff;
   border-radius: 50px;
   max-width: 100%;
-  flex-shrink: 0;
-  flex-grow: 1;
   overflow: hidden;
 }
 
