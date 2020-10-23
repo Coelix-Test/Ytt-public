@@ -64,7 +64,7 @@ export default {
         this.$store.commit('CurrentUser/auth', response.data.access_token);
         // TODO: get user data
         // this.$store.dispatch('CurrentUser/updateData');
-        this.$router.push({name: 'admin-lessons-create'});
+        this.$router.push({name: 'admin-lessons-all'});
       });
     }
   }
