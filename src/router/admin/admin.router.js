@@ -5,6 +5,7 @@ import Admin from '@/views/admin/Admin';
 
 import lessons from './lessons.router';
 import users from './users.router';
+import settings from './settings.router';
 
 const routes = {
   path: '/admin',
@@ -14,6 +15,7 @@ const routes = {
   children: [
     lessons,
     users,
+    settings,
   ]
 };
 

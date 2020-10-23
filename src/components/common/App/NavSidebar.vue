@@ -63,7 +63,7 @@ export default {
       {
         id: 3,
         text: 'Settings',
-        to: {name: 'admin'},
+        to: {name: 'admin-settings'},
         icon: 'icon-settings',
         active: false,
       },

@@ -76,7 +76,7 @@ import { LessonsApi, UsersApi } from '@/api';
 export default {
   mixins: [CreateUserMixin],
   data: () => ({
-    role: 1,
+    role: 3,
   }),
   methods: {
     
