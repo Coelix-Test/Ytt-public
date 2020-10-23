@@ -8,7 +8,11 @@
       {{ item.name }}
     </div>
     <button @click="showModal">Add teacher</button>
-    <select-teacher :value="value" @input="onSelectTeachers"></select-teacher>
+    <select-teacher 
+      :value="value" 
+      @input="onSelectTeachers"
+      multiple
+    ></select-teacher>
   </div>
 </template>
 

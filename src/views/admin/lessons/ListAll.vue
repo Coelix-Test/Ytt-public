@@ -4,7 +4,13 @@
       <div class="u-col-7">
         <div class="u-flex is-align-center">
           <div class="u-text-h1 u-mr-6">Lessons</div>
-          <button class="u-btn is-x-large is-bg-primary is-dark">Add lesson</button>
+          <router-link
+            tag="button"
+            :to="{ name: 'admin-lessons-create' }"
+            class="u-btn is-x-large is-bg-primary is-dark"
+          >
+            Add lesson
+          </router-link>
         </div>
       </div>
       <div class="u-col-5">
@@ -14,19 +20,25 @@
         <u-card class="table-card u-mt-10">
           <table class="u-data-table is-striped">
             <colgroup>
-              <col>
-              <col>
-              <col>
+              <col v-for="column in columns" :key="column.value">
             </colgroup>
             <thead>
               <tr>
-                <th>Name</th>
-                <th class="u-text-center">Lessons</th>
-                <th></th>
+                <template v-for="(column, index) in columns">
+                  <th 
+                    v-if="index == 1"
+                    :key="index"
+                    class="u-text-center" 
+                  >{{column.text}}</th>
+                  <th 
+                    v-else
+                    :key="index"
+                  >{{column.text}}</th>
+                </template>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="index in 15" :key="index">
+              <tr v-for="item in items" :key="item.id">
                 <td class="u-pl-13 u-font-weight-light">
                   <svg
                     v-svg
@@ -34,9 +46,9 @@
                     size="0 0 22 22"
                     role="presentation"
                   ></svg>
-                  Name of the lessons
+                  {{item.title}}
                 </td>
-                <td class="u-font-weight-light u-text-center pages-col">23 pages</td>
+                <td class="u-font-weight-light u-text-center pages-col">0 pages</td>
                 <td class="u-text-right u-pr-25">
                   <button class="u-btn is-medium is-bg-primary is-dark u-mr-9 u-font-weight-regular">Edit lesson</button>
                   <button class="u-btn is-medium is-bg-primary is-dark u-font-weight-regular">Add to teacher</button>
@@ -61,21 +73,37 @@ export default {
     UCard,
   },
   data: () => ({
-    data: [],
-    
+    items: [],
+    columns: [
+      {
+        text: 'Name',
+        value: 'name',
+        breakpoint: false,
+      },
+      {
+        text: 'Lessons',
+        value: 'pages',
+        breakpoint: false,
+      },
+      {
+        text: '',
+        value: 'actions',
+        breakpoint: false,
+      },
+    ],
   }),
   computed: {
     
   },
   methods: {
     getItems(){
-      LessonsApi.getPage(response => {
-        console.log(response);
+      LessonsApi.getPage({}).then(response => {
+        this.items = response.data;
       });
     }
   },
   mounted(){
-    
+    this.getItems();
   },
 }
 </script>

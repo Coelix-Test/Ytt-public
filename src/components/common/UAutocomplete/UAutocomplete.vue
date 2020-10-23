@@ -3,13 +3,26 @@
     <label class="u-autocomplete__input" :for="'input-' + uuid">
       <div class="u-autocomplete__label">Choose teacher</div>
       <div class="u-autocomplete__selections u-px-4 u-py-2">
-        <div 
-          class="u-autocomplete__chip u-ma-1 u-px-11" 
-          v-for="item in value"
-          :key="item.id"
-        >
-          {{item.name}}
-        </div>
+
+        <template v-if="computedValue">
+          <template v-if="multiple">
+            <div 
+              class="u-autocomplete__chip u-ma-1 u-px-11" 
+              v-for="item in computedValue"
+              :key="item.id"
+            >
+              {{item.name}}
+            </div>
+          </template>
+          <template v-else>
+            <div 
+              class="u-autocomplete__chip u-ma-1 u-px-11" 
+            >
+              {{computedValue.name}}
+            </div>
+          </template>
+        </template>
+        
 
         <input 
           :id="'input-' + uuid"
@@ -22,10 +35,10 @@
     <div class="u-autocomplete__list">
       <div
         class="u-autocomplete__list-item u-flex is-align-center u-px-12" 
-        :class="{ 'is-active' : item.isSelected }"
         v-for="item in computedItems" 
         :key="item.id"
         @click="toggleItem(item)"
+        :class="{ 'is-active' : item.isSelected }"
       >
         {{item.name}}
       </div>
@@ -40,25 +53,38 @@ import UUID from '@/mixins/uuid.mixin';
 export default {
   mixins: [ UUID ],
   data: () => ({
-    items: [],
-    selected: [],//objects
     autocomplete: '',
   }),
   props: {
     value: {
-      type: Array,
-      required: true,
+      type: [Array, Object],
+      default: null,
     },
     multiple: {
       type: Boolean,
       default: false,
+    },
+    items: {
+      type: Array,
+      default: () => [],//objects
     }
   },
   computed: {
     computedItems(){
-      let selectedVals = this.value.map(item => item.id);
+      let compItems = [];
+      let selectedVals = [];
+
+      if(this.value){
+        if(this.multiple){
+          selectedVals = this.value.map(item => item.id);
+        }
+        else{
+          selectedVals.push(this.value.id);
+        }
+      }
       console.log('selectedVals',selectedVals);
-      let items = this.items.map(item => {
+
+      compItems = this.items.map(item => {
         if(selectedVals.includes(item.id)){
           item.isSelected = true;
         }
@@ -67,32 +93,43 @@ export default {
         }
         return item;
       });
-      console.log('comp items', items);
-      return items;
+
+      return compItems;
+    },
+    computedValue(){
+      let computedValue = null;
+      if(this.value){
+        if(this.multiple){
+          computedValue = this.value.map(item => {
+            let resItem = this.computedItems.find(compItem => compItem.id === item.id);
+            return resItem;
+          });
+        }
+        else{
+          computedValue = this.computedItems.find(compItem => compItem.id === this.value.id);
+        }
+      }
+      
+      return computedValue;
     }
   },
   methods: {
-    getItems(){
-      UsersApi.getPage({per_page: 100}).then(response => {
-        console.log(response);
-        this.items = response.data.data;
-      })
-    },
+    
     toggleItem(item){
+      //TODO: remove selection from item
       if(this.multiple){
-        this.selected.push(item);
+        this.$emit('input', [ ...this.computedValue, item]);
       }
       else{
-        this.selected = item;
+        this.$emit('input', item);
       }
-      this.$emit('input', this.selected);
     },
     handleFilter(event){
       console.log(event.target.value);
     },
   },
   mounted(){
-    this.getItems();
+    
   }
 }
 </script>
@@ -113,6 +150,7 @@ export default {
     font-size: 18px;
     font-weight: 300;
     height: 78px;
+    cursor: pointer;
     &:hover,
     &.is-active{
       background: rgba($clr-blue, .1);

@@ -2,14 +2,14 @@ import env from "../config/env"
 
 export default {
 
-  getPage(params){
-    return env.API.get('/lessons', {
+  getPage(params, role = 'admin'){
+    return env.API.get(`/${role}/lessons`, {
       params: params
     });
   },
 
-  create(data){
-    return env.API.post('/lessons', data);
+  create(data, role = 'admin'){
+    return env.API.post( `/${role}/lessons`, data);
   },
 
   get(id){
@@ -40,6 +40,6 @@ export default {
       options.onUploadProgress = progressHandler;
     }
 
-    return env.API.post('/lessons/pdf', data, options);
+    return env.API.post('/admin/lessons/pdf', data, options);
   },
 }

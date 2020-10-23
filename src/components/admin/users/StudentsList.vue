@@ -2,35 +2,49 @@
   <u-card>
     <table class="u-data-table is-striped">
       <colgroup>
-        <col>
-        <col>
-        <col>
+        <col v-for="column in columns" :key="column.value">
       </colgroup>
       <thead>
         <tr>
-          <th class="u-pl-13 u-text-left">Name</th>
-          <th class="u-text-left">E-mail</th>
-          <th class="u-text-left">Phone</th>
-          <th></th>
+          <template v-for="(column, index) in columns">
+            <th 
+              class="u-pl-13 u-text-left" 
+              v-if="index == 0"
+              :key="index"
+            >{{column.text}}</th>
+            <th 
+              v-else
+              class="u-text-left"
+              :key="index"
+            >{{column.text}}</th>
+          </template>
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="items.length">
         <tr 
-          v-for="index in 15" 
-          :key="index"
+          v-for="item in items" 
+          :key="item.id"
         >
           <td class="u-pl-13">
             <div class="u-flex is-align-center">
               <div class="avatar-wrap u-mr-6">
                 <img src="https://via.placeholder.com/40x40" alt="">
               </div>
-              Patrick Smith
+              {{item.name}}
             </div>
           </td>
-          <td class="grey-col">test@test.com</td>
-          <td class="grey-col">08357934739</td>
+          <td class="grey-col">{{item.email}}</td>
+          <td class="grey-col">{{item.phone}}</td>
           <td class="u-pr-25 u-text-right">
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal">Add teacher</button>
+            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(false)" v-if="!item.teacher_id">Add teacher</button>
+            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(item.teacher_id)" v-else>Change teacher</button>
+          </td>
+        </tr>
+      </tbody>
+      <tbody v-else>
+        <tr>
+          <td class="u-text-center" colspan="4">
+            No data available
           </td>
         </tr>
       </tbody>
@@ -50,8 +64,31 @@ import { UsersApi } from '@/api';
 
 export default {
   data: () => ({
-    currentSelectedTeacher: [],
+    currentSelectedTeacher: null,
+    currentSelectedStudent: null,
     items: [],
+    columns: [
+      {
+        text: 'Name',
+        value: 'name',
+        breakpoint: false,
+      },
+      {
+        text: 'Email',
+        value: 'email',
+        breakpoint: false,
+      },
+      {
+        text: 'Phone',
+        value: 'phone',
+        breakpoint: false,
+      },
+      {
+        text: '',
+        value: 'actions',
+        breakpoint: false,
+      },
+    ],
   }),
   components: {
     UCard,
@@ -59,14 +96,22 @@ export default {
   },
   methods: {
     getAll(){
-      UsersApi.getPage({ role: 2 }).then(response => {this.items = response.data});
+      UsersApi.getPage({ role: 3 }).then(response => {this.items = response.data});
     },
-    onSelectTeachers(){
-
+    onSelectTeachers(teacher){
+      console.log('selected teacher: ', teacher);
+      this.currentSelectedTeacher = teacher;
     },
-    openSelectTeacherModal(){
+    openSelectTeacherModal(id){
+      if(id){
+        this.currentSelectedTeacher = {id : id};
+      }
+      else{
+        this.currentSelectedTeacher = null;
+      }
       this.$modal.show('select-teacher');
     },
+    
   },
   mounted(){
     this.getAll();

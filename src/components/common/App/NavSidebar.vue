@@ -49,7 +49,7 @@ export default {
       {
         id: 1,
         text: 'Lessons',
-        to: {name: 'admin-lessons-create'},
+        to: {name: 'admin-lessons-all'},
         icon: 'icon-file',
         active: true,
       },
