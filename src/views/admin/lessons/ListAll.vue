@@ -48,7 +48,7 @@
                   ></svg>
                   {{item.title}}
                 </td>
-                <td class="u-font-weight-light u-text-center pages-col">0 pages</td>
+                <td class="u-font-weight-light u-text-center pages-col">{{item.words_count}} pages</td>
                 <td class="u-text-right u-pr-25">
                   <button class="u-btn is-medium is-bg-primary is-dark u-mr-9 u-font-weight-regular">Edit lesson</button>
                   <button class="u-btn is-medium is-bg-primary is-dark u-font-weight-regular">Add to teacher</button>

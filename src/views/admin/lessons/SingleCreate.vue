@@ -22,7 +22,6 @@
             class="u-mb-7"
             :api-func="getPdfUploadFunc()"
             @input="onPdfUpload"
-            :value="pdf"
             accept="application/pdf"
           >
           </file-upload>
@@ -38,7 +37,7 @@
         </div>
       </div> 
 
-      <div class="u-col-12"></div>
+      <div class="u-col-12">
         <button class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="validate">Save</button>
       </div>
     </div>
@@ -57,7 +56,8 @@ export default {
     name: "",
     description: "",
     teachers: [],
-    pdf: null,
+    pdfPath: '',
+    words: [],
   }),
   components: {
     FileUpload,
@@ -73,6 +73,8 @@ export default {
         title: this.name,
         description: this.description,
         teachers: this.teachers.map((item) => item.id),
+        path: this.pdfPath,
+        words: this.words,
       };
 
       return postData;
@@ -82,7 +84,7 @@ export default {
       LessonsApi.create(postData, "admin").then((response) => {
         console.log(response.data);
         // if(response.data.private_id){
-        //   this.$router.push({name: 'cemeteries-edit', params: { id: response.data.private_id} } );
+        //   this.$router.push({name: 'admin-lessons-edit', params: { id: response.data.id} } );
         // }
       });
     },
@@ -90,7 +92,12 @@ export default {
       return LessonsApi.pdf;
     },
     onPdfUpload(file) {
-      this.file = file;
+      console.log(file);
+      if(file.success){
+
+        this.pdfPath = file.response.data.path;
+        this.words = file.response.data.words;
+      }
     },
     onSelectTeachers(value) {
       this.teachers = value;

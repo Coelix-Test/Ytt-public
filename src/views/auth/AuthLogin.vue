@@ -19,7 +19,7 @@
     ></u-text-field>
     <u-text-field 
       label="Password"
-      v-model="username" 
+      v-model="password" 
       placeholder="******"
     ></u-text-field>
 
