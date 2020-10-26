@@ -11,15 +11,15 @@
 
       </div>
     </div>
-    <u-text-field 
+    <u-text-field
       label="Full name or E-mail"
-      v-model="username" 
+      v-model="username"
       placeholder="John Smit"
       inset
     ></u-text-field>
-    <u-text-field 
+    <u-text-field
       label="Password"
-      v-model="password" 
+      v-model="password"
       placeholder="******"
     ></u-text-field>
 
@@ -31,7 +31,7 @@
     </div>
 
     <div class="u-flex">
-      <button class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="validate">Log in</button>
+      <button id="login-btn" class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="validate">Log in</button>
     </div>
   </u-card>
 </template>
