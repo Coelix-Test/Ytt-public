@@ -36,8 +36,8 @@
           <td class="grey-col">{{item.email}}</td>
           <td class="grey-col">{{item.phone}}</td>
           <td class="u-pr-25 u-text-right">
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(false)" v-if="!item.teacher_id">Add teacher</button>
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(item.teacher_id)" v-else>Change teacher</button>
+            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(item)" v-if="!item.teacher_id">Add teacher</button>
+            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(item)" v-else>Change teacher</button>
           </td>
         </tr>
       </tbody>
@@ -50,8 +50,8 @@
       </tbody>
     </table>
     <select-teacher 
-      :value="currentSelectedTeacher" 
-      @input="onSelectTeachers"
+      v-model="currentSelectedTeacher"
+      @save="assignTeacher"
     ></select-teacher>
    </u-card>
 </template>
@@ -60,7 +60,7 @@
 import UCard from '@/components/common/UCard';
 import SelectTeacher from '@/components/modals/SelectTeacher';
 
-import { UsersApi } from '@/api';
+import { UsersApi, StudentsApi } from '@/api';
 
 export default {
   data: () => ({
@@ -102,16 +102,30 @@ export default {
       console.log('selected teacher: ', teacher);
       this.currentSelectedTeacher = teacher;
     },
-    openSelectTeacherModal(id){
-      if(id){
-        this.currentSelectedTeacher = {id : id};
+    openSelectTeacherModal(currentStudent){
+      this.currentSelectedStudent = currentStudent;
+
+      if(currentStudent.teacher_id){
+        this.currentSelectedTeacher = {id : currentStudent.teacher_id};
       }
       else{
         this.currentSelectedTeacher = null;
       }
+
       this.$modal.show('select-teacher');
     },
-    
+    assignTeacher(){
+      let teacherId = null;
+      if(this.currentSelectedTeacher){
+        teacherId = this.currentSelectedTeacher.id;
+      }
+      StudentsApi.assignTeacher(this.currentSelectedStudent.id, teacherId).then(response => {
+
+        this.currentSelectedStudent.teacher_id = response.data.teacher_id;
+
+      });
+
+    },
   },
   mounted(){
     this.getAll();
