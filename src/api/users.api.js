@@ -49,5 +49,9 @@ export default {
 
     return env.API.post('/users/avatar', data, options);
   },
+
+  addAccessToLesson(userId, data){
+    return env.API.post(`/admin/teachers/${userId}/lessons`, data);
+  }
   
 }

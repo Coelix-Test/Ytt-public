@@ -1,29 +1,30 @@
 <template>
-  <u-card>
-    <table class="u-data-table is-striped">
-      <colgroup>
-        <col v-for="column in columns" :key="column.value">
-      </colgroup>
-      <thead>
+  <div>
+    <u-card>
+      <table class="u-data-table is-striped">
+        <colgroup>
+          <col v-for="column in columns" :key="column.value">
+        </colgroup>
+        <thead>
         <tr>
           <template v-for="(column, index) in columns">
-            <th 
-              class="u-pl-13 u-text-left" 
-              v-if="index == 0"
-              :key="index"
+            <th
+                class="u-pl-13 u-text-left"
+                v-if="index == 0"
+                :key="index"
             >{{column.text}}</th>
-            <th 
-              v-else
-              class="u-text-left"
-              :key="index"
+            <th
+                v-else
+                class="u-text-left"
+                :key="index"
             >{{column.text}}</th>
           </template>
         </tr>
-      </thead>
-      <tbody v-if="items.length">
-        <tr 
-          v-for="item in items" 
-          :key="item.id"
+        </thead>
+        <tbody v-if="items.length">
+        <tr
+            v-for="item in items"
+            :key="item.id"
         >
           <td class="u-pl-13">
             <div class="u-flex is-align-center">
@@ -36,28 +37,45 @@
           <td class="grey-col">{{item.email}}</td>
           <td class="grey-col">{{item.phone}}</td>
           <td class="u-pr-25 u-text-right">
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openAddLessonPopup">Add lesson</button>
+            <button
+                class="u-btn is-dark is-bg-primary is-small u-font-weight-light"
+                @click="openAddLessonPopup(item)"
+            >
+              Add lesson
+            </button>
           </td>
         </tr>
-      </tbody>
-      <tbody v-else>
+        </tbody>
+        <tbody v-else>
         <tr>
           <td class="u-text-center" colspan="4">
             No data available
           </td>
         </tr>
-      </tbody>
-    </table>
-   </u-card>
+        </tbody>
+      </table>
+    </u-card>
+
+    <select-lesson
+        v-model="selectedLessons"
+        @save="addTeacherToLesson"
+        multiple
+    >
+
+    </select-lesson>
+  </div>
 </template>
 
 <script>
 import UCard from '@/components/common/UCard';
+import SelectLesson from "@/components/modals/SelectLesson";
 
 import { UsersApi } from '@/api';
 
 export default {
   data: () => ({
+    selectedTeacher: null,
+    selectedLessons: null,
     items: [],
     columns: [
       {
@@ -84,12 +102,26 @@ export default {
   }),
   components: {
     UCard,
+    SelectLesson,
   },
   methods: {
     getAll(){
       UsersApi.getPage({ role: 2 }).then(response => {this.items = response.data});
     },
-    openAddLessonPopup(){
+    openAddLessonPopup(item){
+      this.selectedTeacher = item;
+      this.selectedLessons = [ ...item.lessons ];
+      this.$modal.show('select-lesson');
+    },
+    addTeacherToLesson(){
+
+      UsersApi.addAccessToLesson(this.selectedTeacher.id, {
+        lessons: this.selectedLessons.map(item => item.id),
+      }).then(response => {
+
+        this.selectedTeacher.lessons = response.data.lessons;
+
+      });
 
     },
   },
