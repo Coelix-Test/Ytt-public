@@ -29,6 +29,7 @@
           type="text" 
           v-model="autocomplete"
           @input="handleFilter"
+          @keyup.delete="deleteLastItem"
         >
       </div>
     </label>
@@ -82,7 +83,7 @@ export default {
           selectedVals.push(this.value.id);
         }
       }
-      console.log('selectedVals',selectedVals);
+      // console.log('selectedVals',selectedVals);
 
       compItems = this.items.map(item => {
         if(selectedVals.includes(item.id)){
@@ -117,16 +118,50 @@ export default {
     
     toggleItem(item){
       //TODO: remove selection from item
-      if(this.multiple){
-        this.$emit('input', [ ...this.computedValue, item]);
+      if(item.isSelected){
+        
+        if(this.multiple){
+
+          console.log('Comp Value before ',this.computedValue);
+
+          let removeIndex = this.computedValue.map(curItem => curItem.id).indexOf(item.id);
+          console.log('removeIndex ', removeIndex);
+
+
+          let resVal = [ ...this.computedValue ];
+          resVal.splice(removeIndex, 1);
+          console.log('resVal after ', resVal);
+
+          this.$emit('input', resVal);
+        }
+        else{
+          this.$emit('input', null);
+        }
       }
       else{
-        this.$emit('input', item);
+        if(this.multiple){
+          this.$emit('input', [ ...this.computedValue, item]);
+        }
+        else{
+          this.$emit('input', item);
+        }
       }
     },
     handleFilter(event){
       console.log(event.target.value);
     },
+    deleteLastItem(){
+      if(this.computedValue !== null){
+        if(this.multiple){
+          let resVal = [ ...this.computedValue ];
+          resVal.pop();
+          this.$emit('input',   resVal);
+        }
+        else{
+          this.$emit('input', null);
+        }
+      }
+    }
   },
   mounted(){
     

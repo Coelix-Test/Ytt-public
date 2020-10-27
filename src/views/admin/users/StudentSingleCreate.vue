@@ -57,15 +57,19 @@
         </div>
         <div class="u-col-6">
           <file-upload
-            :api-func="getAvatarUploadFunc()"
-            @input="onAvatarUpload"
-            :value="avatar"
+            v-model="avatar"
             accept="image/*"
           ></file-upload>
         </div>
       </div>
     </div>
-    <button class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto u-mt-auto" @click="validate">Save</button>
+    <button
+      class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto u-mt-auto"
+      @click="validate"
+      id="create_student_submit"
+    >
+      Save
+    </button>
   </div>
 </template>
 
