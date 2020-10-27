@@ -63,7 +63,13 @@
         </div>
       </div>
     </div>
-    <button class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto u-mt-auto" @click="validate">Save</button>
+    <button
+      class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto u-mt-auto"
+      @click="validate"
+      id="create_student_submit"
+    >
+      Save
+    </button>
   </div>
 </template>
 

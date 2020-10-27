@@ -10,6 +10,7 @@
               tag="button"
               :to="{ name: 'admin-lessons-create' }"
               class="u-btn is-x-large is-bg-primary is-dark"
+              id="create_lesson_link"
             >
               Add lesson
             </router-link>

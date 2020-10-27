@@ -7,7 +7,12 @@
     >
       {{ item.name }}
     </div>
-    <button @click="showModal">Add teacher</button>
+    <button
+      @click="showModal"
+      id="lesson_open_modal_select_teacher"
+    >
+      Add teacher
+    </button>
     <select-teacher 
       :value="value" 
       @input="onSelectTeachers"

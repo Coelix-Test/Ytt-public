@@ -39,7 +39,13 @@
       </div> 
 
       <div class="u-col-12">
-        <button class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="validate">Save</button>
+        <button
+          class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto"
+          @click="validate"
+          id="lesson_create_submit"
+        >
+          Save
+        </button>
       </div>
     </div>
   </div>

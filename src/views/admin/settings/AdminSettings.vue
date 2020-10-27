@@ -10,6 +10,7 @@
               tag="button"
               :to="{ name: 'admin-student-create' }"
               class="u-btn is-x-large is-bg-primary is-dark u-mx-2"
+              id="admin_create_student_link"
             >
               Add student
             </router-link>
@@ -17,6 +18,7 @@
               tag="button"
               :to="{ name: 'admin-teacher-create' }"
               class="u-btn is-x-large is-bg-primary is-dark"
+              id="create_teacher_link"
             >
               Add teacher
             </router-link>
