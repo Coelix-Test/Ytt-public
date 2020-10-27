@@ -19,12 +19,13 @@
         ></u-text-field>
 
         <file-upload 
-            class="u-mb-7"
-            :api-func="getPdfUploadFunc()"
-            @input="onPdfUpload"
-            accept="application/pdf"
-          >
-          </file-upload>
+          class="u-mb-7"
+          :api-func="getPdfUploadFunc()"
+          @input="onPdfUpload"
+          accept="application/pdf"
+          autoupload
+        >
+        </file-upload>
       </div>
       <div class="u-col-6">
         <div class="u-my-10">

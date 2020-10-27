@@ -23,21 +23,21 @@ export default {
       this.submit();
     },
     collectPostData(){
-      let data = {
-        'name' : this.name,
-        'phone' : this.phone,
-        'email' : this.email,
-        'city' : this.city,
-        'password' : this.password,
-        'password_confirmation' : this.repeatPassword,
-        'role' : this.role,
-      };
+      let formData = new FormData();
+      formData.append('name', this.name);
+      formData.append('phone', this.phone);
+      formData.append('email', this.email);
+      formData.append('city', this.city);
+      formData.append('password', this.password);
+      formData.append('password_confirmation', this.repeatPassword);
+      formData.append('role', this.role);
 
       if(this.avatar){
-        data.avatar = this.avatar;
+        console.log('collectPostData file ', this.avatar.file);
+        formData.append('avatar', this.avatar.file);
       }
 
-      return data;
+      return formData;
     },
     submit(){
       let data = this.collectPostData();
@@ -46,14 +46,6 @@ export default {
       });
       console.log(data);
     },
-    onAvatarUpload(file){
-      if(file.success){
-        this.avatar = file.response.data.url;
-      }
-      // console.log(file);
-    },
-    getAvatarUploadFunc(){
-      return UsersApi.uploadAvatar;
-    },
+    
   }
 }

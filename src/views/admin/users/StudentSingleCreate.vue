@@ -57,9 +57,7 @@
         </div>
         <div class="u-col-6">
           <file-upload
-            :api-func="getAvatarUploadFunc()"
-            @input="onAvatarUpload"
-            :value="avatar"
+            v-model="avatar"
             accept="image/*"
           ></file-upload>
         </div>

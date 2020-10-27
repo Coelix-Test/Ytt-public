@@ -42,4 +42,8 @@ export default {
 
     return env.API.post('/admin/lessons/pdf', data, options);
   },
+
+  addAccessToTeacher(lessonId, data){
+    return env.API.post(`/admin/lessons/${lessonId}/teachers`, data);
+  }
 }

@@ -28,6 +28,14 @@ export default {
     accept: {
       type: String,
       default: '',
+    },
+    autoupload: {
+      type: Boolean,
+      default: false,
+    },
+    multiple: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
@@ -49,36 +57,51 @@ export default {
   },
   methods: {
     onSelectFile(event){
-      this.status = 'loading';
-      let apiFunc;
-      if(this.apiFunc !== undefined){
-        apiFunc = this.apiFunc;
+      
+      if(this.autoupload){
+        this.status = 'loading';
+        let apiFunc;
+        if(this.apiFunc !== undefined){
+          apiFunc = this.apiFunc;
+        }
+        else{
+          apiFunc = FilesApi.upload;
+        }
+        let file = event.target.files[0];
+        apiFunc(file, this.handleProgress).then(
+          response => {
+            console.log('File Upload');
+            this.$emit('input', {
+              file: file,
+              response: response,
+              success: true,
+            });
+          },
+          error => {
+            this.$emit('input', {
+              file: file,
+              response: error,
+              success: false,
+            });
+            console.log('An error on File Upload occured', error);
+          }
+        );
       }
       else{
-        apiFunc = FilesApi.upload;
-      }
-      let file = event.target.files[0];
-      apiFunc(file, this.handleProgress).then(
-        response => {
-          console.log('response got');
+        if(this.multiple){
+          //
+        }
+        else{
           this.$emit('input', {
-            file: file,
-            response: response,
-            success: true,
-          });
-        },
-        error => {
-          this.$emit('input', {
-            file: file,
-            response: error,
+            file: event.target.files[0],
+            response: null,
             success: false,
           });
-          console.log('error occured', error);
         }
-      );
+      }
     },
     handleProgress(progressEvent){
-      console.log(progressEvent);
+      // console.log(progressEvent);
       this.percent = Math.ceil(progressEvent.loaded / progressEvent.total * 100);
     },
   },

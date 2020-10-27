@@ -18,6 +18,13 @@ export default {
   },
 
   create(data){
+
+    let options = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+    
     return env.API.post('/admin/users', data);
   },
   
