@@ -44,6 +44,6 @@ export default {
   },
 
   addAccessToTeacher(lessonId, data){
-    return env.API.post(`/admin/lessons/${lessonId}/teachers`, data);
+    return env.API.post(`/admin/lessons/${lessonId}/users/access`, data);
   }
 }

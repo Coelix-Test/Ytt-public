@@ -16,7 +16,12 @@
       >
       </u-autocomplete>
       <div class="u-flex u-mt-2">
-        <button class="u-btn is-dark is-bg-primary is-x-large u-ml-auto u-mr-auto" @click="hideModal">Save</button>
+        <button
+          class="u-btn is-dark is-bg-primary is-x-large u-ml-auto u-mr-auto"
+          @click="save"
+        >
+          Save
+        </button>
       </div>
     </u-card>
   </modal>
@@ -57,7 +62,11 @@ export default {
       LessonsApi.getPage({}).then(res => {
         this.items = res.data;
       })
-    }
+    },
+    save(){
+      this.$emit('save');
+      this.hideModal();
+    },
   },
   mounted(){
     this.getLessonsItems();
