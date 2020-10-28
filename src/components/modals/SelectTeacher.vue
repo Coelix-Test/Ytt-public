@@ -7,6 +7,7 @@
         :items="items"
         @input="onSelectTeachers"
         :multiple="multiple"
+        label="Choose teacher"
       >
       </u-autocomplete>
       <div class="u-flex u-mt-2">

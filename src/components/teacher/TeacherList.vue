@@ -1,3 +1,4 @@
+<!--used to display list of teachers on Lesson creation page -->
 <template>
   <div>
     <div 
