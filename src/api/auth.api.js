@@ -4,7 +4,7 @@ export default {
 
   getCurrentUser: token =>
     env.API.get(
-      '/user/data',
+      '/user',
       token
         ? {
             headers: {

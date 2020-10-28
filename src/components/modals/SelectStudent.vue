@@ -1,0 +1,78 @@
+<template>
+  <modal name="select-student" width="1250px" height="auto" classes="u-modal" scrollable>
+    <u-card class="u-modal-card u-px-24 u-pt-24 u-pb-15">
+
+      <slot name="title">
+        <div class="u-text-h2 u-text-center">Choose Student</div>
+      </slot>
+
+      <u-autocomplete
+        :value="value"
+        :items="items"
+        @input="onSelectItems"
+        :multiple="multiple"
+      >
+      </u-autocomplete>
+      <div class="u-flex u-mt-2">
+        <button
+          class="u-btn is-dark is-bg-primary is-x-large u-ml-auto u-mr-auto"
+          @click="save"
+          id="select_student_modal_submit"
+        >
+          Save
+        </button>
+      </div>
+    </u-card>
+  </modal>
+</template>
+
+<script>
+import { UsersApi } from '@/api';
+
+import UCard from '@/components/common/UCard.vue';
+import UAutocomplete from '@/components/common/UAutocomplete/UAutocomplete.vue';
+
+export default {
+  components: {
+    UCard,
+    UAutocomplete,
+  },
+  data: () => ({
+    items: [],
+  }),
+  props: {
+    value: {
+      type: [Object, Array],
+      default: null,
+    },
+    multiple: {
+      type: Boolean,
+      default: false,
+    }
+  },
+  methods: {
+    onSelectItems(items){
+      this.$emit('input', items);
+    },
+    hideModal(){
+      this.$modal.hide('select-student');
+    },
+    save(){
+      this.$emit('save');
+      this.hideModal();
+    },
+    getItems(){
+      UsersApi.getPage({per_page: 10000, role: 3}).then(response => {
+        this.items = response.data;
+      })
+    },
+  },
+  mounted(){
+    this.getItems();
+  }
+}
+</script>
+
+<style>
+
+</style>

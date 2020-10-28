@@ -1,10 +1,10 @@
 import env from "../config/env"
 
 export default {
-  getPage(params){
+  getPage(params, role = 'admin'){
     //Possible params
     // role - teacher, student
-    return env.API.get('/admin/users', {
+    return env.API.get(`/${role}/users`, {
       params: params
     });
   },
@@ -25,7 +25,7 @@ export default {
       },
     }
     
-    return env.API.post('/admin/users', data);
+    return env.API.post('/admin/users', data, options);
   },
   
   update(id, data){
