@@ -1,16 +1,20 @@
 export default {
 
-  login(data) {
-    return env.API.post('/auth/login', data);
-  },
+  login: data => env.API.post('/auth/login', data),
 
-  getCurrentUser(token){
-    return env.API.get('/user/data', token ? {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    } : undefined);
-  },
+  getCurrentUser: token =>
+    env.API.get(
+      '/user/data',
+      token
+        ? {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          }
+        : undefined
+    ),
+  
+  register: data => env.API.post('/auth/register', data)
 
   // reg(data) {
   //   return env.API.post('/auth/reg', data);

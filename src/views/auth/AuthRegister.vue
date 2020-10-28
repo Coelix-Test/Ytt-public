@@ -1,39 +1,49 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
-    <u-card class="login">
+    <u-card class="register">
       <SocialsAuth/>
-      <div class="login__form">
+
+      <div class="register__form">
         <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
           <UTextField
             label="Email"
             v-model="email"
             placeholder="myemail@example.com"
-            class="login__form-input"
             :error="errors[0]"
+            class="register__form-input"
             inset
-          ></UTextField>
+          />
         </ValidationProvider>
-        <ValidationProvider rules="required" name="Password" v-slot="{ errors }">
+        <ValidationProvider rules="min:6|max:20|required" name="Password" v-slot="{ errors }">
           <UTextField
             label="Password"
             v-model="password"
+            type="password"
             placeholder="******"
+            :error="errors[0]"
+            class="register__form-input"
+          />
+        </ValidationProvider>
+        <ValidationProvider rules="confirmed:Password" name="Repeat Password" v-slot="{ errors }">
+          <UTextField
+            label="Repeat Password"
+            v-model="confirmPassword"
             type="password"
             :error="errors[0]"
-            class="login__form-input"
-          ></UTextField>
+            class="register__form-input"
+            placeholder="******"
+          />
         </ValidationProvider>
 
-        <UCheckbox class="login__form-remember" v-model="remember">
-          Automatic  login
-        </UCheckbox>
+        <ValidationProvider rules="isTrue" name="Terms" v-slot="{ errors }">
+          <UCheckbox class="register__form-terms" v-model="terms" :error="Boolean(errors.length)">
+            I have read and I agree to the <a href="#">Terms and conditions</a> *
+          </UCheckbox>
+        </ValidationProvider>
       </div>
 
       <div class="u-flex">
-        <button class="login__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(login)">Log in</button>
-      </div>
-      <div class="login__forgot">
-        Forgot your password? <a href="#">click here</a>
+        <button class="register__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(register)">Register</button>
       </div>
     </u-card>
   </ValidationObserver>
@@ -46,28 +56,28 @@ import UCheckbox from '@/components/common/UCheckbox.vue';
 import SocialsAuth from '@/components/partials/SocialsAuth';
 import { AuthApi } from '@/api';
 
+
 export default {
   data: () => ({
-    email: 'admin@email.com',
-    password: 'admin',
-    remember: false,
+    email: '',
+    password: '',
+    confirmPassword: '',
+    terms: false,
   }),
   components: {
     UCard,
     UTextField,
-    UCheckbox,
-    SocialsAuth
+    SocialsAuth,
+    UCheckbox
   },
   methods: {
-    login(){
-      AuthApi.login({
+    register(){
+      AuthApi.register({
         email: this.email,
         password: this.password,
+        password_confirmation: this.confirmPassword,
       }).then(response => {
-        console.log(response);
         this.$store.commit('CurrentUser/auth', response.data.access_token);
-        // TODO: get user data
-        // this.$store.dispatch('CurrentUser/updateData');
         this.$router.push({name: 'admin-lessons-all'});
       });
     }
@@ -78,34 +88,24 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/vars';
 
-.login{
+.register{
   width: $popup-width-xl;
   padding: 45px 75px 25px;
 
   &__form{
-    margin-top: 66px;
     &-input{
       margin-top: 20px;
     }
-    &-remember{
-      margin-top: 85px;
+    &-terms{
+      margin-top: 25px;
     }
   }
 
   &__btn{
     min-width: 262px;
-    margin-top: 23px;
-  }
-  &__forgot{
-    text-align: center;
-    font-family: Poppins, sans-serif;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 20px;
-    color: #2E2E2E;
-    margin-top: 15px;
+    margin-top: 25px;
   }
 
 }
+
 </style>
