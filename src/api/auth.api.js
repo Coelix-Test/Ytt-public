@@ -1,9 +1,11 @@
+import axios from 'axios';
+
 export default {
 
-  login: data => env.API.post('/auth/login', data),
+  login: data => axios.post('/auth/login', data),
 
   getCurrentUser: token =>
-    env.API.get(
+    axios.get(
       '/user',
       token
         ? {
@@ -14,7 +16,7 @@ export default {
         : undefined
     ),
   
-  register: data => env.API.post('/auth/register', data)
+  register: data => axios.post('/auth/register', data)
 
   // reg(data) {
   //   return env.API.post('/auth/reg', data);

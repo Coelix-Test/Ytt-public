@@ -6,7 +6,7 @@
         <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
           <UTextField
             label="Email"
-            v-model="email"
+            v-model="form.email"
             placeholder="myemail@example.com"
             class="login__form-input"
             :error="errors[0]"
@@ -16,7 +16,7 @@
         <ValidationProvider rules="required" name="Password" v-slot="{ errors }">
           <UTextField
             label="Password"
-            v-model="password"
+            v-model="form.password"
             placeholder="******"
             type="password"
             :error="errors[0]"
@@ -24,13 +24,13 @@
           ></UTextField>
         </ValidationProvider>
 
-        <UCheckbox class="login__form-remember" v-model="remember">
+        <UCheckbox class="login__form-remember" v-model="form.remember">
           Automatic  login
         </UCheckbox>
       </div>
 
       <div class="u-flex">
-        <button class="login__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(login)">Log in</button>
+        <button class="login__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(() => login(form))">Log in</button>
       </div>
       <div class="login__forgot">
         Forgot your password? <a href="#">click here</a>
@@ -44,13 +44,16 @@ import UCard from '@/components/common/UCard.vue';
 import UTextField from '@/components/common/UTextField.vue';
 import UCheckbox from '@/components/common/UCheckbox.vue';
 import SocialsAuth from '@/components/partials/SocialsAuth';
-import { AuthApi } from '@/api';
+import { mapActions } from 'vuex'
 
 export default {
+
   data: () => ({
-    email: 'admin@email.com',
-    password: 'admin',
-    remember: false,
+    form:{
+      email: 'admin@email.com',
+      password: 'admin',
+      remember: false
+    }
   }),
   components: {
     UCard,
@@ -59,18 +62,7 @@ export default {
     SocialsAuth
   },
   methods: {
-    login(){
-      AuthApi.login({
-        email: this.email,
-        password: this.password,
-      }).then(response => {
-        console.log(response);
-        this.$store.commit('CurrentUser/auth', response.data.access_token);
-        // TODO: get user data
-        // this.$store.dispatch('CurrentUser/updateData');
-        this.$router.push({name: 'admin-lessons-all'});
-      });
-    }
+    ...mapActions('Auth', ['login'])
   }
 }
 </script>

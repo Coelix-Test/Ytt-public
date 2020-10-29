@@ -1,7 +1,22 @@
 <template>
-  <router-view></router-view>
+  <div>
+    <notifications group="foo" />
+    <router-view></router-view>
+  </div>
 </template>
 
-<style lang="scss">
+<script>
+import { mapActions } from 'vuex'
 
-</style>
+export default {
+  mounted(){
+    console.log('APP: mounted');
+    this.fetchUser()
+      .then(this.navigateToStartPage)
+      .catch(console.error);
+  },
+  methods: {
+    ...mapActions('Auth', ['fetchUser', 'navigateToStartPage']),
+  }
+}
+</script>

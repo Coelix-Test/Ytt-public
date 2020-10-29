@@ -9,11 +9,11 @@
     </div>
 
     <div class="c-nav-sidebar__nav-list">
-      <router-link 
-        v-for="item in navItems"
+      <router-link
+        v-for="item in navItems[user.role]"
         :key="item.id"
         class="c-nav-sidebar__nav-item u-flex is-align-center"
-        :class="{ 'is-active': item.active }"
+        active-class="is-active"
         :to="item.to"
       >
         <svg
@@ -27,7 +27,7 @@
       </router-link>
     </div>
 
-    <div class="c-nav-sidebar__logout">
+    <div class="c-nav-sidebar__logout" @click="logout">
       <svg
         v-svg
         symbol="icon-logout"
@@ -43,34 +43,58 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+import { ADMIN, TEACHER, STUDENT } from '@/constants/roles';
+
 export default {
   data: () => ({
-    navItems: [
-      {
-        id: 1,
-        text: 'Lessons',
-        to: {name: 'admin-lessons-all'},
-        icon: 'icon-file',
-        active: true,
-      },
-      {
-        id: 2,
-        text: 'Users',
-        to: {name: 'admin-users-all'},
-        icon: 'icon-user-group',
-        active: false,
-      },
-      {
-        id: 3,
-        text: 'Settings',
-        to: {name: 'admin-settings'},
-        icon: 'icon-settings',
-        active: false,
-      },
+    navItems: {
+      [ADMIN]: [
+        {
+          id: 1,
+          text: 'Lessons',
+          to: {name: 'admin-lessons-all'},
+          icon: 'icon-file',
+          active: true,
+        },
+        {
+          id: 2,
+          text: 'Users',
+          to: {name: 'admin-users-all'},
+          icon: 'icon-user-group',
+          active: false,
+        },
+        {
+          id: 3,
+          text: 'Settings',
+          to: {name: 'admin-settings'},
+          icon: 'icon-settings',
+          active: false,
+        },
+      ],
+      [TEACHER]: [
+        {
+          id: 1,
+          text: 'Lessons',
+          to: {name: 'teacher-lessons-all'},
+          icon: 'icon-file',
+          active: true,
+        },
+      ]
+    },
+    [STUDENT]: [
+
     ]
   }),
+  computed: {
+    ...mapGetters('Auth', ['user'])
+  },
   mounted(){
     this.$store.commit('Application/setLeft', this.$refs.sidebar.offsetWidth);
+    console.log(this.navItems[this.user.role]);
+  },
+  methods: {
+    ...mapActions('Auth', ['logout'])
   }
 }
 </script>
