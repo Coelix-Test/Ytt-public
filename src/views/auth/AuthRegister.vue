@@ -7,7 +7,7 @@
         <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
           <UTextField
             label="Email"
-            v-model="email"
+            v-model="form.email"
             placeholder="myemail@example.com"
             :error="errors[0]"
             class="register__form-input"
@@ -17,7 +17,7 @@
         <ValidationProvider rules="min:6|max:20|required" name="Password" v-slot="{ errors }">
           <UTextField
             label="Password"
-            v-model="password"
+            v-model="form.password"
             type="password"
             placeholder="******"
             :error="errors[0]"
@@ -27,7 +27,7 @@
         <ValidationProvider rules="confirmed:Password" name="Repeat Password" v-slot="{ errors }">
           <UTextField
             label="Repeat Password"
-            v-model="confirmPassword"
+            v-model="form.confirmPassword"
             type="password"
             :error="errors[0]"
             class="register__form-input"
@@ -43,7 +43,7 @@
       </div>
 
       <div class="u-flex">
-        <button class="register__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(register)">Register</button>
+        <button class="register__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(() => register(form))">Register</button>
       </div>
     </u-card>
   </ValidationObserver>
@@ -54,14 +54,15 @@ import UCard from '@/components/common/UCard.vue';
 import UTextField from '@/components/common/UTextField.vue';
 import UCheckbox from '@/components/common/UCheckbox.vue';
 import SocialsAuth from '@/components/partials/SocialsAuth';
-import { AuthApi } from '@/api';
-
+import { mapActions } from 'vuex';
 
 export default {
   data: () => ({
-    email: '',
-    password: '',
-    confirmPassword: '',
+    form: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
     terms: false,
   }),
   components: {
@@ -71,16 +72,7 @@ export default {
     UCheckbox
   },
   methods: {
-    register(){
-      AuthApi.register({
-        email: this.email,
-        password: this.password,
-        password_confirmation: this.confirmPassword,
-      }).then(response => {
-        this.$store.commit('CurrentUser/auth', response.data.access_token);
-        this.$router.push({name: 'admin-lessons-all'});
-      });
-    }
+    ...mapActions('Auth', ['register'])
   }
 }
 </script>

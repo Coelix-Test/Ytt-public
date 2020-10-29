@@ -9,7 +9,7 @@
     </div>
 
     <div class="c-nav-sidebar__nav-list">
-      <router-link 
+      <router-link
         v-for="item in navItems"
         :key="item.id"
         class="c-nav-sidebar__nav-item u-flex is-align-center"
@@ -27,7 +27,7 @@
       </router-link>
     </div>
 
-    <div class="c-nav-sidebar__logout">
+    <div class="c-nav-sidebar__logout" @click="logout">
       <svg
         v-svg
         symbol="icon-logout"
@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data: () => ({
     navItems: [
@@ -71,6 +73,9 @@ export default {
   }),
   mounted(){
     this.$store.commit('Application/setLeft', this.$refs.sidebar.offsetWidth);
+  },
+  methods: {
+    ...mapActions('Auth', ['logout'])
   }
 }
 </script>

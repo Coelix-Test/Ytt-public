@@ -1,4 +1,4 @@
-import env from "../config/env"
+import axios from 'axios';
 
 export default {
 
@@ -17,6 +17,6 @@ export default {
       options.onUploadProgress = progressHandler;
     }
 
-    return env.API.post('/media', data, options);
+    return axios.post('/media', data, options);
   },
 }

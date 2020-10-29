@@ -2,13 +2,36 @@ import Vue from 'vue'
 import SvgSprite from 'vue-svg-sprite';
 import VModal from 'vue-js-modal';
 import App from './App.vue'
-import '@/config/env';
-import '@/config/preferences';
 import '@/styles/app.scss'
 import router from './router'
 import store from './store'
+import axios from 'axios';
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
+import cookie from 'js-cookie';
+
+
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+
+axios.interceptors.request.use(config => {
+  const token = cookie.get('YTT_JWT');
+  
+  if(token)
+    config.headers.Authorization = `Bearer ${token}`;
+  
+  return config;
+});
+
+axios.interceptors.response.use(
+  null,
+  error => {
+  if(error.response.status === 401)
+    router.push({ name: 'auth-login' })
+  
+  return Promise.reject(error);
+});
+
 
 Vue.use(SvgSprite, {
   url: '/sprite.svg',
@@ -23,6 +46,8 @@ extend('isTrue', {
   validate: value => value === true,
   message: '{filed} is required'
 });
+
+
 
 Vue.config.productionTip = false
 

@@ -1,9 +1,9 @@
-import env from "../config/env"
+import axios from 'axios';
 
 export default {
 
     assignTeacher(studentId, teacherId){
-        return env.API.post(`/admin/users/${studentId}/teacher`, {
+        return axios.post(`/admin/users/${studentId}/teacher`, {
             teacher: teacherId,
         });
     },

@@ -2,6 +2,18 @@
   <router-view></router-view>
 </template>
 
-<style lang="scss">
+<script>
+import { mapActions } from 'vuex'
 
-</style>
+export default {
+  mounted(){
+    console.log('APP: mounted');
+    this.fetchUser()
+      .then(this.navigateToStartPage)
+      .catch(console.error);
+  },
+  methods: {
+    ...mapActions('Auth', ['fetchUser', 'navigateToStartPage']),
+  }
+}
+</script>
