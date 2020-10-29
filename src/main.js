@@ -10,6 +10,8 @@ import store from './store'
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 
+import UBtn from "@/components/common/UBtn";
+
 Vue.use(SvgSprite, {
   url: '/sprite.svg',
 });
@@ -18,6 +20,7 @@ Vue.use(VModal);
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('UBtn', UBtn);
 
 extend('isTrue', {
   validate: value => value === true,

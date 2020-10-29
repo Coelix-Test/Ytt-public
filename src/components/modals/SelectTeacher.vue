@@ -10,13 +10,14 @@
       >
       </u-autocomplete>
       <div class="u-flex u-mt-2">
-        <button
-          class="u-btn is-dark is-bg-primary is-x-large u-ml-auto u-mr-auto"
+        <UBtn
+          color="primary"
+          size="x-large"
           @click="save"
           id="select_teacher_modal_submit"
         >
           Save
-        </button>
+        </UBtn>
       </div>
     </u-card>
   </modal>

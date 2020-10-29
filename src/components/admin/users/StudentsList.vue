@@ -36,8 +36,23 @@
           <td class="grey-col">{{item.email}}</td>
           <td class="grey-col">{{item.phone}}</td>
           <td class="u-pr-25 u-text-right">
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(false)" v-if="!item.teacher_id">Add teacher</button>
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(item.teacher_id)" v-else>Change teacher</button>
+
+            <UBtn
+              color="primary"
+              size="small"
+              @click="openSelectTeacherModal(false)"
+              v-if="!item.teacher_id"
+            >
+              Add teacher
+            </UBtn>
+            <UBtn
+              color="primary"
+              size="small"
+              @click="openSelectTeacherModal(item.teacher_id)"
+              v-else
+            >
+              Change teacher
+            </UBtn>
           </td>
         </tr>
       </tbody>

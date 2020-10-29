@@ -1,9 +1,14 @@
 <template>
-  <button class="u-btn is-medium is-dark is-bg-red is-block google-btn">
+  <UBtn
+    class="google-btn"
+    size="medium"
+    color="red"
+    block
+  >
     <span class="google-btn__text">
       Sign in with Google
     </span>
-  </button>
+  </UBtn>
 </template>
 
 <script>

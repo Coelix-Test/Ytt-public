@@ -8,8 +8,14 @@
         @input="onSelectTeachers"
       >
       </u-autocomplete>
-      <div class="u-flex u-mt-2">
-        <button class="u-btn is-dark is-bg-primary is-x-large u-ml-auto u-mr-auto" @click="hideModal">Save</button>
+      <div class="u-flex u-mt-2 is-justify-center">
+        <UBtn
+          color="primary"
+          size="x-large"
+          @click="hideModal"
+        >
+          Save
+        </UBtn>
       </div>
     </u-card>
   </modal>

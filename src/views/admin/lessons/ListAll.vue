@@ -6,14 +6,14 @@
         <div class="u-col-7">
           <div class="u-flex is-align-center">
             <div class="u-text-h1 u-mr-6">Lessons</div>
-            <router-link
-              tag="button"
+            <UBtn
               :to="{ name: 'admin-lessons-create' }"
-              class="u-btn is-x-large is-bg-primary is-dark"
               id="create_lesson_link"
+              size="x-large"
+              color="primary"
             >
               Add lesson
-            </router-link>
+            </UBtn>
           </div>
         </div>
         <div class="u-col-5">
@@ -53,13 +53,20 @@
                   </td>
                   <td class="u-font-weight-light u-text-center pages-col">{{item.words_count}} pages</td>
                   <td class="u-text-right u-pr-25">
-                    <button class="u-btn is-medium is-bg-primary is-dark u-mr-9 u-font-weight-regular">Edit lesson</button>
-                    <button 
-                      class="u-btn is-medium is-bg-primary is-dark u-font-weight-regular"
+                    <UBtn
+                      class="u-mr-9"
+                      size="medium"
+                      color="primary"
+                    >
+                      <span class="u-font-weight-regular">Edit lesson</span>
+                    </UBtn>
+                    <UBtn
+                      size="medium"
+                      color="primary"
                       @click="openSelectTeacherModal(item)"
                     >
-                      Add to teacher
-                    </button>
+                      <span class="u-font-weight-regular">Add to teacher</span>
+                    </UBtn>
                   </td>
                 </tr>
               </tbody>

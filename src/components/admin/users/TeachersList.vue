@@ -36,7 +36,13 @@
           <td class="grey-col">{{item.email}}</td>
           <td class="grey-col">{{item.phone}}</td>
           <td class="u-pr-25 u-text-right">
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openAddLessonPopup">Add lesson</button>
+            <UBtn
+              color="primary"
+              size="small"
+              @click="openAddLessonPopup"
+            >
+              Add lesson
+            </UBtn>
           </td>
         </tr>
       </tbody>
