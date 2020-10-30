@@ -1,24 +1,26 @@
 <template>
-  <modal name="select-teacher" width="1250px" height="auto" classes="u-modal" scrollable>
+  <modal name="select-student" width="1250px" height="auto" classes="u-modal" scrollable>
     <u-card class="u-modal-card u-px-24 u-pt-24 u-pb-15">
-      <div class="u-text-h2 u-text-center">Choose Teacher</div>
-      <u-autocomplete 
+
+      <slot name="title">
+        <div class="u-text-h2 u-text-center">Choose Student</div>
+      </slot>
+
+      <u-autocomplete
         :value="value"
         :items="items"
-        @input="onSelectTeachers"
+        @input="onSelectItems"
         :multiple="multiple"
-        label="Choose teacher"
       >
       </u-autocomplete>
       <div class="u-flex u-mt-2">
-        <UBtn
-          color="primary"
-          size="x-large"
+        <button
+          class="u-btn is-dark is-bg-primary is-x-large u-ml-auto u-mr-auto"
           @click="save"
-          id="select_teacher_modal_submit"
+          id="select_student_modal_submit"
         >
           Save
-        </UBtn>
+        </button>
       </div>
     </u-card>
   </modal>
@@ -49,15 +51,18 @@ export default {
     }
   },
   methods: {
-    onSelectTeachers(teachers){
-      this.$emit('input', teachers);
+    onSelectItems(items){
+      this.$emit('input', items);
+    },
+    hideModal(){
+      this.$modal.hide('select-student');
     },
     save(){
       this.$emit('save');
-      this.$modal.hide('select-teacher');
+      this.hideModal();
     },
     getItems(){
-      UsersApi.getPage({per_page: 10000, role: 2}).then(response => {
+      UsersApi.getPage({per_page: 10000, role: 3}).then(response => {
         this.items = response.data;
       })
     },

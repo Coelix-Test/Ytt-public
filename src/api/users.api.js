@@ -1,20 +1,20 @@
-import env from "../config/env"
+import axios from 'axios';
 
 export default {
-  getPage(params){
+  getPage(params, role = 'admin'){
     //Possible params
     // role - teacher, student
-    return env.API.get('/admin/users', {
+    return axios.get(`/${role}/users`, {
       params: params
     });
   },
 
   getSingle(id, role = 'admin'){
-    return env.API.get(role + '/users/' + id);
+    return axios.get(role + '/users/' + id);
   },
 
   getRoles(){
-    return env.API.get('/roles');
+    return axios.get('/roles');
   },
 
   create(data){
@@ -25,11 +25,11 @@ export default {
       },
     }
     
-    return env.API.post('/admin/users', data);
+    return axios.post('/admin/users', data, options);
   },
   
   update(id, data){
-    return env.API.put('/admin/users/' + id, data);
+    return axios.put('/admin/users/' + id, data);
   },
 
   uploadAvatar(file, progressHandler = null) {
@@ -47,7 +47,13 @@ export default {
       options.onUploadProgress = progressHandler;
     }
 
-    return env.API.post('/users/avatar', data, options);
+    return axios.post('/users/avatar', data, options);
   },
+
+  addAccessToLesson(userId, data){
+    return axios.post(`/admin/users/${userId}/lessons/access`, data);
+  },
+
+
   
 }

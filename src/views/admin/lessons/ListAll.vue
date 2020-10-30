@@ -130,7 +130,7 @@ export default {
     shareLessonToTeacher(){
 
       LessonsApi.addAccessToTeacher(this.selectedLesson.id, {
-        teachers: this.selectedTeachers.map(item => item.id),
+        users: this.selectedTeachers.map(item => item.id),
       }).then(response => {
 
         this.selectedLesson.teachers = response.data.teachers;

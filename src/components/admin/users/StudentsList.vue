@@ -40,7 +40,7 @@
             <UBtn
               color="primary"
               size="small"
-              @click="openSelectTeacherModal(false)"
+              @click="openSelectTeacherModal(item)"
               v-if="!item.teacher_id"
             >
               Add teacher
@@ -48,7 +48,7 @@
             <UBtn
               color="primary"
               size="small"
-              @click="openSelectTeacherModal(item.teacher_id)"
+              @click="openSelectTeacherModal(item)"
               v-else
             >
               Change teacher
@@ -65,8 +65,8 @@
       </tbody>
     </table>
     <select-teacher 
-      :value="currentSelectedTeacher" 
-      @input="onSelectTeachers"
+      v-model="currentSelectedTeacher"
+      @save="assignTeacher"
     ></select-teacher>
    </u-card>
 </template>
@@ -75,7 +75,7 @@
 import UCard from '@/components/common/UCard';
 import SelectTeacher from '@/components/modals/SelectTeacher';
 
-import { UsersApi } from '@/api';
+import { UsersApi, StudentsApi } from '@/api';
 
 export default {
   data: () => ({
@@ -117,16 +117,30 @@ export default {
       console.log('selected teacher: ', teacher);
       this.currentSelectedTeacher = teacher;
     },
-    openSelectTeacherModal(id){
-      if(id){
-        this.currentSelectedTeacher = {id : id};
+    openSelectTeacherModal(currentStudent){
+      this.currentSelectedStudent = currentStudent;
+
+      if(currentStudent.teacher_id){
+        this.currentSelectedTeacher = {id : currentStudent.teacher_id};
       }
       else{
         this.currentSelectedTeacher = null;
       }
+
       this.$modal.show('select-teacher');
     },
-    
+    assignTeacher(){
+      let teacherId = null;
+      if(this.currentSelectedTeacher){
+        teacherId = this.currentSelectedTeacher.id;
+      }
+      StudentsApi.assignTeacher(this.currentSelectedStudent.id, teacherId).then(response => {
+
+        this.currentSelectedStudent.teacher_id = response.data.teacher_id;
+
+      });
+
+    },
   },
   mounted(){
     this.getAll();

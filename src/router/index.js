@@ -1,51 +1,42 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import { AuthAPI } from '@/api';
 import store from '@/store';
 
 Vue.use(VueRouter);
 
-import admin from './admin/admin.router';
-import auth from './auth.router';
-import Index from '@/views/Index';
+import routes from './routes';
 
 
-const routes = [
-	{
-		path: '/',
-		component: Index,
-		name: 'index',
-    redirect: { name: 'auth-login'}
-	},
-	admin,
-  auth,
-];
 
-const router = new VueRouter({
-	// mode: 'history',
-	routes,
-});
+const router = new VueRouter({ routes });
 
 
 router.beforeEach(async (to, from, next) => {
-
-  window.scrollTo(0, 0);
-
-  // if(!store.getters['CurrentUser/isLoaded']) {
-  //   if(store.getters['CurrentUser/token']) {
-  //     await API.user.getData(store.getters['CurrentUser/token']).then(res => {
-  //       store.commit('CurrentUser/auth', store.getters['CurrentUser/token']);
-  //       store.commit('CurrentUser/saveData', res.data);
-        
-  //     }).catch(err => {
-  //       console.error('Wrong auth token!');
-  //     });
-  //   }
-  //   store.commit('CurrentUser/load');
-  // }
-
-  next();
+	const { auth, roleAccess, forUnauthorized } = to.meta;
+	console.log('beforeEach[to]: ', to);
+	console.log('beforeEach[from]: ', from);
+	if(!auth)
+		return next();
+	
+	const user = store.getters['Auth/user']
+	console.log('beforeEach[user]: ', user);
+	
+	if(user && forUnauthorized)
+		return await store.dispatch('Auth/navigateToStartPage');
+	
+	if(!user)
+		return next({ name: 'auth-login' });
+	
+	const access = roleAccess ? Array.isArray(roleAccess) ? roleAccess : [roleAccess] : []
+	console.log('beforeEach[access]: ', access);
+	
+	if(!access.includes(user.role))
+		return next(from);
+	
+	
+		
+	return next();
 });
 
 

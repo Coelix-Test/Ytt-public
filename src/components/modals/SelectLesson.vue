@@ -1,18 +1,25 @@
 <template>
-  <modal name="select-teacher" width="1250px" height="auto" classes="u-modal" scrollable>
+  <modal name="select-lesson" width="1250px" height="auto" classes="u-modal" scrollable>
     <u-card class="u-modal-card u-px-24 u-pt-24 u-pb-15">
-      <div class="u-text-h2 u-text-center">Give lesson to {{username}}</div>
+
+      <slot name="title">
+        <div class="u-text-h2 u-text-center">Give lesson</div>
+      </slot>
+
       <u-autocomplete 
         :items="items"
         :value="value"
-        @input="onSelectTeachers"
+        label="Choose lessons"
+        item-text="title"
+        @input="onSelectItems"
+        :multiple="multiple"
       >
       </u-autocomplete>
       <div class="u-flex u-mt-2 is-justify-center">
         <UBtn
           color="primary"
           size="x-large"
-          @click="hideModal"
+          @click="save"
         >
           Save
         </UBtn>
@@ -28,35 +35,42 @@ import UAutocomplete from '@/components/common/UAutocomplete/UAutocomplete.vue';
 import { LessonsApi } from '@/api';
 
 export default {
-  data: {
+  data: () => ({
     items: [],
-  },
+  }),
   components: {
     UCard,
     UAutocomplete,
   },
   props: {
     value: {
-      type: Array,
-      required: true,
+      type: [Object, Array],
+      default: null,
     },
-    username: {
-      type: String,
-      default: 'Teacher name',
-    }
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
-    onSelectTeachers(teachers){
-      this.$emit('input', teachers);
+    onSelectItems(items){
+      this.$emit('input', items);
     },
     hideModal(){
-      this.$modal.hide('select-teacher');
+      this.$modal.hide('select-lesson');
     },
     getLessonsItems(){
       LessonsApi.getPage({}).then(res => {
         this.items = res.data;
       })
-    }
+    },
+    save(){
+      this.$emit('save');
+      this.hideModal();
+    },
+  },
+  mounted(){
+    this.getLessonsItems();
   }
 }
 </script>

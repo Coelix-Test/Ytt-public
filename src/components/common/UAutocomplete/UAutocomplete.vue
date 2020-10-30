@@ -1,7 +1,7 @@
 <template>
   <div class="u-autocomplete">
     <label class="u-autocomplete__input" :for="'input-' + uuid">
-      <div class="u-autocomplete__label">Choose teacher</div>
+      <div class="u-autocomplete__label">{{label}}</div>
       <div class="u-autocomplete__selections u-px-4 u-py-2">
 
         <template v-if="computedValue">
@@ -11,14 +11,14 @@
               v-for="item in computedValue"
               :key="item.id"
             >
-              {{item.name}}
+              {{item[itemText]}}
             </div>
           </template>
           <template v-else>
             <div 
               class="u-autocomplete__chip u-ma-1 u-px-11" 
             >
-              {{computedValue.name}}
+              {{computedValue[itemText]}}
             </div>
           </template>
         </template>
@@ -41,7 +41,7 @@
         @click="toggleItem(item)"
         :class="{ 'is-active' : item.isSelected }"
       >
-        {{item.name}}
+        {{item[itemText]}}
       </div>
     </div>
   </div>
@@ -61,6 +61,10 @@ export default {
       type: [Array, Object],
       default: null,
     },
+    label: {
+      type: String,
+      default: '',
+    },
     multiple: {
       type: Boolean,
       default: false,
@@ -68,6 +72,10 @@ export default {
     items: {
       type: Array,
       default: () => [],//objects
+    },
+    itemText: {
+      type: String,
+      default: 'name',
     }
   },
   computed: {
