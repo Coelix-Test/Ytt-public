@@ -31,7 +31,7 @@ export default {
 			commit('SET_LOADING', false);
 		},
 		logout({ commit }){
-			axios.post('/logout')
+			axios.post('/auth/logout')
 				.then(() => {
 					cookie.remove('YTT_JWT');
 					commit('SET_USER', null);

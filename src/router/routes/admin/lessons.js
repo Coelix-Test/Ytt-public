@@ -1,6 +1,6 @@
 import Lessons from '@/views/admin/lessons/Lessons';
 import SingleCreate from '@/views/admin/lessons/SingleCreate';
-// import SingleEdit from '@/views/admin/lessons/SingleEdit';
+import SingleView from '@/views/admin/lessons/SingleView';
 import ListAll from '@/views/admin/lessons/ListAll';
 
 export default {
@@ -12,11 +12,11 @@ export default {
       component: ListAll,
       name: 'admin-lessons-all'
     },
-    // {
-    //   path: ':id',
-    //   component: SingleEdit,
-    //   name: 'lessons-edit',
-    // },
+    {
+      path: ':id',
+      component: SingleView,
+      name: 'admin-lessons-view',
+    },
     {
       path: 'create',
       component: SingleCreate,
