@@ -91,7 +91,6 @@ export default {
   },
   mounted(){
     this.$store.commit('Application/setLeft', this.$refs.sidebar.offsetWidth);
-    console.log(this.navItems[this.user.role]);
   },
   methods: {
     ...mapActions('Auth', ['logout'])

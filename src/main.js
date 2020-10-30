@@ -9,7 +9,6 @@ import axios from 'axios';
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import cookie from 'js-cookie';
-import Notifications from 'vue-notification'
 
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
@@ -39,7 +38,6 @@ Vue.use(SvgSprite, {
 });
 
 Vue.use(VModal);
-Vue.use(Notifications);
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
