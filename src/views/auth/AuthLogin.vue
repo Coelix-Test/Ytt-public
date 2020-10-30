@@ -30,7 +30,7 @@
       </div>
 
       <div class="u-flex">
-        <button class="login__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(() => login(form))">Log in</button>
+        <button class="login__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(() => signIn(form))">Log in</button>
       </div>
       <div class="login__forgot">
         Forgot your password? <a href="#">click here</a>
@@ -62,7 +62,23 @@ export default {
     SocialsAuth
   },
   methods: {
-    ...mapActions('Auth', ['login'])
+    ...mapActions('Auth', ['login']),
+    signIn(credentials){
+      this.login(credentials)
+      .then(() => {
+        this.$notify({
+          title: 'Welcome!',
+          type: 'success'
+        });
+      })
+      .catch(({ message }) => {
+        this.$notify({
+          title: 'Login error',
+          text: message,
+          type: 'error'
+        });
+      })
+    }
   }
 }
 </script>

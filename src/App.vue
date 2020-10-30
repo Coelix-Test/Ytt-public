@@ -1,12 +1,13 @@
 <template>
   <div>
-    <notifications group="foo" />
+    <Notification/>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import Notification from '@/components/Notification';
 
 export default {
   mounted(){
@@ -14,9 +15,13 @@ export default {
     this.fetchUser()
       .then(this.navigateToStartPage)
       .catch(console.error);
+
+  },
+  components: {
+    Notification
   },
   methods: {
-    ...mapActions('Auth', ['fetchUser', 'navigateToStartPage']),
+    ...mapActions('Auth', ['fetchUser', 'navigateToStartPage'])
   }
 }
 </script>
