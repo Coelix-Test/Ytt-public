@@ -9,7 +9,7 @@ import axios from 'axios';
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import cookie from 'js-cookie';
-
+import Notifications from 'vue-notification';
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -26,8 +26,10 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(
   null,
   error => {
-  if(error.response.status === 401)
-    router.push({ name: 'auth-login' })
+  if(error.response.status === 401
+    && error.response.data.message === 'Unauthenticated.'
+    && error.response.config.url.split('/').reverse()[0] !== 'logout')
+    store.dispatch('Auth/logout');
   
   return Promise.reject(error);
 });
@@ -38,6 +40,7 @@ Vue.use(SvgSprite, {
 });
 
 Vue.use(VModal);
+Vue.use(Notifications);
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
@@ -46,8 +49,6 @@ extend('isTrue', {
   validate: value => value === true,
   message: '{filed} is required'
 });
-
-
 
 Vue.config.productionTip = false
 

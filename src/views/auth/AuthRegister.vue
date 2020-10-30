@@ -43,7 +43,7 @@
       </div>
 
       <div class="u-flex">
-        <button class="register__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(() => register(form))">Register</button>
+        <button class="register__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(() => signUp(form))">Register</button>
       </div>
     </u-card>
   </ValidationObserver>
@@ -72,7 +72,23 @@ export default {
     UCheckbox
   },
   methods: {
-    ...mapActions('Auth', ['register'])
+    ...mapActions('Auth', ['register']),
+    signUp(form){
+      this.register({ ...form, password_confirmation: form.confirmPassword })
+        .then(() => {
+          this.$notify({
+            title: 'Welcome!',
+            type: 'success'
+          });
+        })
+        .catch(({ message }) => {
+          this.$notify({
+            title: 'Register error',
+            text: message,
+            type: 'error'
+          });
+        })
+    }
   }
 }
 </script>

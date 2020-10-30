@@ -1,9 +1,9 @@
-import { AuthAPI } from '@/api';
 import router from '@/router';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import moment from 'moment';
 import { ADMIN, TEACHER, STUDENT } from '@/constants/roles';
+import ErrorHelper from '@/helpers/ErrorHelper';
 
 export default {
 	namespaced: true,
@@ -21,6 +21,9 @@ export default {
 	},
 	actions: {
 		async fetchUser({ commit }){
+			if(!cookie.get('YTT_JWT'))
+				return;
+			
 			commit('SET_LOADING', true);
 			try {
 				const res = await axios.get('/user');
@@ -31,29 +34,38 @@ export default {
 			commit('SET_LOADING', false);
 		},
 		logout({ commit }){
-			axios.post('/logout')
-				.then(() => {
-					cookie.remove('YTT_JWT');
-					commit('SET_USER', null);
+			const clearAuthData = () => {
+				cookie.remove('YTT_JWT');
+				commit('SET_USER', null);
+				if(router.history.current.name !== 'auth-login')
 					router.push({ name: 'auth-login' });
-				})
-				.catch(console.error);
+			};
+			
+			axios.post('/auth/logout')
+				.then(clearAuthData)
+				.catch(clearAuthData);
 		},
 		login(context, credentials){
-			axios.post('/auth/login', credentials)
-				.then(res => processAuthResponse(context, res.data))
-				.catch(console.error);
+			return new Promise((resolve, reject) => {
+				axios.post('/auth/login', credentials)
+					.then(res => processAuthResponse(context, res.data))
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+			});
+			
 		},
 		register(context, credentials){
-			axios.post('/auth/register', credentials)
-				.then(res => processAuthResponse(context, res.data))
-				.catch(console.error);
+			return new Promise((resolve, reject) => {
+				axios.post('/auth/register', credentials)
+					.then(res => processAuthResponse(context, res.data))
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+			});
 		},
 		navigateToStartPage({ getters }){
 			if(!getters.user)
 				return new Error('Store/NavigateToStartPage: user is not defined');
 			
-			console.log('navigateToStartPage: ', getters.user);
 			switch (getters.user.role){
 				case ADMIN:
 					return router.push({ name: 'admin-lessons-all' });
@@ -65,9 +77,7 @@ export default {
 		}
 	},
 	getters: {
-		user(state){
-			return state.user;
-		}
+		user: state => state.user
 	}
 }
 
