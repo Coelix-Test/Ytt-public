@@ -29,9 +29,18 @@
         </UCheckbox>
       </div>
 
-      <div class="u-flex">
-        <button class="login__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(() => signIn(form))">Log in</button>
+      <div class="u-flex is-justify-center">
+        <UBtn
+          class="login__btn"
+          size="x-large"
+          color="primary"
+          @click="() => handleSubmit(() => signIn(form))"
+          :loading="loading"
+        >
+          Log in
+        </UBtn>
       </div>
+
       <div class="login__forgot">
         Forgot your password? <a href="#">click here</a>
       </div>
@@ -43,8 +52,9 @@
 import UCard from '@/components/common/UCard.vue';
 import UTextField from '@/components/common/UTextField.vue';
 import UCheckbox from '@/components/common/UCheckbox.vue';
+import UBtn from '@/components/common/UBtn.vue';
 import SocialsAuth from '@/components/partials/SocialsAuth';
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
 
@@ -58,8 +68,12 @@ export default {
   components: {
     UCard,
     UTextField,
+    UBtn,
     UCheckbox,
     SocialsAuth
+  },
+  computed: {
+    ...mapGetters('Auth', ['loading'])
   },
   methods: {
     ...mapActions('Auth', ['login']),
