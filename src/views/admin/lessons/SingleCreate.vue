@@ -50,6 +50,8 @@
             color="primary"
             @click="handleSubmit(createSingle)"
             id="lesson_create_submit"
+            :loading="loading"
+            width="300"
           >
             Save
           </UBtn>
@@ -103,7 +105,21 @@ export default {
     },
     createSingle() {
       let postData = this.collectPostData();
-      this.create(postData);
+      this.create(postData)
+      .then(() => {
+        this.$router.push({ name: 'admin-lessons-all' });
+        this.$notify({
+          title: 'Lesson successfully created!',
+          type: 'success'
+        });
+      })
+      .catch(({ message }) => {
+        this.$notify({
+          title: 'Lesson creation error',
+          text: message,
+          type: 'error'
+        });
+      });
     },
     onSelectTeachers(value) {
       this.teachers = value;
