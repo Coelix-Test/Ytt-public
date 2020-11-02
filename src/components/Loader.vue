@@ -31,7 +31,7 @@ export default {
   width: 100%;
   opacity: 0;
   visibility: hidden;
-  transition: opacity, visibility .5s;
+  transition: all .5s;
   display: flex;
   justify-content: center;
   align-items: center;
