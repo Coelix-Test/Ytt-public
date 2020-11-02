@@ -1,6 +1,6 @@
 <script>
-
 import UUID from '@/mixins/uuid.mixin.js';
+import Loader from '@/components/Loader';
 
 export default {
   mixins: [ UUID ],
@@ -38,6 +38,10 @@ export default {
       default: false,
     },
     blank: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
       type: Boolean,
       default: false,
     },
@@ -98,7 +102,14 @@ export default {
         style: style,
         on: Object.assign({}, this.$listeners, eventHandlers),
       },
-      this.$slots.default,
+      [
+        this.$slots.default,
+        createElement(Loader, {
+          props: {
+            show: this.loading
+          }
+        })
+      ],
     );
   }
 }
@@ -116,6 +127,29 @@ export default {
   border: none;
   outline: none;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  .ytt-loader{
+    position: absolute;
+    background-color: inherit;
+    z-index: unset;
+    &__text{
+      font-size: 24px;
+      color: white;
+    }
+    &__icon{
+      width: 28px;
+      height: 28px;
+      fill: white;
+      stroke: white;
+      *{
+        fill: white !important;
+        stroke: white;
+
+      }
+    }
+  }
 
   &_block{
     width: 100%;

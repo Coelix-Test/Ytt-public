@@ -1,9 +1,17 @@
 <template>
-  <router-view></router-view>
+  <div>
+    <Loader :show="loading"/>
+    <Notification/>
+    <transition name="fade">
+      <router-view/>
+    </transition>
+  </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import Notification from '@/components/Notification';
+import Loader from '@/components/Loader';
 
 export default {
   mounted(){
@@ -11,9 +19,17 @@ export default {
     this.fetchUser()
       .then(this.navigateToStartPage)
       .catch(console.error);
+
+  },
+  computed: {
+    ...mapGetters(['loading'])
+  },
+  components: {
+    Notification,
+    Loader
   },
   methods: {
-    ...mapActions('Auth', ['fetchUser', 'navigateToStartPage']),
+    ...mapActions('Auth', ['fetchUser', 'navigateToStartPage'])
   }
 }
 </script>

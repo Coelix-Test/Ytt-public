@@ -7,12 +7,12 @@
       <thead>
         <tr>
           <template v-for="(column, index) in columns">
-            <th 
-              class="u-pl-13 u-text-left" 
+            <th
+              class="u-pl-13 u-text-left"
               v-if="index == 0"
               :key="index"
             >{{column.text}}</th>
-            <th 
+            <th
               v-else
               class="u-text-left"
               :key="index"
@@ -21,8 +21,8 @@
         </tr>
       </thead>
       <tbody v-if="items.length">
-        <tr 
-          v-for="item in items" 
+        <tr
+          v-for="item in items"
           :key="item.id"
         >
           <td class="u-pl-13">
@@ -64,7 +64,7 @@
         </tr>
       </tbody>
     </table>
-    <select-teacher 
+    <select-teacher
       v-model="currentSelectedTeacher"
       @save="assignTeacher"
     ></select-teacher>

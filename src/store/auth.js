@@ -1,15 +1,16 @@
-import { AuthAPI } from '@/api';
 import router from '@/router';
 import cookie from 'js-cookie';
 import axios from 'axios';
 import moment from 'moment';
 import { ADMIN, TEACHER, STUDENT } from '@/constants/roles';
+import ErrorHelper from '@/helpers/ErrorHelper';
 
 export default {
 	namespaced: true,
 	state: {
 		user: null,
-		loading: false
+		loading: false,
+		userIsFetching: false
 	},
 	mutations: {
 		SET_USER(state, user){
@@ -17,43 +18,60 @@ export default {
 		},
 		SET_LOADING(state, loading){
 			state.loading = loading;
+		},
+		SET_USER_FETCHING(state, isFetching){
+			state.userIsFetching = isFetching;
 		}
 	},
 	actions: {
 		async fetchUser({ commit }){
-			commit('SET_LOADING', true);
+			if(!cookie.get('YTT_JWT'))
+				return;
+
+			commit('SET_USER_FETCHING', true);
 			try {
 				const res = await axios.get('/user');
 				commit('SET_USER', res.data)
 			} catch(err){
 				console.error(err);
 			}
-			commit('SET_LOADING', false);
+			commit('SET_USER_FETCHING', false);
 		},
 		logout({ commit }){
-			axios.post('/auth/logout')
-				.then(() => {
-					cookie.remove('YTT_JWT');
-					commit('SET_USER', null);
+			const clearAuthData = () => {
+				cookie.remove('YTT_JWT');
+				commit('SET_USER', null);
+				if(router.history.current.name !== 'auth-login')
 					router.push({ name: 'auth-login' });
-				})
-				.catch(console.error);
+			};
+
+			axios.post('/auth/logout')
+				.then(clearAuthData)
+				.catch(clearAuthData);
 		},
 		login(context, credentials){
-			axios.post('/auth/login', credentials)
-				.then(res => processAuthResponse(context, res.data))
-				.catch(console.error);
+			context.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.post('/auth/login', credentials)
+					.then(res => processAuthResponse(context, res.data))
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => context.commit('SET_LOADING', false))
+			});
+
 		},
 		register(context, credentials){
-			axios.post('/auth/register', credentials)
-				.then(res => processAuthResponse(context, res.data))
-				.catch(console.error);
+			return new Promise((resolve, reject) => {
+				axios.post('/auth/register', credentials)
+					.then(res => processAuthResponse(context, res.data))
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+			});
 		},
 		navigateToStartPage({ getters }){
 			if(!getters.user)
 				return new Error('Store/NavigateToStartPage: user is not defined');
-			
-			console.log('navigateToStartPage: ', getters.user);
+
 			switch (getters.user.role){
 				case ADMIN:
 					return router.push({ name: 'admin-lessons-all' });
@@ -65,9 +83,9 @@ export default {
 		}
 	},
 	getters: {
-		user(state){
-			return state.user;
-		}
+		user: state => state.user,
+		loading: state => state.loading,
+		userIsFetching: state => state.userIsFetching
 	}
 }
 

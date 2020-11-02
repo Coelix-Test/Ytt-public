@@ -6,7 +6,7 @@
         <div class="u-text-h2 u-text-center">Give lesson</div>
       </slot>
 
-      <u-autocomplete 
+      <u-autocomplete
         :items="items"
         :value="value"
         label="Choose lessons"

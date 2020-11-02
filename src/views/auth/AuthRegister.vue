@@ -46,7 +46,7 @@
         <UBtn
           size="large"
           color="primary"
-          @click="() => handleSubmit(() => register(form))"
+          @click="() => handleSubmit(() => signUp(form))"
         >
           Register
         </UBtn>
@@ -78,7 +78,23 @@ export default {
     UCheckbox
   },
   methods: {
-    ...mapActions('Auth', ['register'])
+    ...mapActions('Auth', ['register']),
+    signUp(form){
+      this.register({ ...form, password_confirmation: form.confirmPassword })
+        .then(() => {
+          this.$notify({
+            title: 'Welcome!',
+            type: 'success'
+          });
+        })
+        .catch(({ message }) => {
+          this.$notify({
+            title: 'Register error',
+            text: message,
+            type: 'error'
+          });
+        })
+    }
   }
 }
 </script>

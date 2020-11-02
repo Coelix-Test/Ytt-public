@@ -10,13 +10,20 @@ import Auth from '@/store/auth';
 
 export default new Vuex.Store({
   state: {
+    loading: false
   },
   mutations: {
+    SET_LOADING(state, payload){
+      state.loading = payload;
+    }
   },
   actions: {
   },
+  getters: {
+    loading: (state, getters) => state.loading || getters['Auth/userIsFetching']
+  },
   modules: {
     Application,
-    Auth,
+    Auth
   }
 })

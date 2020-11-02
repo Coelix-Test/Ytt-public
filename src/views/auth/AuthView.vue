@@ -10,14 +10,16 @@
           Sign up
         </router-link>
         <div class="l-auth__nav-divider"></div>
-        <router-link class="l-auth__nav-item" 
+        <router-link class="l-auth__nav-item"
           :class="{ 'is-active' : loginActive}"
           :to="{ name: 'auth-login' }"
         >
           Log in
         </router-link>
       </div>
-      <router-view></router-view>
+      <transition name="fade">
+        <router-view/>
+      </transition>
     </app-main>
   </app-container>
 </template>

@@ -34,7 +34,8 @@
           class="login__btn"
           size="x-large"
           color="primary"
-          @click="() => handleSubmit(() => login(form))"
+          @click="() => handleSubmit(() => signIn(form))"
+          :loading="loading"
         >
           Log in
         </UBtn>
@@ -51,8 +52,9 @@
 import UCard from '@/components/common/UCard.vue';
 import UTextField from '@/components/common/UTextField.vue';
 import UCheckbox from '@/components/common/UCheckbox.vue';
+import UBtn from '@/components/common/UBtn.vue';
 import SocialsAuth from '@/components/partials/SocialsAuth';
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
 
@@ -66,11 +68,31 @@ export default {
   components: {
     UCard,
     UTextField,
+    UBtn,
     UCheckbox,
     SocialsAuth
   },
+  computed: {
+    ...mapGetters('Auth', ['loading'])
+  },
   methods: {
-    ...mapActions('Auth', ['login'])
+    ...mapActions('Auth', ['login']),
+    signIn(credentials){
+      this.login(credentials)
+      .then(() => {
+        this.$notify({
+          title: 'Welcome!',
+          type: 'success'
+        });
+      })
+      .catch(({ message }) => {
+        this.$notify({
+          title: 'Login error',
+          text: message,
+          type: 'error'
+        });
+      })
+    }
   }
 }
 </script>
