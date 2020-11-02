@@ -5,23 +5,25 @@
         <u-card class="u-px-20 u-py-16 u-my-10">
           <div class="u-flex">
             <div class="u-text-h2 u-mr-auto">Add users</div>
-            
-            <router-link
-              tag="button"
+
+            <UBtn
+              class="u-mx-2"
               :to="{ name: 'admin-student-create' }"
-              class="u-btn is-x-large is-bg-primary is-dark u-mx-2"
+              color="primary"
+              size="x-large"
               id="admin_create_student_link"
             >
               Add student
-            </router-link>
-            <router-link
-              tag="button"
+            </UBtn>
+            <UBtn
+              class="u-mx-2"
               :to="{ name: 'admin-teacher-create' }"
-              class="u-btn is-x-large is-bg-primary is-dark"
+              color="primary"
+              size="x-large"
               id="create_teacher_link"
             >
               Add teacher
-            </router-link>
+            </UBtn>
           </div>
         </u-card>
       </div>
@@ -31,10 +33,12 @@
 
 <script>
 import UCard from '@/components/common/UCard';
+import UBtn from "@/components/common/UBtn";
 
 export default {
   components: {
     UCard,
+    UBtn,
   }
 }
 </script>

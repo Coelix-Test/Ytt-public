@@ -38,14 +38,15 @@
         </div>
       </div> 
 
-      <div class="u-col-12">
-        <button
-          class="u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto"
+      <div class="u-col-12 u-flex is-justify-center">
+        <UBtn
+          size="x-large"
+          color="primary"
           @click="validate"
           id="lesson_create_submit"
         >
           Save
-        </button>
+        </UBtn>
       </div>
     </div>
   </div>

@@ -6,7 +6,7 @@
         <div class="u-text-h2 u-text-center">Give lesson</div>
       </slot>
 
-      <u-autocomplete 
+      <u-autocomplete
         :items="items"
         :value="value"
         label="Choose lessons"
@@ -15,13 +15,14 @@
         :multiple="multiple"
       >
       </u-autocomplete>
-      <div class="u-flex u-mt-2">
-        <button
-          class="u-btn is-dark is-bg-primary is-x-large u-ml-auto u-mr-auto"
-          @click="save"
+      <div class="u-flex u-mt-2 is-justify-center">
+        <UBtn
+          color="primary"
+          size="x-large"
+          @click="hideModal"
         >
           Save
-        </button>
+        </UBtn>
       </div>
     </u-card>
   </modal>

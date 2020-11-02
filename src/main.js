@@ -35,6 +35,8 @@ axios.interceptors.response.use(
 });
 
 
+import UBtn from "@/components/common/UBtn";
+
 Vue.use(SvgSprite, {
   url: '/sprite.svg',
 });
@@ -44,6 +46,7 @@ Vue.use(Notifications);
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('UBtn', UBtn);
 
 extend('isTrue', {
   validate: value => value === true,

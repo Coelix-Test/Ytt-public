@@ -16,9 +16,12 @@
         </div>
         <div class="c-nav-header__append u-ml-auto">
           <div class="u-flex is-align-center is-justify-center">
-            <button class="u-btn is-dark is-bg-primary is-medium u-font-weight-medium">
+            <UBtn
+              color="primary"
+              size="medium"
+            >
               Back to site
-            </button>
+            </UBtn>
             <span class="random-hebrew u-ml-6">םשה תרזעב</span>
           </div>
         </div>
@@ -32,8 +35,12 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import UBtn from "@/components/common/UBtn";
 
 export default {
+  components: {
+    UBtn,
+  },
   data: () => ({
     navItems: [
       {
