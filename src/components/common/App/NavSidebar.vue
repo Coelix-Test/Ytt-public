@@ -80,11 +80,17 @@ export default {
           icon: 'icon-file',
           active: true,
         },
+      ],
+      [STUDENT]: [
+        {
+          id: 1,
+          text: 'Lessons',
+          to: {name: 'student-lessons-all'},
+          icon: 'icon-file',
+          active: true,
+        },
       ]
-    },
-    [STUDENT]: [
-
-    ]
+    }
   }),
   computed: {
     ...mapGetters('Auth', ['user'])

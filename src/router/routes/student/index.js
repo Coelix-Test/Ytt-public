@@ -1,18 +1,18 @@
-import Teacher from '@/views/teacher/Teacher';
+import Student from '@/views/student/Student';
 
 import lessons from './lessons';
 
-import { TEACHER } from '@/constants/roles';
+import { STUDENT } from '@/constants/roles';
 import routesExtendMeta from '@/router/routesExtendMeta';
 
 
 const routes = {
-	path: '/teacher',
-	component: Teacher,
+	path: '/student',
+	component: Student,
 	name: 'teacher',
 	meta: {
 		auth: true,
-		roleAccess: TEACHER
+		roleAccess: STUDENT
 	},
 	children: [
 		lessons

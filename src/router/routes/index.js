@@ -2,6 +2,7 @@ import Index from '@/views/Index';
 import auth from './auth';
 import admin from './admin';
 import teacher from './teacher';
+import student from './student';
 
 export default [
 	{
@@ -12,5 +13,6 @@ export default [
 	},
 	auth,
 	admin,
-	teacher
+	teacher,
+	student
 ]
