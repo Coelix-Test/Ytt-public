@@ -1,9 +1,14 @@
 <template>
-  <button class="u-btn is-medium is-dark is-bg-blue is-block facebook-btn">
+  <UBtn
+    class="facebook-btn"
+    color="blue"
+    size="medium"
+    block
+  >
     <span class="facebook-btn__text">
       Sign in with Facebook
     </span>
-  </button>
+  </UBtn>
 </template>
 
 <script>

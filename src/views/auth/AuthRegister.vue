@@ -42,8 +42,14 @@
         </ValidationProvider>
       </div>
 
-      <div class="u-flex">
-        <button class="register__btn u-btn is-x-large is-bg-primary is-dark u-mr-auto u-ml-auto" @click="() => handleSubmit(() => signUp(form))">Register</button>
+      <div class="u-flex is-justify-center">
+        <UBtn
+          size="large"
+          color="primary"
+          @click="() => handleSubmit(() => signUp(form))"
+        >
+          Register
+        </UBtn>
       </div>
     </u-card>
   </ValidationObserver>

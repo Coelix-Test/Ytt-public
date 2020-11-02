@@ -7,12 +7,12 @@
       <thead>
         <tr>
           <template v-for="(column, index) in columns">
-            <th 
-              class="u-pl-13 u-text-left" 
+            <th
+              class="u-pl-13 u-text-left"
               v-if="index == 0"
               :key="index"
             >{{column.text}}</th>
-            <th 
+            <th
               v-else
               class="u-text-left"
               :key="index"
@@ -21,8 +21,8 @@
         </tr>
       </thead>
       <tbody v-if="items.length">
-        <tr 
-          v-for="item in items" 
+        <tr
+          v-for="item in items"
           :key="item.id"
         >
           <td class="u-pl-13">
@@ -36,8 +36,23 @@
           <td class="grey-col">{{item.email}}</td>
           <td class="grey-col">{{item.phone}}</td>
           <td class="u-pr-25 u-text-right">
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(item)" v-if="!item.teacher_id">Add teacher</button>
-            <button class="u-btn is-dark is-bg-primary is-small u-font-weight-light" @click="openSelectTeacherModal(item)" v-else>Change teacher</button>
+
+            <UBtn
+              color="primary"
+              size="small"
+              @click="openSelectTeacherModal(false)"
+              v-if="!item.teacher_id"
+            >
+              Add teacher
+            </UBtn>
+            <UBtn
+              color="primary"
+              size="small"
+              @click="openSelectTeacherModal(item.teacher_id)"
+              v-else
+            >
+              Change teacher
+            </UBtn>
           </td>
         </tr>
       </tbody>
@@ -49,7 +64,7 @@
         </tr>
       </tbody>
     </table>
-    <select-teacher 
+    <select-teacher
       v-model="currentSelectedTeacher"
       @save="assignTeacher"
     ></select-teacher>
