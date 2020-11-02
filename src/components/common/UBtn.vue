@@ -33,15 +33,15 @@ export default {
       type: String,
       default: 'button',
     },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
     download: {
       type: Boolean,
       default: false,
     },
     blank: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
       type: Boolean,
       default: false,
     },

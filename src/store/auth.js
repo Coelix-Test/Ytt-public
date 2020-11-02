@@ -27,7 +27,7 @@ export default {
 		async fetchUser({ commit }){
 			if(!cookie.get('YTT_JWT'))
 				return;
-			
+
 			commit('SET_USER_FETCHING', true);
 			try {
 				const res = await axios.get('/user');
@@ -44,7 +44,7 @@ export default {
 				if(router.history.current.name !== 'auth-login')
 					router.push({ name: 'auth-login' });
 			};
-			
+
 			axios.post('/auth/logout')
 				.then(clearAuthData)
 				.catch(clearAuthData);
@@ -58,7 +58,7 @@ export default {
 					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
 					.then(() => context.commit('SET_LOADING', false))
 			});
-			
+
 		},
 		register(context, credentials){
 			return new Promise((resolve, reject) => {
@@ -71,7 +71,7 @@ export default {
 		navigateToStartPage({ getters }){
 			if(!getters.user)
 				return new Error('Store/NavigateToStartPage: user is not defined');
-			
+
 			switch (getters.user.role){
 				case ADMIN:
 					return router.push({ name: 'admin-lessons-all' });

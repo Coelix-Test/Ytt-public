@@ -1,19 +1,30 @@
 <!--used to display list of teachers on Lesson creation page -->
 <template>
-  <div>
-    <div 
-      class="u-flex u-px-5 u-py-2"
+  <div class="teacher-list">
+    <div
+      class="teacher-list__column"
       v-for="item in value"
       :key="item.id"
     >
-      {{ item.name }}
+      <div
+        class="teacher-list__item"
+      >
+        <div class="teacher-list__item-avatar" :style="getAvatarStyle(item)"></div>
+        <span class="teacher-list__item-name">{{ item.name }}</span>
+      </div>
     </div>
-    <button
-      @click="showModal"
-      id="lesson_open_modal_select_teacher"
-    >
-      Add teacher
-    </button>
+    <div
+      class="teacher-list__column teacher-list__btn-column"
+      >
+      <button
+        @click="showModal"
+        class="teacher-list__add-btn"
+        id="lesson_open_modal_select_teacher"
+      >
+        +
+      </button>
+    </div>
+
     <select-teacher 
       :value="value" 
       @input="onSelectTeachers"
@@ -46,6 +57,13 @@ export default {
     SelectTeacher,
   },
   methods: {
+    getAvatarStyle(item){
+      let style;
+      if(item.avatar){
+        style = { backgroundImage: `url(${item.avatar})`, }
+      }
+      return style;
+    },
     showModal(){
       this.$modal.show('select-teacher');
     },
@@ -60,7 +78,63 @@ export default {
 </script>
 
 <style lang="scss">
-// .modal-card{
-//   width: 750px;
-// }
+@import "@/styles/vars";
+
+.teacher-list{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  &__column{
+    flex-basis: calc(50% - 19px);
+    margin-bottom: 17px;
+  }
+  &__item{
+    height: 86px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0px 12px 66px rgba(0, 0, 0, 0.03);
+    border-radius: 62px;
+    width: 100%;
+    padding-right: 13px;
+    padding-left: 100px;
+  }
+  &__item-avatar{
+    height: 86px;
+    width: 86px;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    background-color: red;
+    background-size: cover;
+  }
+  &__item-name{
+    font-weight: 300;
+  }
+
+  &__btn-column{
+    min-height: 86px;
+    display: flex;
+    align-items: center;
+  }
+  &__add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border: none;
+    border-radius: 50%;
+    padding: 0;
+    background-color: $clr-blue;
+    font-size: 24px;
+    color: #fff;
+    font-weight: 300;
+    outline: none;
+    cursor: pointer;
+  }
+}
+
+
 </style>
