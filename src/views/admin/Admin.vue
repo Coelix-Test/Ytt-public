@@ -3,7 +3,9 @@
     <nav-header></nav-header>
     <nav-sidebar></nav-sidebar>
     <app-main class="admin-main">
-      <router-view></router-view>
+      <transition name="fade">
+        <router-view/>
+      </transition>
     </app-main>
   </app-container>
 </template>
