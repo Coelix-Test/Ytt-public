@@ -123,6 +123,7 @@ export default {
   .ytt-loader{
     position: absolute;
     background-color: inherit;
+    z-index: unset;
     &__text{
       font-size: 24px;
       color: white;
