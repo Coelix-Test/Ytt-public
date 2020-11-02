@@ -37,6 +37,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    download: {
+      type: Boolean,
+      default: false,
+    },
+    blank: {
+      type: Boolean,
+      default: false,
+    },
     width: {
       type: [ String, Number],
       default: null,
@@ -87,7 +95,9 @@ export default {
         class: this.classes,
         attrs: {
           id: this.computedId,
-          href: this.href ? this.href : undefined
+          href: this.href ? this.href : undefined,
+          target: this.blank || this.download ? '_blank' : undefined,
+          download: this.download ? '' : undefined,
         },
         style: style,
         on: Object.assign({}, this.$listeners, eventHandlers),
@@ -205,6 +215,11 @@ export default {
     background-color: $clr-red;
   }
 
+  &_color_grey{
+    color: #000;
+    background-color: $clr-grey2;
+  }
+
   &_outlined{
     background-color: transparent;
     border: 1px solid;
@@ -228,6 +243,17 @@ export default {
         background-color: rgba($clr-blue, .17);
       }
     }
+
+    &.u-btn_color_grey{
+      color: $clr-grey2;
+      &:hover{
+        background-color: rgba($clr-grey2, .06);
+      }
+      &:active{
+        background-color: rgba($clr-grey2, .17);
+      }
+    }
+
   }
 }
 </style>

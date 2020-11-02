@@ -1,5 +1,6 @@
 import Lessons from '@/views/admin/lessons/Lessons';
 import SingleCreate from '@/views/admin/lessons/SingleCreate';
+import SingleView from '@/views/admin/lessons/SingleView';
 import ListAll from '@/views/admin/lessons/ListAll';
 
 export default {

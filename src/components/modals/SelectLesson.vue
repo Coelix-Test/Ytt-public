@@ -19,7 +19,7 @@
         <UBtn
           color="primary"
           size="x-large"
-          @click="hideModal"
+          @click="save"
         >
           Save
         </UBtn>

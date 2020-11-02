@@ -15,9 +15,9 @@ export default {
     auth(state, token) {
       state.logged = true;
       cookie.set('YTT_JWT', token, { expires: 1, secure: true });
-      // localStorage.setItem('auth', token);
-      // const auth = `Bearer ${token}`;
-      // env.API.defaults.headers.common['Authorization'] = auth;
+      localStorage.setItem('auth', token);
+      const auth = `Bearer ${token}`;
+      env.API.defaults.headers.common['Authorization'] = auth;
     },
     saveData(state, data) {
       state.data = data;
@@ -25,8 +25,8 @@ export default {
     logout(state, data) {
       state.data = {};
       state.logged = false;
-      // delete env.API.defaults.headers.common['Authorization'];
-      // localStorage.removeItem('auth');
+      delete env.API.defaults.headers.common['Authorization'];
+      localStorage.removeItem('auth');
     },
     load(state) {
       state.loaded = true;

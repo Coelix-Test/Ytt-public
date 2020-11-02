@@ -1,5 +1,6 @@
 import Lessons from '@/views/teacher/lessons/Lessons';
 import TeacherLessonsList from '@/views/teacher/lessons/TeacherLessonsList';
+import SingleView from "@/views/teacher/lessons/SingleView";
 
 export default {
     path: 'lessons',
@@ -9,6 +10,11 @@ export default {
             path: 'all',
             component: TeacherLessonsList,
             name: 'teacher-lessons-all',
+        },
+        {
+            path: ':id',
+            component: SingleView,
+            name: 'admin-lessons-view',
         },
     ]
 }

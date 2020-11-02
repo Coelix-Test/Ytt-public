@@ -40,7 +40,7 @@
             <UBtn
               color="primary"
               size="small"
-              @click="openSelectTeacherModal(false)"
+              @click="openSelectTeacherModal(item)"
               v-if="!item.teacher_id"
             >
               Add teacher
@@ -48,7 +48,7 @@
             <UBtn
               color="primary"
               size="small"
-              @click="openSelectTeacherModal(item.teacher_id)"
+              @click="openSelectTeacherModal(item)"
               v-else
             >
               Change teacher
