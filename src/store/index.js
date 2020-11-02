@@ -7,6 +7,7 @@ import Application from '@/store/application.store';
 // import CurrentUser from '@/store/current-user.store';
 import Auth from '@/store/auth';
 // import WindowWidth from '@/store/window-width.store';
+import Lessons from '@/store/lessons';
 
 export default new Vuex.Store({
   state: {
@@ -24,6 +25,7 @@ export default new Vuex.Store({
   },
   modules: {
     Application,
-    Auth
+    Auth,
+    Lessons,
   }
 })

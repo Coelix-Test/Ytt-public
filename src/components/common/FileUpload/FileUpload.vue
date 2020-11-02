@@ -1,103 +1,103 @@
 <template>
-  <div>
-    <div class="messages">{{message}}</div>
-    <input 
+  <div 
+    class="file-upload"
+    :class="classes"
+  >
+    <label
+      class="file-upload__label"
+      :for="uuid"
+    >
+      <template v-if="!hasValue">
+        <svg
+          v-svg
+          symbol="plus"
+        >
+        </svg>
+        <span class="file-upload__label-text">
+          Add files
+        </span>
+      </template>
+      <template v-else>
+        <svg
+          v-if="hasPdf"
+          v-svg
+          symbol="pdf-file"
+        ></svg>
+        <div
+          class="file-upload__image-preview"
+          v-if="hasImage"
+        ></div>
+
+        <span class="file-upload__label-text">
+          {{value.name}}
+        </span>
+      </template>
+    </label>
+    <div class="file-upload__messages">{{error}}</div>
+    <input
+      :id="uuid"
       type="file"
       :accept="accept"
       @change="onSelectFile"
+      class="file-upload__input"
     >
   </div>
 </template>
 
 <script>
-import { FilesApi }from '@/api';
+import UUID from '@/mixins/uuid.mixin';
 
 export default {
+  mixins: [ UUID ],
   data: () => ({
-    status: 'none',
-    percent: 0,
   }),
   props: {
     apiFunc: {
       type: Function,
     },
     value: {
-      type: [Object, Array],
+      type: [Object, Array, File],
       default: () => null,
     },
     accept: {
       type: String,
       default: '',
     },
-    autoupload: {
-      type: Boolean,
-      default: false,
-    },
     multiple: {
       type: Boolean,
       default: false,
-    }
+    },
+    error: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
-    message(){
-      let msg = '';
-      switch(this.status){
-        case 'none':
-          msg = 'File is not selected.';
-          break;
-        case 'loading':
-          msg = `File is loading, ${this.percent}% complete`;
-          break;
-        case 'ok':
-          msg = 'Completely uploaded file';
-          break;
-      }
-      return msg;
+    classes(){
+      return {
+        'file-upload_value_none' : !this.hasValue,
+        'file-upload_value_pdf' : this.hasPdf,
+        'file-upload_value_image' : this.hasImage,
+      };
+    },
+    hasValue(){
+      return this.value !== null;
+    },
+    hasPdf(){
+      return this.hasValue && this.value.type === 'application/pdf';
+    },
+    hasImage(){
+      return this.hasValue && this.value['type'].split('/')[0] === 'image';
     }
   },
   methods: {
     onSelectFile(event){
-      
-      if(this.autoupload){
-        this.status = 'loading';
-        let apiFunc;
-        if(this.apiFunc !== undefined){
-          apiFunc = this.apiFunc;
-        }
-        else{
-          apiFunc = FilesApi.upload;
-        }
-        let file = event.target.files[0];
-        apiFunc(file, this.handleProgress).then(
-          response => {
-            console.log('File Upload');
-            this.$emit('input', {
-              file: file,
-              response: response,
-              success: true,
-            });
-          },
-          error => {
-            this.$emit('input', {
-              file: file,
-              response: error,
-              success: false,
-            });
-            console.log('An error on File Upload occured', error);
-          }
-        );
+      console.log(event.target.files[0]);
+      if(this.multiple){
+        //
       }
       else{
-        if(this.multiple){
-          //
-        }
-        else{
-          this.$emit('input', {
-            file: event.target.files[0],
-            response: null,
-            success: false,
-          });
-        }
+        this.$emit('input', event.target.files[0]);
       }
     },
     handleProgress(progressEvent){
@@ -109,6 +109,73 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '@/styles/vars';
 
+.file-upload{
+  &__label{
+    cursor: pointer;
+    height: 60px;
+    border-radius: 62px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-width: 218px;
+    padding-right: 50px;
+    padding-left: 50px;
+    background-color: #fff;
+  }
+
+  &__label-text{
+    font-weight: 300;
+  }
+
+  &__input{
+    display: none;
+  }
+
+  &__messages{
+    color: $clr-error;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  &__image-preview{
+    background-color: red;
+    height: 60px;
+    width: 60px;
+    position: absolute;
+    left: 0;
+    border-radius: 50%;
+  }
+
+  &_value_none{
+    .file-upload__label{
+      border: 1px solid $clr-blue;
+      svg{
+        fill: none;
+        stroke: $clr-blue;
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+      }
+    }
+  }
+  &_value_pdf{
+    .file-upload__label{
+      svg{
+        width: 25px;
+        height: 26px;
+        margin-right: 12px;
+      }
+    }
+  }
+  &_value_pdf,
+  &_value_image{
+    .file-upload__label {
+      box-shadow: 0px 12px 66px rgba(0, 0, 0, 0.03);
+    }
+  }
+}
 </style>

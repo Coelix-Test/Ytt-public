@@ -1,59 +1,68 @@
 <template>
-  <div class="u-container u-mr-auto u-ml-auto u-mt-17">
-    <div class="u-row">
-      <div class="u-col-12">
-        <div class="u-text-h2 u-mb-6">Add new lesson</div>
-      </div>
+  <ValidationObserver v-slot="{ handleSubmit }">
+    <div class="create-lesson u-container u-mr-auto u-ml-auto u-mt-17">
+      <div class="u-row">
+        <div class="u-col-12">
+          <div class="u-text-h2 u-mb-6">Add new lesson</div>
+        </div>
 
 
-      <div class="u-col-6">
-        <u-text-field 
-          label="Name"
-          v-model="name"
-          class="u-mb-7"
-        ></u-text-field>
-        <u-text-field 
-          label="Description"
-          v-model="description"
-          class="u-mb-7"
-        ></u-text-field>
+        <div class="u-col-6">
+          <ValidationProvider rules="required" name="Name" v-slot="{ errors }">
+            <UTextField
+              label="Name"
+              v-model="name"
+              class="u-mb-7"
+              :error="errors[0]"
+            ></UTextField>
+          </ValidationProvider>
+          <ValidationProvider rules="required" name="Description" v-slot="{ errors }">
+            <UTextField
+              label="Description"
+              v-model="description"
+              class="u-mb-7"
+              :error="errors[0]"
+            ></UTextField>
+          </ValidationProvider>
 
-        <file-upload 
-          class="u-mb-7"
-          :api-func="getPdfUploadFunc()"
-          @input="onPdfUpload"
-          accept="application/pdf"
-          autoupload
-        >
-        </file-upload>
-      </div>
-      <div class="u-col-6">
-        <div class="u-my-10">
-          To teachers:
-          <teacher-list 
-            @input="onSelectTeachers" 
+          <ValidationProvider rules="required" name="Pdf" v-slot="{ errors }">
+            <FileUpload
+              class="u-mb-7"
+              accept="application/pdf"
+              v-model="file"
+              :error="errors[0]"
+            >
+            </FileUpload>
+          </ValidationProvider>
+        </div>
+        <div class="u-col-6">
+          <div class="create-lesson__teacher-list-label">To teachers</div>
+          <TeacherList
+            @input="onSelectTeachers"
             :value="teachers"
           >
-          </teacher-list>
+          </TeacherList>
         </div>
-      </div> 
 
-      <div class="u-col-12 u-flex is-justify-center">
-        <UBtn
-          size="x-large"
-          color="primary"
-          @click="validate"
-          id="lesson_create_submit"
-        >
-          Save
-        </UBtn>
+        <div class="u-col-12 u-flex is-justify-center">
+          <UBtn
+            size="x-large"
+            color="primary"
+            @click="handleSubmit(createSingle)"
+            id="lesson_create_submit"
+          >
+            Save
+          </UBtn>
+        </div>
       </div>
     </div>
-  </div>
+  </ValidationObserver>
 </template>
 
 <script>
 import { LessonsApi, UsersApi } from "@/api";
+import {mapActions, mapGetters} from 'vuex';
+
 
 import FileUpload from "@/components/common/FileUpload/FileUpload.vue";
 import TeacherList from "@/components/teacher/TeacherList.vue";
@@ -64,58 +73,52 @@ export default {
     name: "",
     description: "",
     teachers: [],
-    pdfPath: '',
-    words: [],
+    file: null,
   }),
   components: {
     FileUpload,
     TeacherList,
     UTextField,
   },
+  computed: {
+    ...mapGetters('Lessons', ['loading'])
+  },
   methods: {
+    ...mapActions('Lessons', {
+      create : 'createLesson'
+    }),
     validate() {
       this.createSingle();
     },
     collectPostData() {
+
       let postData = {
         title: this.name,
         description: this.description,
         teachers: this.teachers.map((item) => item.id),
-        path: this.pdfPath,
-        words: this.words,
+        pdf: this.file,
       };
 
       return postData;
     },
     createSingle() {
       let postData = this.collectPostData();
-      LessonsApi.create(postData, "admin").then((response) => {
-        console.log(response.data);
-        // if(response.data.private_id){
-        //   this.$router.push({name: 'admin-lessons-edit', params: { id: response.data.id} } );
-        // }
-      });
-    },
-    getPdfUploadFunc() {
-      return LessonsApi.pdf;
-    },
-    onPdfUpload(file) {
-      console.log(file);
-      if(file.success){
-
-        this.pdfPath = file.response.data.path;
-        this.words = file.response.data.words;
-      }
+      this.create(postData);
     },
     onSelectTeachers(value) {
       this.teachers = value;
     },
   },
-  mounted() {
-    // UsersApi.getPage({ role: 'teacher'})
-  },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.create-lesson{
+  &__teacher-list-label{
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 45px;
+    margin-bottom: 17px;
+  }
+}
 </style>
