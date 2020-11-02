@@ -34,7 +34,8 @@
           class="login__btn"
           size="x-large"
           color="primary"
-          @click="() => handleSubmit(signIn)"
+          @click="() => handleSubmit(() => signIn(form))"
+          :loading="loading"
         >
           Log in
         </UBtn>
@@ -53,7 +54,7 @@ import UTextField from '@/components/common/UTextField.vue';
 import UCheckbox from '@/components/common/UCheckbox.vue';
 import UBtn from '@/components/common/UBtn.vue';
 import SocialsAuth from '@/components/partials/SocialsAuth';
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
 
@@ -70,6 +71,9 @@ export default {
     UBtn,
     UCheckbox,
     SocialsAuth
+  },
+  computed: {
+    ...mapGetters('Auth', ['loading'])
   },
   methods: {
     ...mapActions('Auth', ['login']),

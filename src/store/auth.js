@@ -9,7 +9,8 @@ export default {
 	namespaced: true,
 	state: {
 		user: null,
-		loading: false
+		loading: false,
+		userIsFetching: false
 	},
 	mutations: {
 		SET_USER(state, user){
@@ -17,6 +18,9 @@ export default {
 		},
 		SET_LOADING(state, loading){
 			state.loading = loading;
+		},
+		SET_USER_FETCHING(state, isFetching){
+			state.userIsFetching = isFetching;
 		}
 	},
 	actions: {
@@ -24,14 +28,14 @@ export default {
 			if(!cookie.get('YTT_JWT'))
 				return;
 			
-			commit('SET_LOADING', true);
+			commit('SET_USER_FETCHING', true);
 			try {
 				const res = await axios.get('/user');
 				commit('SET_USER', res.data)
 			} catch(err){
 				console.error(err);
 			}
-			commit('SET_LOADING', false);
+			commit('SET_USER_FETCHING', false);
 		},
 		logout({ commit }){
 			const clearAuthData = () => {
@@ -46,11 +50,13 @@ export default {
 				.catch(clearAuthData);
 		},
 		login(context, credentials){
+			context.commit('SET_LOADING', true);
 			return new Promise((resolve, reject) => {
 				axios.post('/auth/login', credentials)
 					.then(res => processAuthResponse(context, res.data))
 					.then(resolve)
 					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => context.commit('SET_LOADING', false))
 			});
 			
 		},
@@ -77,7 +83,9 @@ export default {
 		}
 	},
 	getters: {
-		user: state => state.user
+		user: state => state.user,
+		loading: state => state.loading,
+		userIsFetching: state => state.userIsFetching
 	}
 }
 
