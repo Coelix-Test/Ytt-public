@@ -13,9 +13,7 @@
           <!-- search -->
         </div>
         <div class="u-col-12">
-          <u-card class="table-card u-mt-10">
-
-          </u-card>
+          <WordsSlider></WordsSlider>
         </div>
       </div>
     </div>
@@ -25,12 +23,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { STUDENT } from '@/constants/roles';
-import UCard from '@/components/common/UCard';
+
+import WordsSlider from "@/components/lessons/WordsSlider";
 
 
 export default {
   components: {
-    UCard,
+    WordsSlider,
   },
   data: () => ({
     selectedStudents: [],
