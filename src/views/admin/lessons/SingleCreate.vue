@@ -89,9 +89,6 @@ export default {
     ...mapActions('Lessons', {
       create : 'createLesson'
     }),
-    validate() {
-      this.createSingle();
-    },
     collectPostData() {
 
       let postData = {
