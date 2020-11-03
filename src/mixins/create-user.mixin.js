@@ -1,7 +1,7 @@
 import UTextField from '@/components/common/UTextField';
 import FileUpload from '@/components/common/FileUpload/FileUpload';
 
-import { LessonsApi, UsersApi } from '@/api';
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   data: () => ({
@@ -18,33 +18,47 @@ export default {
     UTextField,
     FileUpload,
   },
+  computed: {
+    ...mapGetters('Users', ['loading'])
+  },
   methods: {
-    validate(){
-      this.submit();
-    },
+    ...mapActions('Users', {
+      create : 'create'
+    }),
     collectPostData(){
-      let formData = new FormData();
-      formData.append('name', this.name);
-      formData.append('phone', this.phone);
-      formData.append('email', this.email);
-      formData.append('city', this.city);
-      formData.append('password', this.password);
-      formData.append('password_confirmation', this.repeatPassword);
-      formData.append('role', this.role);
+      let formData = {
+        name: this.name,
+        phone: this.phone,
+        email: this.email,
+        city: this.city,
+        password: this.password,
+        password_confirmation: this.repeatPassword,
+        role: this.role
+      };
 
       if(this.avatar){
-        console.log('collectPostData file ', this.avatar.file);
-        formData.append('avatar', this.avatar.file);
+        formData.avatar = this.avatar;
       }
 
       return formData;
     },
     submit(){
       let data = this.collectPostData();
-      UsersApi.create(data).then(response => {
-        console.log(response);
-      });
-      console.log(data);
+      this.create(data)
+          .then(() => {
+            this.$router.push({ name: 'admin-users-all' });
+            this.$notify({
+              title: 'User successfully created!',
+              type: 'success'
+            });
+          })
+          .catch(({ message }) => {
+            this.$notify({
+              title: 'User creation error',
+              text: message,
+              type: 'error'
+            });
+          });
     },
     
   }

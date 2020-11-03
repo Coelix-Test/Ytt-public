@@ -8,16 +8,20 @@
       :for="uuid"
     >
       <template v-if="!hasValue">
-        <svg
-          v-svg
-          symbol="plus"
-        >
-        </svg>
-        <span class="file-upload__label-text">
-          Add files
-        </span>
+        <slot name="default-label">
+          <div class="file-upload__label-inner">
+            <svg
+              v-svg
+              symbol="plus"
+            >
+            </svg>
+            <span class="file-upload__label-text">
+              Add file
+            </span>
+          </div>
+        </slot>
       </template>
-      <template v-else>
+      <div v-else class="file-upload__label-inner">
         <svg
           v-if="hasPdf"
           v-svg
@@ -25,13 +29,14 @@
         ></svg>
         <div
           class="file-upload__image-preview"
+          :style="{ 'background-image': `url(${imagePreview})` }"
           v-if="hasImage"
         ></div>
 
         <span class="file-upload__label-text">
           {{value.name}}
         </span>
-      </template>
+      </div>
     </label>
     <div class="file-upload__messages">{{error}}</div>
     <input
@@ -50,6 +55,7 @@ import UUID from '@/mixins/uuid.mixin';
 export default {
   mixins: [ UUID ],
   data: () => ({
+    imagePreview: null,
   }),
   props: {
     apiFunc: {
@@ -92,17 +98,18 @@ export default {
   },
   methods: {
     onSelectFile(event){
-      console.log(event.target.files[0]);
+
       if(this.multiple){
-        //
+        this.$emit('input', event.target.files);
       }
       else{
         this.$emit('input', event.target.files[0]);
+        const reader = new FileReader
+        reader.onload = e => {
+          this.imagePreview = e.target.result
+        }
+        reader.readAsDataURL(event.target.files[0]);
       }
-    },
-    handleProgress(progressEvent){
-      // console.log(progressEvent);
-      this.percent = Math.ceil(progressEvent.loaded / progressEvent.total * 100);
     },
   },
 
@@ -115,6 +122,9 @@ export default {
 .file-upload{
   &__label{
     cursor: pointer;
+
+  }
+  &__label-inner{
     height: 60px;
     border-radius: 62px;
     display: inline-flex;
@@ -148,10 +158,12 @@ export default {
     position: absolute;
     left: 0;
     border-radius: 50%;
+    background-size: cover;
+    background-position: center;
   }
 
   &_value_none{
-    .file-upload__label{
+    .file-upload__label-inner{
       border: 1px solid $clr-blue;
       svg{
         fill: none;
@@ -163,7 +175,7 @@ export default {
     }
   }
   &_value_pdf{
-    .file-upload__label{
+    .file-upload__label-inner{
       svg{
         width: 25px;
         height: 26px;
@@ -171,9 +183,16 @@ export default {
       }
     }
   }
+
+  &_value_image{
+    .file-upload__label-inner {
+      padding-left: 70px;
+    }
+  }
+
   &_value_pdf,
   &_value_image{
-    .file-upload__label {
+    .file-upload__label-inner {
       box-shadow: 0px 12px 66px rgba(0, 0, 0, 0.03);
     }
   }

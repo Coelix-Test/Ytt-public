@@ -18,20 +18,21 @@ export default {
         },
     },
     actions: {
-        async createLesson(context, lesson){
+        createLesson(context, lesson){
 
-            // context.commit();
+            context.commit('SET_LOADING', true);
 
             const lessonData = new FormData();
             for(let field in lesson){
                 lessonData.append(field, lesson[field]);
             }
-
-            axios.post('/admin/lessons', lessonData)
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(console.error);
+    
+            return new Promise((resolve, reject) => {
+                axios.post('/admin/lessons', lessonData)
+                  .then(resolve)
+                  .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+                  .then(() => context.commit('SET_LOADING', false))
+            });
         },
         async fetchLessonList({ commit }, role){
             const roleMap = {
