@@ -1,11 +1,14 @@
 <template>
-  <div>
+  <div
+    :class="classes"
+    >
     <div class='u-tabs__header'>
       <div
         v-for="(tab, index) in tabs"
         :key="tab.label"
         class="u-tabs__tab"
-        @click="selectTab(index)"
+        :class="{ 'u-tabs__tab_active' : index === selectedIndex }"
+        @click="handleTabClick(index)"
       >
         {{ tab.label }} 
       </div>
@@ -21,6 +24,18 @@ export default {
     tabs: [],
   }),
   props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    }
+  },
+  computed: {
+    classes(){
+      return {
+        'u-tabs' : true,
+        'u-tabs_disabled' : this.disabled,
+      }
+    }
   },
   methods: {
     selectTab (i) {
@@ -29,6 +44,11 @@ export default {
       this.tabs.forEach((tab, index) => {
         tab.isActive = (index === i);
       })
+    },
+    handleTabClick(tabIndex){
+      if(!this.disabled){
+        this.selectTab(tabIndex);
+      }
     }
   },
   watch: {
@@ -45,6 +65,44 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "@/styles/vars";
 
+.u-tabs{
+  &__header{
+    display: flex;
+    width: 100%;
+  }
+  &__tab{
+    flex-grow: 1;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 40px;
+    text-align: center;
+
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    color: rgba(0,0,0,.2);
+    cursor: pointer;
+    position: relative;
+    &_active{
+      color: #000;
+      &:before{
+        content: '';
+        height: 3px;
+        background-color: $clr-blue;
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+      }
+    }
+  }
+
+  &_disabled{
+    .u-tabs__tab{
+      cursor: default;
+    }
+  }
+}
 </style>

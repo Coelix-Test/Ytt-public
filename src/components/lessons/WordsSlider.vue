@@ -1,21 +1,19 @@
 <template>
-  <UCard class="words-slider">
+  <UCard class="words-slider" v-if="words.length">
     <div class="words-slider__inner">
-      <div class="words-slider__list">
-        <transition
-          tag="div"
-          name="slide-fade"
-          mode="out-in"
+      <transition-group
+        tag="div"
+        name="slide-carousel"
+        class="words-slider__list"
+      >
+        <div
+          class="words-slider__slide"
+          v-for="slide in computedSlides"
+          :key="slide.id"
         >
-          <div
-            class="words-slider__slide"
-
-            :key="currentSlide.id"
-          >
-            <img :src="currentSlide.image" alt="">
-          </div>
-        </transition>
-      </div>
+          <img :src="slide.image" alt="">
+        </div>
+      </transition-group>
 
       <div class="words-slider__prev" @click="prevSlide"></div>
       <div class="words-slider__next" @click="nextSlide"></div>
@@ -47,16 +45,14 @@ export default {
   components: {
     UCard,
   },
+  props: {
+    words: {
+      type: Array,
+      default: () => [],
+    }
+  },
   data: () => ({
-    words: [
-      {id: 1, image: 'https://picsum.photos/id/1000/1040/490'},
-      {id: 2, image: 'https://picsum.photos/id/1001/1040/490'},
-      {id: 3, image: 'https://picsum.photos/id/1002/1040/490'},
-      {id: 4, image: 'https://picsum.photos/id/1003/1040/490'},
-      {id: 5, image: 'https://picsum.photos/id/1004/1040/490'},
-      {id: 6, image: 'https://picsum.photos/id/1005/1040/490'},
-    ],
-    currentIndex: 1,
+    currentIndex: 0,
   }),
   computed: {
     progressBarStyle(){
@@ -67,15 +63,24 @@ export default {
     currentSlide(){
       return this.words.find((el, index) => index === this.currentIndex);
     },
+    computedSlides(){
+
+      let slidesToPlaceInEnd = this.words.slice(0, this.currentIndex);
+      let slidesToPlaceInStart = this.words.slice(this.currentIndex);
+
+      return slidesToPlaceInStart.concat(slidesToPlaceInEnd);
+    },
   },
   methods: {
     prevSlide(){
+
       if(this.currentIndex !== 0){
         this.currentIndex--;
       }
     },
     nextSlide(){
-      if(this.currentIndex !== this.words.length){
+
+      if(this.currentIndex !== this.words.length - 1){
         this.currentIndex++;
       }
     }
@@ -93,12 +98,21 @@ export default {
     position: relative;
   }
 
-  .slide-fade-enter-active, .slide-fade-leave-active {
-    transition: opacity .3s ease;
+  &__list{
+    display: flex;
+    justify-content: flex-start;
+    //justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    min-height: 490px;
   }
-  .slide-fade-enter, .slide-fade-leave-to{
-    opacity: 0;
+  &__slide{
+    flex: 0 0 100%;
+    min-height: 490px;
+
+    transition: transform 0.3s ease-in-out;
   }
+
 
   &__prev,
   &__next{
