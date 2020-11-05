@@ -1,6 +1,6 @@
 import Lessons from '@/views/teacher/lessons/Lessons';
-import StudentLessonsList from '@/views/student/lessons/StudentLessonsList';
-import StudentPassLesson from '@/views/student/lessons/StudentPassLesson';
+import StudentLessonsList from '@/views/student/lessons/LessonsList';
+import StudentPassLesson from '@/views/student/lessons/PassLesson';
 
 export default {
     path: 'lessons',

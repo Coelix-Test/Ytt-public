@@ -1,6 +1,7 @@
 
 let _mediaRecorder,
-		_record;
+		_record,
+		_listeners = [];
 const _audioChunks = [];
 
 const recorderIsInitialized = () => {
@@ -8,10 +9,18 @@ const recorderIsInitialized = () => {
 		throw new Error(`Media recorder didn't initialized`);
 };
 
+const emitStatusChangeEvent = status => {
+	for(const listener of _listeners)
+		listener(status);
+}
+
 class AudioRecorder{
 	
 	get record(){
 		return _record;
+	}
+	get status(){
+		return _mediaRecorder ? _mediaRecorder.state : '';
 	}
 	
 	constructor() {
@@ -22,9 +31,8 @@ class AudioRecorder{
 					_audioChunks.push(event.data);
 				});
 				_mediaRecorder.addEventListener('stop', () => {
-					_record = new Blob(_audioChunks,{ type: 'audio/mpeg-3' });
-					_record.name = 'record.mp3';
-					_record.lastModifiedDate = new Date();
+					_record = new Blob(_audioChunks,{ type: 'audio/mpeg' });
+					emitStatusChangeEvent(_mediaRecorder.state);
 				});
 				
 			})
@@ -34,11 +42,19 @@ class AudioRecorder{
 	start(){
 		recorderIsInitialized();
 		_mediaRecorder.start();
+		emitStatusChangeEvent(_mediaRecorder.state);
 	}
 	
 	stop(){
 		recorderIsInitialized();
 		_mediaRecorder.stop();
+	}
+	
+	onStatusChanged(cb){
+		if(typeof cb !== 'function')
+			throw new TypeError(`Listener have to be type of function, given type ${typeof cb}`)
+		
+		_listeners.push(cb);
 	}
 	
 	

@@ -1,5 +1,5 @@
 import Lessons from '@/views/teacher/lessons/Lessons';
-import TeacherLessonsList from '@/views/teacher/lessons/TeacherLessonsList';
+import TeacherLessonsList from '@/views/teacher/lessons/LessonsList';
 import SingleView from "@/views/teacher/lessons/SingleView";
 
 export default {

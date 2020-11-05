@@ -52,7 +52,6 @@
 import UCard from '@/components/common/UCard.vue';
 import UTextField from '@/components/common/UTextField.vue';
 import UCheckbox from '@/components/common/UCheckbox.vue';
-import UBtn from '@/components/common/UBtn.vue';
 import SocialsAuth from '@/components/partials/SocialsAuth';
 import { mapActions, mapGetters } from 'vuex'
 
@@ -71,7 +70,6 @@ export default {
   components: {
     UCard,
     UTextField,
-    UBtn,
     UCheckbox,
     SocialsAuth
   },

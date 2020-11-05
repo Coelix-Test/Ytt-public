@@ -17,6 +17,9 @@
 
           </u-card>
         </div>
+        <div class="u-col-12">
+          <UAudioRecorder/>
+        </div>
       </div>
     </div>
   </div>
@@ -26,11 +29,13 @@
 import { mapActions, mapGetters } from 'vuex';
 import { STUDENT } from '@/constants/roles';
 import UCard from '@/components/common/UCard';
+import UAudioRecorder from '@/components/common/UAudioRecorder';
 
 
 export default {
   components: {
     UCard,
+    UAudioRecorder
   },
   data: () => ({
     selectedStudents: [],
@@ -65,7 +70,7 @@ export default {
   mounted(){
     // this.getItems();
     this.fetchLessonList(STUDENT);
-  },
+  }
 }
 </script>
 
