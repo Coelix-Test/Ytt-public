@@ -9,6 +9,7 @@ import Auth from '@/store/auth';
 // import WindowWidth from '@/store/window-width.store';
 import Lessons from '@/store/lessons';
 import Users from '@/store/users';
+import Students from '@/store/students';
 import Words from '@/store/words';
 
 export default new Vuex.Store({
@@ -30,6 +31,7 @@ export default new Vuex.Store({
     Auth,
     Lessons,
     Users,
+    Students,
     Words,
   }
 })

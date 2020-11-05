@@ -1,6 +1,7 @@
 import Teacher from '@/views/teacher/Teacher';
 
 import lessons from './lessons';
+import students from './students';
 
 import { TEACHER } from '@/constants/roles';
 import routesExtendMeta from '@/router/routesExtendMeta';
@@ -15,7 +16,8 @@ const routes = {
 		roleAccess: TEACHER
 	},
 	children: [
-		lessons
+		lessons,
+		students,
 	]
 };
 

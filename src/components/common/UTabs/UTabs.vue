@@ -7,7 +7,7 @@
         v-for="(tab, index) in tabs"
         :key="tab.label"
         class="u-tabs__tab"
-        :class="{ 'u-tabs__tab_active' : index === selectedIndex }"
+        :class="{ 'u-tabs__tab_active' : index === value }"
         @click="handleTabClick(index)"
       >
         {{ tab.label }} 
@@ -20,14 +20,17 @@
 <script>
 export default {
   data: () => ({
-    selectedIndex: 0,
     tabs: [],
   }),
   props: {
     disabled: {
       type: Boolean,
       default: false,
-    }
+    },
+    value: {
+      required: true,
+      default: null,
+    },
   },
   computed: {
     classes(){
@@ -39,19 +42,22 @@ export default {
   },
   methods: {
     selectTab (i) {
-      this.selectedIndex = i;
       
       this.tabs.forEach((tab, index) => {
         tab.isActive = (index === i);
-      })
+      });
     },
     handleTabClick(tabIndex){
       if(!this.disabled){
         this.selectTab(tabIndex);
+        this.$emit('input', tabIndex);
       }
     }
   },
   watch: {
+    value(newValue, oldValue){
+      this.selectTab(newValue);
+    }
   },
   mounted () {
     this.selectTab(0)

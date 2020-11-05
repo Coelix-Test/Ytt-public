@@ -17,6 +17,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     outlined: {
       type: Boolean,
       default: false,
@@ -55,6 +59,7 @@ export default {
       return {
         'u-btn' : true,
         'u-btn_block' : this.block,
+        'u-btn_disabled' : this.disabled,
         'u-btn_outlined' : this.outlined,
         [ `u-btn_size_${this.size}` ] : true,
         [ `u-btn_color_${this.color}` ] : true,
@@ -157,6 +162,7 @@ export default {
 
   &_disabled{
     opacity: .3;
+    cursor: default;
   }
 
   &_theme-dark{
@@ -220,6 +226,19 @@ export default {
     background-color: $clr-grey2;
   }
 
+  &_color_error{
+    color: #fff;
+    color: $clr-error;
+  }
+  &_color_success{
+    color: #fff;
+    color: $clr-success;
+  }
+  &_color_warning{
+    color: #000;
+    color: $clr-warning;
+  }
+
   &_outlined{
     background-color: transparent;
     border: 1px solid;
@@ -251,6 +270,34 @@ export default {
       }
       &:active{
         background-color: rgba($clr-grey2, .17);
+      }
+    }
+
+    &.u-btn_color_success{
+      color: $clr-success;
+      &:hover{
+        background-color: rgba($clr-success, .06);
+      }
+      &:active{
+        background-color: rgba($clr-success, .17);
+      }
+    }
+    &.u-btn_color_warning{
+      color: $clr-warning;
+      &:hover{
+        background-color: rgba($clr-warning, .06);
+      }
+      &:active{
+        background-color: rgba($clr-warning, .17);
+      }
+    }
+    &.u-btn_color_error{
+      color: $clr-error;
+      &:hover{
+        background-color: rgba($clr-error, .06);
+      }
+      &:active{
+        background-color: rgba($clr-error, .17);
       }
     }
 

@@ -80,6 +80,13 @@ export default {
           icon: 'icon-file',
           active: true,
         },
+        {
+          id: 2,
+          text: 'Students',
+          to: {name: 'teacher-students-all'},
+          icon: 'icon-user-group',
+          active: false,
+        },
       ],
       [STUDENT]: [
         {

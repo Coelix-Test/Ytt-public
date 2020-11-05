@@ -14,7 +14,7 @@ export default {
         {
             path: ':id',
             component: SingleView,
-            name: 'admin-lessons-view',
+            name: 'teacher-lessons-view',
         },
     ]
 }
