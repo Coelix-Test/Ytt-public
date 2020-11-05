@@ -6,7 +6,7 @@
     <div class="c-nav-header__nav-outer u-flex">
       <div class="c-nav-header__nav-wrap u-flex is-align-center">
         <div class="c-nav-header__menu d-flex">
-          <router-link class="c-nav-header__menu__item" 
+          <router-link class="c-nav-header__menu__item"
             v-for="item in navItems"
             :key="item.id"
             :to="item.to"
@@ -28,18 +28,16 @@
       </div>
     </div>
 
-    
-    
+
+
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex';
-import UBtn from "@/components/common/UBtn";
 
 export default {
   components: {
-    UBtn,
   },
   data: () => ({
     navItems: [

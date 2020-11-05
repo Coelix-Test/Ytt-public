@@ -1,6 +1,5 @@
 <template>
   <div>
-
      <div class="u-container u-ml-auto u-mr-auto u-pt-9">
       <div class="u-row">
         <div class="u-col-7">
@@ -28,12 +27,12 @@
               <thead>
                 <tr>
                   <template v-for="(column, index) in columns">
-                    <th 
+                    <th
                       v-if="index == 1"
                       :key="index"
-                      class="u-text-center" 
+                      class="u-text-center"
                     >{{column.text}}</th>
-                    <th 
+                    <th
                       v-else
                       :key="index"
                     >{{column.text}}</th>
@@ -76,7 +75,7 @@
       </div>
     </div>
 
-    <select-teacher 
+    <select-teacher
       v-model="selectedTeachers"
       @save="shareLessonToTeacher"
       multiple
@@ -94,7 +93,7 @@ import SelectTeacher from '@/components/modals/SelectTeacher';
 export default {
   components: {
     UCard,
-    SelectTeacher,
+    SelectTeacher
   },
   data: () => ({
     items: [],
@@ -119,7 +118,7 @@ export default {
     ],
   }),
   computed: {
-    
+
   },
   methods: {
     getItems(){

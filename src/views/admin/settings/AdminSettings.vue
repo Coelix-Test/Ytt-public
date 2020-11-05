@@ -33,12 +33,10 @@
 
 <script>
 import UCard from '@/components/common/UCard';
-import UBtn from "@/components/common/UBtn";
 
 export default {
   components: {
-    UCard,
-    UBtn,
+    UCard
   }
 }
 </script>

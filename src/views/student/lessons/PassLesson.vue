@@ -30,6 +30,9 @@
           </UTabs>
 
         </div>
+        <div class="u-col-12">
+          <UAudioRecorder/>
+        </div>
       </div>
     </div>
   </div>
@@ -43,6 +46,7 @@ import WordsView from "@/components/lessons/WordsView";
 
 import UTabs from '@/components/common/UTabs/UTabs';
 import UTab from '@/components/common/UTabs/UTab';
+import UAudioRecorder from '@/components/common/UAudioRecorder';
 
 
 export default {
@@ -50,6 +54,7 @@ export default {
     WordsView,
     UTabs,
     UTab,
+    UAudioRecorder
   },
   data: () => ({
 
@@ -85,7 +90,7 @@ export default {
   mounted(){
     // this.getItems();
     this.fetchLessonList(STUDENT);
-  },
+  }
 }
 </script>
 

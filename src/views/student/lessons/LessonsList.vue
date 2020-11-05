@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="u-container u-ml-auto u-mr-auto u-pt-9">
       <div class="u-row">
         <div class="u-col-7">
@@ -67,13 +66,12 @@
 import { mapActions, mapGetters } from 'vuex';
 import { STUDENT } from '@/constants/roles';
 import UCard from '@/components/common/UCard';
-import UBtn from '@/components/common/UBtn';
+
 
 
 export default {
   components: {
-    UCard,
-    UBtn
+    UCard
   },
   data: () => ({
     selectedStudents: [],
@@ -100,11 +98,11 @@ export default {
     ...mapGetters('Lessons', ['lessonsList'])
   },
   methods: {
-    ...mapActions('Lessons', ['fetchLessonList']),
+    ...mapActions('Lessons', ['fetchLessonList'])
   },
   mounted(){
     this.fetchLessonList(STUDENT);
-  },
+  }
 }
 </script>
 
