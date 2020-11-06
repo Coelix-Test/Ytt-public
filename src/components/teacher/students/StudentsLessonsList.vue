@@ -32,7 +32,6 @@
           {{item.title}}
         </td>
         <td class="u-font-weight-light u-text-center">{{item.words_count}} pages</td>
-        <td class="u-font-weight-light u-text-center">John Smith</td>
         <td class="u-font-weight-light u-text-center edit-col">
           <router-link
             tag="div"
@@ -55,7 +54,7 @@
               width="180"
               size="small"
               color="blue"
-              v-if="status === 1"
+              v-if="item.status === 'in_review'"
             >
               New answer
             </UBtn>
@@ -64,7 +63,7 @@
               size="small"
               color="success"
               outlined
-              v-if="status === 2"
+              v-if="item.status === 'complete'"
             >
               Passed
             </UBtn>
@@ -73,18 +72,9 @@
               size="small"
               color="warning"
               outlined
-              v-if="status === 3"
+              v-if="item.status === 'new'"
             >
               In progress
-            </UBtn>
-            <UBtn
-              width="180"
-              size="small"
-              color="error"
-              outlined
-              v-if="status === 4"
-            >
-              Failed
             </UBtn>
           </div>
         </td>
@@ -108,18 +98,13 @@ export default {
     columns: [
       {
         text: 'Name',
-        value: 'name',
+        value: 'title',
         breakpoint: false,
         width: '33%',
       },
       {
         text: 'Pages',
         value: 'pages',
-        breakpoint: false,
-      },
-      {
-        text: 'Teacher',
-        value: 'teacherName',
         breakpoint: false,
       },
       {
@@ -140,12 +125,12 @@ export default {
     })
   },
   methods: {
-    ...mapActions('Lessons', {
-      fetchLessonList : 'fetchStudentsLessonsByTeacher',
-    }),
+    // ...mapActions('Lessons', {
+    //   fetchLessonList : 'fetchStudentsLessonsByTeacher',
+    // }),
   },
   mounted(){
-    this.fetchLessonList(this.$route.params.id);
+    // this.fetchLessonList(this.$route.params.id);
   }
 }
 </script>

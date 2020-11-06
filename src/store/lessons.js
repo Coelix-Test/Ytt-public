@@ -17,7 +17,7 @@ export default {
             state.lessonsList = payload;
         },
         SET_LESSON(state, payload){
-            state.lessons = payload;
+            state.lesson = payload;
         },
     },
     actions: {
@@ -44,8 +44,9 @@ export default {
             return new Promise((resolve, reject) => {
                 axios.get(`/${ROLE_MAP[role]}/lessons/${id}`)
                     .then(response => {
+                        let lesson = response.data;
 
-                        commit('SET_LESSON', response.data)
+                        commit('SET_LESSON', lesson);
                     })
                     .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
                     .then(() => commit('SET_LOADING', false))
@@ -102,5 +103,26 @@ export default {
         lessonsList: state => state.lessonsList,
         loading: state => state.loading,
         lesson: state => state.lesson,
+        words: state => {
+            let words = [];
+            if(state.lesson && state.lesson.words){
+                words = state.lesson.words;
+            }
+            return words;
+        },
+        knownWords: state => {
+            let words = [];
+            if(state.lesson && state.lesson.words){
+                words = state.lesson.words.filter(item => item.is_known);
+            }
+            return words;
+        },
+        unknownWords: state => {
+            let words = [];
+            if(state.lesson && state.lesson.words){
+                words = state.lesson.words.filter(item => !item.is_known);
+            }
+            return words;
+        },
     },
 }

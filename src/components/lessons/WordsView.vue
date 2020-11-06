@@ -34,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('Words', [
+    ...mapGetters('Lessons', [
       'words', 'knownWords', 'unknownWords'
     ]),
     displayWords(){
@@ -52,8 +52,8 @@ export default {
       return this.words.map(item => {
         return {
           id: item.id,
-          image: item.image,
-          disabled: item.known !== this.displayKnown
+          url: item.url,
+          disabled: item.is_known !== this.displayKnown
         }
       })
     }

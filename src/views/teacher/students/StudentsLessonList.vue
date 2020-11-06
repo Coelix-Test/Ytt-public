@@ -4,25 +4,46 @@
       <div class="teacher-students-lessons-list-view__header">
         <div class="u-text-h2">
           Lessons of
-          <span class="teacher-students-lessons-list-view__student-name">Patrik Smith</span>
+          <span class="teacher-students-lessons-list-view__student-name">{{ username }}</span>
         </div>
       </div>
     </div>
 
-    <StudentsLessionsList></StudentsLessionsList>
+    <StudentsLessonsList></StudentsLessonsList>
   </ContentContainer>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import ContentContainer from "@/components/common/ContentContainer";
-import StudentsLessionsList from "@/components/teacher/students/StudentsLessionsList";
+import StudentsLessonsList from "@/components/teacher/students/StudentsLessonsList";
+import {TEACHER} from "@/constants/roles";
 
 //TODO: load student and display his name dynamically
 
 export default {
   components: {
     ContentContainer,
-    StudentsLessionsList,
+    StudentsLessonsList,
+  },
+  computed: {
+    ...mapGetters('Students', ['student']),
+    username(){
+      let username = ''
+      if(this.student){
+        username = this.student.name || this.student.email;
+      }
+      return username;
+    },
+  },
+  methods: {
+    ...mapActions('Students', ['fetchStudent']),
+  },
+  mounted(){
+    this.fetchStudent({
+      id: this.$route.params.id,
+      role: TEACHER,
+    });
   }
 }
 </script>

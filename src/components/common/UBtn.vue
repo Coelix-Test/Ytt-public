@@ -79,6 +79,9 @@ export default {
     changeRoute(){
       this.$router.push(this.to);
     },
+    preventClick(event){
+      event.preventDefault();
+    }
   },
   render: function(createElement){
 
@@ -86,7 +89,10 @@ export default {
     let eventHandlers = {};
     let style = {};
 
-    if(this.isRoutable){
+    if(this.disabled || this.loading){
+      eventHandlers.click = this.preventClick;
+    }
+    else if(this.isRoutable){
       eventHandlers.click = this.changeRoute;
     }
 

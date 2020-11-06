@@ -11,7 +11,7 @@
           v-for="slide in computedSlides"
           :key="slide.id"
         >
-          <img :src="slide.image" alt="">
+          <img class="words-slider__image" :src="slide.url" alt="">
         </div>
       </transition-group>
 
@@ -111,6 +111,11 @@ export default {
     min-height: 490px;
 
     transition: transform 0.3s ease-in-out;
+  }
+
+  &__image{
+    width: 100%;
+    height: auto;
   }
 
 

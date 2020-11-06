@@ -124,6 +124,13 @@ export default {
     this.fetchLesson({
       role: STUDENT,
       id: this.$route.params.id,
+    })
+    .catch(({ message }) => {
+      this.$notify({
+        title: 'Lesson load error',
+        text: message,
+        type: 'error'
+      });
     });
   }
 }
