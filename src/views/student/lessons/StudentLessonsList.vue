@@ -132,6 +132,7 @@ export default {
     },
   },
   mounted(){
+    console.log('here we go');
     this.getItems();
   },
 }

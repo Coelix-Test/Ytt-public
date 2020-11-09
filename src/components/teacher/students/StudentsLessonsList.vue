@@ -79,7 +79,7 @@
               size="small"
               color="warning"
               outlined
-              v-if="item.status === 'new'"
+              v-if="item.status === 'new' || item.status === 'in_progress'"
             >
               In progress
             </UBtn>

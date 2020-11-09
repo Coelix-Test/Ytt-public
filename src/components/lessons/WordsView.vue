@@ -56,7 +56,7 @@ export default {
       return this.words.map(item => {
         return {
           id: item.id,
-          url: item.url,
+          url: item.image_url,
           disabled: item.isKnown !== this.displayKnown
         }
       })

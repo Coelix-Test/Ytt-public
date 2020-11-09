@@ -43,20 +43,7 @@ export default {
             commit('SET_LOADING', true);
             return new Promise((resolve, reject) => {
                 axios.get(`/${ROLE_MAP[role]}/lessons/${id}`)
-                    .then(response => {
-                        let lesson = response.data;
-
-                        if( lesson.words && lesson.words.length){
-                            let words = lesson.words.map(item => {
-                                item.isKnown = !!item.is_known;
-                                return item;
-                            })
-                            commit('Words/SET_WORDS', words, { root: true });
-                            delete lesson.words;
-                        }
-
-                        commit('SET_LESSON', lesson);
-                    })
+                    .then(response => setFetchedLesson({ commit }, response.data))
                     .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
                     .then(() => commit('SET_LOADING', false))
             })
@@ -68,20 +55,7 @@ export default {
             commit('SET_LOADING', true);
             return new Promise((resolve, reject) => {
                 axios.get(`/teacher/students/${studentId}/lessons/${lessonId}`)
-                    .then(response => {
-                        let lesson = { ...response.data.lesson , record: response.data.record};
-
-                        if( lesson.words && lesson.words.length){
-                            let words = lesson.words.map(item => {
-                                item.isKnown = !!item.is_known;
-                                return item;
-                            })
-                            commit('Words/SET_WORDS', words, { root: true });
-                            delete lesson.words;
-                        }
-
-                        commit('SET_LESSON', lesson);
-                    })
+                    .then(response => setFetchedLesson({ commit }, response.data))
                     .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
                     .then(() => commit('SET_LOADING', false))
             })
@@ -159,4 +133,18 @@ export default {
             return words;
         },
     },
+}
+
+function setFetchedLesson({ commit }, lesson){
+
+    if( lesson.words && lesson.words.length){
+        let words = lesson.words.map(item => {
+            item.isKnown = !!item.is_known;
+            return item;
+        })
+        commit('Words/SET_WORDS', words, { root: true });
+        delete lesson.words;
+    }
+
+    commit('SET_LESSON', lesson);
 }

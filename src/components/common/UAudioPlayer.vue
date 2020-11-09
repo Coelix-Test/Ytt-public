@@ -1,10 +1,7 @@
 <template>
   <div>
-    <audio controls>
-      <source src="https://ia800905.us.archive.org/19/items/FREE_background_music_dhalius/backsound.mp3"  type="audio/mp3">
-    </audio>
-    <div style="width: 50px; height: 50px;"></div>
     <div class="audio-player">
+      <div class="dot"></div>
       <div class="controls">
         <div class="time">
           0:00
@@ -13,8 +10,12 @@
           <div class="progress"></div>
           <div class="track" @mousedown="startDrag"></div>
         </div>
+        <div class="speed-container">
+          <div class="toggle-speed active">x1.5</div>
+          <div class="toggle-speed">x2</div>
+        </div>
         <div class="play-container">
-          <div class="toggle-play play">
+          <div class="toggle-play play" ref="playBtn">
           </div>
         </div>
       </div>
@@ -25,6 +26,11 @@
 <script>
 export default {
   name: 'UAudioPlayer',
+  props: {
+    value: {
+      type: String,
+    }
+  },
   data: () => ({
     dragging: false,
     audio: null,
@@ -68,12 +74,22 @@ export default {
     refreshTimeline(){
       clearInterval(this.refreshTimelineInterval);
       this.refreshTimelineInterval = setInterval(() => {
-        console.log('INTERVAL: ', this.audio.currentTime);
+
+
         const progressBar = this.audioPlayer.querySelector(".progress");
         const track = this.audioPlayer.querySelector(".track");
-        progressBar.style.width = this.audio.currentTime / this.audio.duration * 100 + "%";
-        track.style.left = this.audio.currentTime / this.audio.duration * 100 + "%";
-        this.audioPlayer.querySelector(".time").textContent = this.getTimeCodeFromNum(this.audio.currentTime);
+        let currentTime = 0;
+        if(this.audio !== null){
+          currentTime = this.audio.currentTime;
+        }
+
+        if(this.audio !== null){
+          console.log('INTERVAL: ', currentTime);
+          progressBar.style.width = currentTime / this.audio.duration * 100 + "%";
+          track.style.left = currentTime / this.audio.duration * 100 + "%";
+          this.audioPlayer.querySelector(".time").textContent = this.getTimeCodeFromNum(currentTime);
+        }
+
       }, 100);
     },
     getTimeCodeFromNum(num){
@@ -87,6 +103,27 @@ export default {
       return `${String(hours).padStart(2, 0)}:${minutes}:${String(
           seconds % 60
       ).padStart(2, 0)}`;
+    },
+    initAudio(url){
+      this.refreshTimeline();
+      this.audio = new Audio(url);
+      this.audio.addEventListener(
+        "loadeddata",
+        () => {
+          this.audioPlayer.querySelector(".time").textContent = this.getTimeCodeFromNum(this.audio.duration);
+          this.audio.volume = .75;
+        }
+      );
+    }
+  },
+  watch: {
+    value(newValue) {
+      if(this.audio !== null && !this.audio.paused ){
+        this.audio.pause();
+        this.$refs.playBtn.classList.remove("pause");
+        this.$refs.playBtn.classList.add("play");
+      }
+      this.initAudio(newValue);
     }
   },
   mounted() {
@@ -95,17 +132,7 @@ export default {
     window.addEventListener('mousemove', this.doDrag);
     const audioPlayer = document.querySelector(".audio-player");
     this.audioPlayer = audioPlayer;
-    const audio = new Audio("https://ia800905.us.archive.org/19/items/FREE_background_music_dhalius/backsound.mp3");
-    this.audio = audio;
-
-
-    audio.addEventListener(
-        "loadeddata",
-        () => {
-          audioPlayer.querySelector(".time").textContent = this.getTimeCodeFromNum(audio.duration);
-          audio.volume = .75;
-        }
-    );
+    this.initAudio(this.value);
 
     const timeline = audioPlayer.querySelector(".timeline");
     timeline.addEventListener("click", e => {
@@ -113,26 +140,27 @@ export default {
       const isTimeline = clickTargetClassList.contains('timeline') || clickTargetClassList.contains('progress');
       if(!isTimeline) return;
       const timelineWidth = window.getComputedStyle(timeline).width;
-      const timeToSeek = e.offsetX / parseInt(timelineWidth) * audio.duration;
+      const timeToSeek = e.offsetX / parseInt(timelineWidth) * this.audio.duration;
 
-      audio.currentTime = timeToSeek;
+      this.audio.currentTime = timeToSeek;
     });
 
 
 
-
-    const playBtn = audioPlayer.querySelector(".controls .toggle-play");
-    playBtn.addEventListener(
+    // const playBtn = audioPlayer.querySelector(".controls .toggle-play");
+    this.$refs.playBtn.addEventListener(
         "click",
         () => {
-          if (audio.paused) {
-            playBtn.classList.remove("play");
-            playBtn.classList.add("pause");
-            audio.play();
-          } else {
-            playBtn.classList.remove("pause");
-            playBtn.classList.add("play");
-            audio.pause();
+          if(this.audio !== null){
+            if (this.audio.paused) {
+              this.$refs.playBtn.classList.remove("play");
+              this.$refs.playBtn.classList.add("pause");
+              this.audio.play();
+            } else {
+              this.$refs.playBtn.classList.remove("pause");
+              this.$refs.playBtn.classList.add("play");
+              this.audio.pause();
+            }
           }
         },
         false
@@ -189,11 +217,40 @@ export default {
       border-radius: 50%;
     }
   }
+  .dot{
+    width: 6px;
+    height: 6px;
+    background-color: #fff;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .speed-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 20px 0 8px;
+  }
+  .toggle-speed{
+    font-size: 14px;
+    font-weight: 400;
+    opacity: .7;
+    transition: opacity .3s ease-in-out;
+    cursor: pointer;
+    &:first-child{
+      margin-bottom: 5px;
+    }
+    &.active{
+      font-weight: 500;
+      opacity: 1;
+    }
+  }
+
   .controls {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 10px;
 
     > * {
       display: flex;
@@ -205,37 +262,21 @@ export default {
         cursor: pointer;
         position: relative;
         left: 0;
-        height: 0;
-        width: 0;
-        border: 7px solid #0000;
-        border-left: 13px solid white;
+        height: 39px;
+        width: 30px;
+        background: url('~@/assets/svg/play.svg') no-repeat center;
+        background-size: contain;
         &:hover {
           transform: scale(1.1);
         }
       }
       &.pause {
-        height: 15px;
+        height: 27px;
         width: 20px;
         cursor: pointer;
         position: relative;
-        &:before {
-          position: absolute;
-          top: 0;
-          left: 0px;
-          background: white;
-          content: "";
-          height: 15px;
-          width: 3px;
-        }
-        &:after {
-          position: absolute;
-          top: 0;
-          right: 8px;
-          background: white;
-          content: "";
-          height: 15px;
-          width: 3px;
-        }
+        background: url('~@/assets/svg/pause.svg') no-repeat center;
+        background-size: contain;
         &:hover {
           transform: scale(1.1);
         }

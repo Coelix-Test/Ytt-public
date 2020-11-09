@@ -28,6 +28,11 @@
         </UTab>
       </UTabs>
 
+      <UAudioPlayer
+        class="teacher-check-lesson__audio-player"
+        :value="recordUrl">
+      </UAudioPlayer>
+
       <div class="teacher-check-lesson__controls">
         <UBtn
           class="teacher-check-lesson__control-btn"
@@ -66,6 +71,7 @@ import ContentContainer from "@/components/common/ContentContainer";
 
 import UTabs from '@/components/common/UTabs/UTabs';
 import UTab from '@/components/common/UTabs/UTab';
+import UAudioPlayer from "@/components/common/UAudioPlayer";
 import BackBtn from "@/components/common/BackBtn";
 
 export default {
@@ -78,6 +84,7 @@ export default {
     UTabs,
     UTab,
     BackBtn,
+    UAudioPlayer,
   },
   computed: {
     ...mapGetters('Lessons', {
@@ -87,6 +94,13 @@ export default {
     ...mapGetters('Words', {
       saveBtnLoading : 'loading',
     }),
+    recordUrl(){
+      let recordUrl = null;
+      if(this.lesson !== null && this.lesson.records.length){
+        recordUrl = this.lesson.records[0].url;
+      }
+      return recordUrl;
+    }
   },
   methods: {
     ...mapActions('Lessons', [
@@ -155,6 +169,12 @@ export default {
     .u-tabs__header{
       margin-bottom: 20px;
     }
+  }
+
+  &__audio-player{
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
   }
 
   &__controls{
