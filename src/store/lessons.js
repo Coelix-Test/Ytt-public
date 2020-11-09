@@ -46,6 +46,40 @@ export default {
                     .then(response => {
                         let lesson = response.data;
 
+                        if( lesson.words && lesson.words.length){
+                            let words = lesson.words.map(item => {
+                                item.isKnown = !!item.is_known;
+                                return item;
+                            })
+                            commit('Words/SET_WORDS', words, { root: true });
+                            delete lesson.words;
+                        }
+
+                        commit('SET_LESSON', lesson);
+                    })
+                    .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+                    .then(() => commit('SET_LOADING', false))
+            })
+
+        },
+
+        fetchStudentsLesson({ commit }, { studentId, lessonId}){
+
+            commit('SET_LOADING', true);
+            return new Promise((resolve, reject) => {
+                axios.get(`/teacher/students/${studentId}/lessons/${lessonId}`)
+                    .then(response => {
+                        let lesson = { ...response.data.lesson , record: response.data.record};
+
+                        if( lesson.words && lesson.words.length){
+                            let words = lesson.words.map(item => {
+                                item.isKnown = !!item.is_known;
+                                return item;
+                            })
+                            commit('Words/SET_WORDS', words, { root: true });
+                            delete lesson.words;
+                        }
+
                         commit('SET_LESSON', lesson);
                     })
                     .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
@@ -59,7 +93,10 @@ export default {
             commit('SET_LOADING', true);
             return new Promise((resolve, reject) => {
                 axios.get(`/${ROLE_MAP[role]}/lessons`)
-                  .then(response => commit('SET_LESSONS_LIST', response.data))
+                  .then(response => {
+                      commit('SET_LESSONS_LIST', response.data);
+                      resolve();
+                  })
                   .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
                   .then(() => commit('SET_LOADING', false))
             })
@@ -98,6 +135,17 @@ export default {
                     .then(() => context.commit('SET_LOADING', false));
             });
         },
+
+        completeLesson(context, { lessonId, studentId}){
+
+            context.commit('SET_LOADING', true);
+            return new Promise((resolve, reject) => {
+                axios.post(`/teacher/students/${studentId}/lessons/${lessonId}/complete`)
+                    .then(resolve)
+                    .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+                    .then(() => context.commit('SET_LOADING', false));
+            });
+        },
     },
     getters: {
         lessonsList: state => state.lessonsList,
@@ -107,20 +155,6 @@ export default {
             let words = [];
             if(state.lesson && state.lesson.words){
                 words = state.lesson.words;
-            }
-            return words;
-        },
-        knownWords: state => {
-            let words = [];
-            if(state.lesson && state.lesson.words){
-                words = state.lesson.words.filter(item => item.is_known);
-            }
-            return words;
-        },
-        unknownWords: state => {
-            let words = [];
-            if(state.lesson && state.lesson.words){
-                words = state.lesson.words.filter(item => !item.is_known);
             }
             return words;
         },

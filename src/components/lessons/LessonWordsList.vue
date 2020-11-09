@@ -4,8 +4,9 @@
       class="lesson-words-list__words-list-item"
       v-for="(item, index) in words"
       :key="item.id"
-      :index="index"
-      :image="item.image"
+      :index="index+1"
+      :id="item.id"
+      :image="item.url"
       :disabled="item.disabled"
       :has-controls="displayWordsControls"
     ></WordsListItem>

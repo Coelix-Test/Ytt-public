@@ -6,7 +6,7 @@
     ></WordsSlider>
     <LessonWordsList
       :words="filteredWords"
-      :display-words-controls="false"
+      :display-words-controls="displayWordsControls"
       v-else
     ></LessonWordsList>
   </div>
@@ -31,10 +31,14 @@ export default {
     displayKnown: {
       type: Boolean,
       default: true,
+    },
+    displayWordsControls: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
-    ...mapGetters('Lessons', [
+    ...mapGetters('Words', [
       'words', 'knownWords', 'unknownWords'
     ]),
     displayWords(){
@@ -53,7 +57,7 @@ export default {
         return {
           id: item.id,
           url: item.url,
-          disabled: item.is_known !== this.displayKnown
+          disabled: item.isKnown !== this.displayKnown
         }
       })
     }

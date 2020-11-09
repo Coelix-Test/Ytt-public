@@ -59,7 +59,7 @@ export default {
       return {
         'u-btn' : true,
         'u-btn_block' : this.block,
-        'u-btn_disabled' : this.disabled,
+        'u-btn_disabled' : this.disabled || this.loading,
         'u-btn_outlined' : this.outlined,
         [ `u-btn_size_${this.size}` ] : true,
         [ `u-btn_color_${this.color}` ] : true,
@@ -234,15 +234,15 @@ export default {
 
   &_color_error{
     color: #fff;
-    color: $clr-error;
+    background-color: $clr-error;
   }
   &_color_success{
     color: #fff;
-    color: $clr-success;
+    background-color: $clr-success;
   }
   &_color_warning{
     color: #000;
-    color: $clr-warning;
+    background-color: $clr-warning;
   }
 
   &_outlined{

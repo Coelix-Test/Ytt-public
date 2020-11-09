@@ -35,7 +35,7 @@
         <td class="u-font-weight-light u-text-center edit-col">
           <router-link
             tag="div"
-            :to="{ name: 'teacher-students-all' }"
+            :to="{ name: 'teacher-students-lesson-edit', params: {studentId: $route.params.id, lessonId: item.id } }"
             class="edit-col__inner"
           >
             Edit lesson
@@ -55,6 +55,13 @@
               size="small"
               color="blue"
               v-if="item.status === 'in_review'"
+              :to="{
+                name: 'teacher-students-lesson-check',
+                params: {
+                  studentId : $route.params.id,
+                  lessonId: item.id
+                }
+              }"
             >
               New answer
             </UBtn>
@@ -63,7 +70,7 @@
               size="small"
               color="success"
               outlined
-              v-if="item.status === 'complete'"
+              v-if="item.status === 'completed'"
             >
               Passed
             </UBtn>
