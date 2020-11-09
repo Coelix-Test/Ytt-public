@@ -1,5 +1,6 @@
 <template>
   <div>
+    <UAudioPlayer/>
      <div class="u-container u-ml-auto u-mr-auto u-pt-9">
       <div class="u-row">
         <div class="u-col-7">
@@ -86,6 +87,7 @@
 <script>
 import { LessonsApi } from '@/api';
 import UCard from '@/components/common/UCard';
+import UAudioPlayer from '@/components/common/UAudioPlayer';
 
 import SelectTeacher from '@/components/modals/SelectTeacher';
 
@@ -93,7 +95,8 @@ import SelectTeacher from '@/components/modals/SelectTeacher';
 export default {
   components: {
     UCard,
-    SelectTeacher
+    SelectTeacher,
+    UAudioPlayer
   },
   data: () => ({
     items: [],
