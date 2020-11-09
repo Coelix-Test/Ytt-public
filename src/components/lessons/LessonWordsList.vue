@@ -2,8 +2,13 @@
   <UCard class="lesson-words-list">
     <WordsListItem 
       class="lesson-words-list__words-list-item"
-      v-for="item in 45" :key="item"
-      :has-controls="false"
+      v-for="(item, index) in words"
+      :key="item.id"
+      :index="index+1"
+      :id="item.id"
+      :image="item.url"
+      :disabled="item.disabled"
+      :has-controls="displayWordsControls"
     ></WordsListItem>
   </UCard>
 </template>
@@ -13,6 +18,16 @@ import UCard from "@/components/common/UCard";
 import WordsListItem from "@/components/lessons/WordsListItem";
 
 export default {
+  props: {
+    words: {
+      type: Array,
+      default: () => [],
+    },
+    displayWordsControls: {
+      type: Boolean,
+      default: false,
+    }
+  },
   components: {
     UCard,
     WordsListItem,

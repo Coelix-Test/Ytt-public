@@ -12,6 +12,7 @@
         <button
           class="words-list-item__button words-list-item__button_eye"
           :class="eyeBtnClasses"
+          @click="toggleWord(id)"
         ></button>
         <button
           class="words-list-item__button words-list-item__button_check"
@@ -25,9 +26,15 @@
 </template>
 
 <script>
+import {mapMutations} from 'vuex';
+
 export default {
   props: {
     index: {
+      type: Number,
+      default: 1,
+    },
+    id: {
       type: Number,
       default: 1,
     },
@@ -64,6 +71,11 @@ export default {
         'words-list-item__button_active' : this.isLastWord,
       };
     }
+  },
+  methods: {
+    ...mapMutations('Words', {
+      toggleWord: 'TOGGLE_WORD',
+    })
   }
 }
 </script>

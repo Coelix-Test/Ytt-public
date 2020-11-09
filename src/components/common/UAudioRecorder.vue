@@ -36,6 +36,7 @@ export default {
       this.recordStatus = status;
       this.recordExists = Boolean(this.recorder.record);
       this.$emit('input', this.recorder.record);
+      this.$emit('status-change', this.recordStatus);
     },
     startRecord(){
       this.recorder.start();

@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { ADMIN, TEACHER, STUDENT } from '@/constants/roles';
 
 export default {
@@ -80,6 +80,13 @@ export default {
           icon: 'icon-file',
           active: true,
         },
+        {
+          id: 2,
+          text: 'Students',
+          to: {name: 'teacher-students-all'},
+          icon: 'icon-user-group',
+          active: false,
+        },
       ],
       [STUDENT]: [
         {
@@ -95,11 +102,18 @@ export default {
   computed: {
     ...mapGetters('Auth', ['user'])
   },
-  mounted(){
-    this.$store.commit('Application/setLeft', this.$refs.sidebar.offsetWidth);
-  },
   methods: {
-    ...mapActions('Auth', ['logout'])
+    ...mapActions('Auth', ['logout']),
+    ...mapMutations('Application', {
+      setAppLeft : 'setLeft'
+    }),
+  },
+  mounted(){
+    // this.$store.commit('Application/setLeft', this.$refs.sidebar.offsetWidth);
+    this.setAppLeft(this.$refs.sidebar.offsetWidth);
+  },
+  beforeDestroy() {
+    this.setAppLeft(0);
   }
 }
 </script>
