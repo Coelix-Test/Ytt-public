@@ -5,7 +5,10 @@
       <div class="u-text-h1">Lesson Name</div>
     </div>
 
-    <LessonWordsList class="view-lesson__lesson-words-list"></LessonWordsList>
+    <LessonWordsList
+      class="view-lesson__lesson-words-list"
+      :words="words"
+    ></LessonWordsList>
 
     <div class="view-lesson__download">
       <UBtn
@@ -29,6 +32,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import BackBtn from "@/components/common/BackBtn";
 import ContentContainer from "@/components/common/ContentContainer";
 import LessonWordsList from "@/components/lessons/LessonWordsList";
@@ -39,6 +43,19 @@ export default {
     BackBtn,
     LessonWordsList,
   },
+  computed: {
+    ...mapGetters('Auth', ['userRole']),
+    ...mapGetters('Words', ['words']),
+  },
+  methods: {
+    ...mapActions('Lessons', ['fetchLesson']),
+  },
+  mounted() {
+    this.fetchLesson({
+      role: this.userRole,
+      id: this.$route.params.id,
+    });
+  }
 }
 </script>
 

@@ -56,6 +56,7 @@
                       class="u-mr-9"
                       size="medium"
                       color="primary"
+                      :to="{name: 'admin-lessons-view', params: {id: item.id }}"
                     >
                       <span class="u-font-weight-regular">Edit lesson</span>
                     </UBtn>

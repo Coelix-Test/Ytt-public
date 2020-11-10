@@ -19,6 +19,15 @@ export default {
         SET_STUDENT(state, payload){
           state.student = payload;
         },
+        UPDATE_STUDENTS_LESSONS(state, {studentId, lessons}){
+            state.studentsList = state.studentsList.map(item => {
+                if(item.id === studentId){
+                    item.lessons = lessons;
+                    item.lessons_count = lessons.length;
+                }
+                return item;
+            });
+        }
     },
     actions: {
         fetchStudentsList(context, role){
@@ -52,7 +61,20 @@ export default {
                     .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
                     .then(() => commit('SET_LOADING', false))
             })
-        }
+        },
+
+        addAccessToLessons(context, { studentId, lessons }){
+            context.commit('SET_LOADING', true);
+            return new Promise((resolve, reject) => {
+                axios.post(`/teacher/students/${studentId}/lessons/access`, { lessons: lessons})
+                    .then((response) => {
+                        context.commit('UPDATE_STUDENTS_LESSONS', {studentId, lessons: response.data.lessons});
+                        resolve();
+                    })
+                    .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+                    .then(() => context.commit('SET_LOADING', false));
+            });
+        },
     },
     getters: {
         loading: state => state.loading,

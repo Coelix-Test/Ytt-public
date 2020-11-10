@@ -34,14 +34,18 @@ export default {
   methods: {
     ...mapActions('Students', {
       fetchStudents : 'fetchStudentsList',
+      addAccessToLessons: 'addAccessToLessons',
     }),
     openSelectLessonsModal(student){
       this.selectedStudent = student;
-      // this.selectedLessons = [ ...student.lessons ];
+      this.selectedLessons = [ ...student.lessons ];
       this.$modal.show('select-lesson');
     },
     shareLessonsToStudent(){
-      //
+      this.addAccessToLessons({
+        studentId: this.selectedStudent.id,
+        lessons: this.selectedLessons.map(e => e.id),
+      });
     },
   },
   computed: {

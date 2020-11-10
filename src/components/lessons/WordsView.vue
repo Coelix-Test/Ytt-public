@@ -56,7 +56,8 @@ export default {
       return this.words.map(item => {
         return {
           id: item.id,
-          url: item.image_url,
+          image_url: item.image_url,
+          cropped_image_path: item.cropped_image_path,
           disabled: item.isKnown !== this.displayKnown
         }
       })

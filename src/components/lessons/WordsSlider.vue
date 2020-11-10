@@ -11,7 +11,7 @@
           v-for="slide in computedSlides"
           :key="slide.id"
         >
-          <img class="words-slider__image" :src="slide.url" alt="">
+          <img class="words-slider__image" :src="slide.image_url" alt="">
         </div>
       </transition-group>
 
