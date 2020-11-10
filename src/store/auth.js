@@ -84,6 +84,13 @@ export default {
 	},
 	getters: {
 		user: state => state.user,
+		userRole: state => {
+			let userRole = null;
+			if(state.user){
+				userRole = state.user.role;
+			}
+			return userRole;
+		},
 		loading: state => state.loading,
 		userIsFetching: state => state.userIsFetching
 	}

@@ -29,6 +29,7 @@
         size="x-large"
         color="primary"
         width="250"
+        @click="openSelectLessonsModal"
       >
         Add lesson
       </UBtn>
@@ -78,6 +79,9 @@ export default {
         name: 'teacher-students-lesson-list',
         params: { id: this.id }
       });
+    },
+    openSelectLessonsModal(){
+      this.$emit('open-select-lessons-modal');
     }
   }
 }

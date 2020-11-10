@@ -53,10 +53,7 @@ export default {
   },
   computed: {
     ...mapGetters('Students', ['studentsList']),
-    ...mapGetters('Auth', ['user']),
-    currentUserRole(){
-      return this.user.role;
-    }
+    ...mapGetters('Auth', ['userRole']),
   },
   methods: {
     ...mapActions('Students', {
@@ -79,7 +76,7 @@ export default {
     // },
   },
   mounted(){
-    this.getItems(this.currentUserRole);
+    this.getItems(this.userRole);
   }
 }
 </script>

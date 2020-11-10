@@ -7,7 +7,7 @@
       </slot>
 
       <u-autocomplete
-        :items="items"
+        :items="lessonsList"
         :value="value"
         label="Choose lessons"
         item-text="title"
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
 import UCard from '@/components/common/UCard.vue';
 import UAutocomplete from '@/components/common/UAutocomplete/UAutocomplete.vue';
 
@@ -52,7 +53,12 @@ export default {
       default: false,
     },
   },
+  computed: {
+    ...mapGetters('Auth', ['userRole']),
+    ...mapGetters('Lessons', ['lessonsList']),
+  },
   methods: {
+    ...mapActions('Lessons', ['fetchLessonList']),
     onSelectItems(items){
       this.$emit('input', items);
     },
@@ -62,7 +68,7 @@ export default {
     getLessonsItems(){
       LessonsApi.getPage({}).then(res => {
         this.items = res.data;
-      })
+      });
     },
     save(){
       this.$emit('save');
@@ -70,7 +76,7 @@ export default {
     },
   },
   mounted(){
-    this.getLessonsItems();
+    this.fetchLessonList(this.userRole);
   }
 }
 </script>
