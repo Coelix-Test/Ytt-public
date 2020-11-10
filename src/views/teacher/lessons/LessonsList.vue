@@ -62,16 +62,17 @@
       </div>
     </div>
 
-    <select-student
+    <SelectStudent
         v-model="selectedStudents"
         @save="shareLessonToStudent"
         multiple
-    ></select-student>
+    ></SelectStudent>
   </div>
 </template>
 
 <script>
 import { LessonsApi } from '@/api';
+import { mapActions } from 'vuex';
 import UCard from '@/components/common/UCard';
 
 import SelectStudent from '@/components/modals/SelectStudent';
@@ -108,25 +109,34 @@ export default {
 
   },
   methods: {
+    ...mapActions('Lessons', ['addAccessForStudents']),
     getItems(){
       LessonsApi.getPage({}, 'teacher').then(response => {
         this.items = response.data;
       });
     },
     shareLessonToStudent(){
-
-      // LessonsApi.addAccessToTeacher(this.selectedLesson.id, {
-      //   teachers: this.selectedTeachers.map(item => item.id),
-      // }).then(response => {
-      //
-      //   this.selectedLesson.teachers = response.data.teachers;
-      //
-      // });
+      this.addAccessForStudents({
+        lessonId: this.selectedLesson.id,
+        students: this.selectedStudents.map(e => e.id),
+      }).then(() => {
+        this.$notify({
+          title: 'Lesson saved',
+          type: 'success'
+        });
+      }).catch(({ message }) => {
+        this.$notify({
+          title: 'Error',
+          text: message,
+          type: 'error'
+        });
+      })
 
     },
     openSelectStudentModal(lesson){
+
       this.selectedLesson = lesson;
-      this.selectedTeachers = [ ];
+      this.selectedStudents = [ ...lesson.students ];
       // this.selectedTeachers = [ ...lesson.teachers ];
       this.$modal.show('select-student');
     },

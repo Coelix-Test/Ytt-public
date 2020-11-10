@@ -13,7 +13,7 @@ export default {
         SET_LOADING(state, payload) {
             state.loading = payload;
         },
-        SET_LESSONS_LIST(state, payload){
+        SET_STUDENTS_LIST(state, payload){
             state.studentsList = payload;
         },
         SET_STUDENT(state, payload){
@@ -28,7 +28,7 @@ export default {
                 axios.get(`/${ROLE_MAP[role]}/students`)
                     .then(response => {
                         console.log(response.data);
-                        context.commit('SET_LESSONS_LIST', response.data);
+                        context.commit('SET_STUDENTS_LIST', response.data);
                     })
                     .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
                     .then(() => context.commit('SET_LOADING', false))

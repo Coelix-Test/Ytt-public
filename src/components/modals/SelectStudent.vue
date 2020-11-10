@@ -8,7 +8,7 @@
 
       <u-autocomplete
         :value="value"
-        :items="items"
+        :items="studentsList"
         @input="onSelectItems"
         :multiple="multiple"
       >
@@ -28,6 +28,7 @@
 
 <script>
 import { UsersApi } from '@/api';
+import { mapActions, mapGetters } from 'vuex';
 
 import UCard from '@/components/common/UCard.vue';
 import UAutocomplete from '@/components/common/UAutocomplete/UAutocomplete.vue';
@@ -50,7 +51,17 @@ export default {
       default: false,
     }
   },
+  computed: {
+    ...mapGetters('Students', ['studentsList']),
+    ...mapGetters('Auth', ['user']),
+    currentUserRole(){
+      return this.user.role;
+    }
+  },
   methods: {
+    ...mapActions('Students', {
+      getItems : 'fetchStudentsList',
+    }),
     onSelectItems(items){
       this.$emit('input', items);
     },
@@ -61,14 +72,14 @@ export default {
       this.$emit('save');
       this.hideModal();
     },
-    getItems(){
-      UsersApi.getPage({per_page: 10000, role: 3}).then(response => {
-        this.items = response.data;
-      })
-    },
+    // getItems(){
+    //   UsersApi.getPage({per_page: 10000, role: 3}).then(response => {
+    //     this.items = response.data;
+    //   })
+    // },
   },
   mounted(){
-    this.getItems();
+    this.getItems(this.currentUserRole);
   }
 }
 </script>

@@ -91,6 +91,16 @@ export default {
             });
         },
 
+        addAccessForStudents(context, { lessonId, students }){
+            context.commit('SET_LOADING', true);
+            return new Promise((resolve, reject) => {
+                axios.post(`/teacher/lessons/${lessonId}/students/access`, { students: students})
+                    .then(resolve)
+                    .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+                    .then(() => context.commit('SET_LOADING', false));
+            });
+        },
+
         sendRecord(context, { lessonId, ...answer }){
             context.commit('SET_LOADING', true);
 
