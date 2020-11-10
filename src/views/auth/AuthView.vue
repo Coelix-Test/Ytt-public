@@ -59,13 +59,16 @@ export default {
     background-color: #fff;
     height: 110px;
     width: 1px;
-    margin: 0 60px;
+    margin: 0 45px;
   }
   &__nav-item{
     font-weight: 300;
     opacity: 0.2;
     color: #fff;
     text-decoration: none;
+
+    width: 258px;
+    text-align: center;
     &.is-active{
       opacity: 1;
       font-weight: bold;
