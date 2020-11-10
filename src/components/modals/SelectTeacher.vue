@@ -10,7 +10,7 @@
         label="Choose teacher"
       >
       </u-autocomplete>
-      <div class="u-flex u-mt-2">
+      <div class="u-flex is-justify-center u-mt-2">
         <UBtn
           color="primary"
           size="x-large"

@@ -13,14 +13,15 @@
         :multiple="multiple"
       >
       </u-autocomplete>
-      <div class="u-flex u-mt-2">
-        <button
-          class="u-btn is-dark is-bg-primary is-x-large u-ml-auto u-mr-auto"
+      <div class="u-flex is-justify-center u-mt-2">
+        <UBtn
           @click="save"
+          color="primary"
+          size="x-large"
           id="select_student_modal_submit"
         >
           Save
-        </button>
+        </UBtn>
       </div>
     </u-card>
   </modal>

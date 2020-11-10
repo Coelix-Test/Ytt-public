@@ -3,9 +3,9 @@
 
     <div class="c-nav-sidebar__user u-flex is-align-center is-flex-column is-justify-center u-mt-13">
       <div class="c-nav-sidebar__user__avatar u-mb-2">
-        <img src="@/assets/avatar.png" alt="">
+        <img :src="user.avatar" alt="">
       </div>
-      <div class="c-nav-sidebar__user__name u-font-weight-light">John Smith</div>
+      <div class="c-nav-sidebar__user__name u-font-weight-light">{{user.name}}</div>
     </div>
 
     <div class="c-nav-sidebar__nav-list">

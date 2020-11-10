@@ -29,7 +29,7 @@
           <td class="u-pl-13">
             <div class="u-flex is-align-center">
               <div class="avatar-wrap u-mr-6">
-                <img src="https://via.placeholder.com/40x40" alt="">
+                <img :src="item.avatar" alt="">
               </div>
               {{item.name}}
             </div>
