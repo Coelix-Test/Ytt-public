@@ -9,7 +9,8 @@
               :to="{ name: 'admin-lessons-create' }"
               id="create_lesson_link"
               size="x-large"
-              color="primary"
+              color="blue"
+              width="251"
             >
               Add lesson
             </UBtn>

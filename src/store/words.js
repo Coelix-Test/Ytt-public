@@ -14,6 +14,9 @@ export default {
         SET_WORDS(state, payload){
             state.words = payload;
         },
+        RESET_TOGGLED_WORDS(state){
+          state.wordsToggled = [];
+        },
         TOGGLE_WORD(state, wordId){
             state.words = state.words.map((item) => {
                 if(item.id === wordId)
@@ -47,9 +50,7 @@ export default {
                 .then(resolve)
                 .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
                 .then(() => {
-                    getters.wordsToggled.forEach((word) => {
-                        commit('TOGGLE_WORD', word);
-                    })
+                    commit('RESET_TOGGLED_WORDS');
                     commit('SET_LOADING', false);
                 });
             });
