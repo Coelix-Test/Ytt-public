@@ -9,7 +9,7 @@
       <div class="u-col-5">
         <!-- search -->
       </div>
-      <div class="u-col-12">
+      <div class="u-col-12 u-mb-20">
         <u-tabs class="users-tabs" v-model="currentTab">
           <u-tab label="Teachers">
             <teachers-list></teachers-list>

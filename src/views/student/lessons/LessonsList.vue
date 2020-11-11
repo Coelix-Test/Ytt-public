@@ -12,7 +12,7 @@
           <!-- search -->
         </div>
         <div class="u-col-12">
-          <u-card class="table-card u-mt-10">
+          <u-card class="table-card u-mt-10 u-mb-20">
             <table class="u-data-table is-striped">
               <colgroup>
                 <col v-for="column in columns" :key="column.value">
