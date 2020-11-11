@@ -27,7 +27,14 @@ export default {
 
             const lessonData = new FormData();
             for(let field in lesson){
-                lessonData.append(field, lesson[field]);
+                if(Array.isArray(lesson[field])){
+                    for (let i = 0; i < lesson[field].length; i++) {
+                        lessonData.append(`${field}[]`, lesson[field][i]);
+                    }
+                }
+                else{
+                    lessonData.append(field, lesson[field]);
+                }
             }
     
             return new Promise((resolve, reject) => {

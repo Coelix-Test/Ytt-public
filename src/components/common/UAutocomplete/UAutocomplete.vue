@@ -113,6 +113,7 @@ export default {
             let resItem = this.computedItems.find(compItem => compItem.id === item.id);
             return resItem;
           });
+          computedValue = computedValue.filter(e => e !== undefined);
         }
         else{
           computedValue = this.computedItems.find(compItem => compItem.id === this.value.id);

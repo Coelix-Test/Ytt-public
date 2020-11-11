@@ -6,7 +6,7 @@
       :key="item.id"
       :index="index+1"
       :id="item.id"
-      :image="item.image_path"
+      :image="item.image_url"
       :disabled="item.disabled"
       :has-controls="displayWordsControls"
     ></WordsListItem>

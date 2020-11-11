@@ -137,7 +137,6 @@ export default {
 
       this.selectedLesson = lesson;
       this.selectedStudents = [ ...lesson.students ];
-      // this.selectedTeachers = [ ...lesson.teachers ];
       this.$modal.show('select-student');
     },
   },

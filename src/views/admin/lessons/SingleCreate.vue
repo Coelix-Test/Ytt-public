@@ -101,6 +101,12 @@ export default {
       return postData;
     },
     createSingle() {
+
+      this.$notify({
+        title: 'Please wait',
+        text: 'Lesson is uploading. This might take several minutes.',
+        type: 'warn'
+      });
       let postData = this.collectPostData();
       this.create(postData)
       .then(() => {

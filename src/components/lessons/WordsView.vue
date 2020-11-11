@@ -57,7 +57,7 @@ export default {
         return {
           id: item.id,
           image_url: item.image_url,
-          cropped_image_path: item.cropped_image_path,
+          cropped_image_url: item.cropped_image_url,
           disabled: item.isKnown !== this.displayKnown
         }
       })

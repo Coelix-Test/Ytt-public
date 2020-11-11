@@ -65,6 +65,20 @@ export default {
     },
     computedSlides(){
 
+      // let slides = [];
+      // this.words.forEach((el, index) => {
+      //   slides.push(
+      //     {
+      //       id: el.id + index + (index % 2),
+      //       image_url: el.image_url,
+      //     },
+      //     {
+      //       id: el.id + index + (index % 2),
+      //       image_url: el.cropped_image_url,
+      //     },
+      //   );
+      // });
+
       let slidesToPlaceInEnd = this.words.slice(0, this.currentIndex);
       let slidesToPlaceInStart = this.words.slice(this.currentIndex);
 
