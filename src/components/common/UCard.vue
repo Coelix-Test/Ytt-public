@@ -39,6 +39,7 @@ export default {
 }
 
 .u-table-card{
-  box-shadow: 0px 12px 66px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 12px 66px rgba(0, 0, 0, 0.08);
+  border-radius: 28px;
 }
 </style>
