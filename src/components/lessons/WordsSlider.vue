@@ -21,7 +21,7 @@
 
       <div class="words-slider__progress">
         <div class="words-slider__progress-text">
-          {{currentIndex+1}}/{{words.length}}
+          {{currentIndex+1}}/{{computedSlides.length}}
           <svg
             v-svg
             symbol="icon-shuffle"
@@ -57,7 +57,7 @@ export default {
   computed: {
     progressBarStyle(){
       return {
-        width: (this.currentIndex + 1)/this.words.length * 100 + '%'
+        width: (this.currentIndex + 1)/this.computedSlides.length * 100 + '%'
       }
     },
     currentSlide(){
@@ -65,22 +65,23 @@ export default {
     },
     computedSlides(){
 
-      // let slides = [];
-      // this.words.forEach((el, index) => {
-      //   slides.push(
-      //     {
-      //       id: el.id + index + (index % 2),
-      //       image_url: el.image_url,
-      //     },
-      //     {
-      //       id: el.id + index + (index % 2),
-      //       image_url: el.cropped_image_url,
-      //     },
-      //   );
-      // });
+      //
+      let slides = [];
+      this.words.forEach((el, index) => {
+        slides.push(
+          {
+            id: el.id + index * 2,
+            image_url: el.cropped_image_url,
+          },
+          {
+            id: el.id + index * 2 + 1,
+            image_url: el.image_url,
+          },
+        );
+      });
 
-      let slidesToPlaceInEnd = this.words.slice(0, this.currentIndex);
-      let slidesToPlaceInStart = this.words.slice(this.currentIndex);
+      let slidesToPlaceInEnd = slides.slice(0, this.currentIndex);
+      let slidesToPlaceInStart = slides.slice(this.currentIndex);
 
       return slidesToPlaceInStart.concat(slidesToPlaceInEnd);
     },
@@ -94,7 +95,7 @@ export default {
     },
     nextSlide(){
 
-      if(this.currentIndex !== this.words.length - 1){
+      if(this.currentIndex !== this.computedSlides.length - 1){
         this.currentIndex++;
       }
     }
