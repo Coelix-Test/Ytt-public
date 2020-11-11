@@ -29,6 +29,10 @@ export default {
       type: String,
       default: '',
     },
+    href: {
+      type: String,
+      default: null,
+    },
     to: {
       type: [Object, String],
       default: null,

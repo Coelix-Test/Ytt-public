@@ -13,7 +13,7 @@
     <div class="view-lesson__download">
       <UBtn
         tag="a"
-        href="https://api.ytt.coelix.online/pdf/pdf-name.pdf"
+        :href="pdfUrl"
         download
         size="x-large"
         color="grey"
@@ -46,6 +46,14 @@ export default {
   computed: {
     ...mapGetters('Auth', ['userRole']),
     ...mapGetters('Words', ['words']),
+    ...mapGetters('Lessons', ['lesson']),
+    pdfUrl(){
+      let pdfUrl = null;
+      if(this.lesson){
+        pdfUrl = this.lesson.url;
+      }
+      return pdfUrl;
+    }
   },
   methods: {
     ...mapActions('Lessons', ['fetchLesson']),
