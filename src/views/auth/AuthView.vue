@@ -18,7 +18,7 @@
         </router-link>
       </div>
       <transition name="fade">
-        <router-view/>
+        <router-view class="l-auth__view-content"/>
       </transition>
     </app-main>
   </app-container>
@@ -73,6 +73,9 @@ export default {
       opacity: 1;
       font-weight: bold;
     }
+  }
+  &__view-content{
+    margin-bottom: 100px;
   }
 }
 </style>
