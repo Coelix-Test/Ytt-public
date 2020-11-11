@@ -17,6 +17,7 @@
         <button
           class="words-list-item__button words-list-item__button_check"
           :class="checkBtnClasses"
+          @click="setLastWord(id)"
         ></button>
       </div>
     </div>
@@ -26,7 +27,7 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex';
 
 export default {
   props: {
@@ -46,16 +47,13 @@ export default {
       type: Boolean,
       default: false,
     },
-    isLastWord: {
-      type: Boolean,
-      default: false,
-    },
     hasControls: {
       type: Boolean,
       default: false,
     }
   },
   computed: {
+    ...mapGetters('Words', ['lastWord']),
     classes(){
       return {
         'words-list-item_disabled' : this.disabled,
@@ -70,11 +68,15 @@ export default {
       return {
         'words-list-item__button_active' : this.isLastWord,
       };
-    }
+    },
+    isLastWord() {
+      return this.id === this.lastWord;
+    },
   },
   methods: {
     ...mapMutations('Words', {
       toggleWord: 'TOGGLE_WORD',
+      setLastWord: 'SET_LAST_WORD',
     })
   }
 }

@@ -67,14 +67,14 @@ export default {
 
       //
       let slides = [];
-      this.words.forEach((el, index) => {
+      this.words.forEach((el) => {
         slides.push(
           {
-            id: el.id + index * 2,
+            id: el.id * 2,
             image_url: el.cropped_image_url,
           },
           {
-            id: el.id + index * 2 + 1,
+            id: el.id * 2 + 1,
             image_url: el.image_url,
           },
         );

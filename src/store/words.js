@@ -7,6 +7,7 @@ export default {
     state: {
         words: [],
         wordsToggled: [],
+        lastWord: null,
         loading: false,
     },
     mutations: {
@@ -29,6 +30,9 @@ export default {
         },
         SET_LOADING(state, payload){
             state.loading = payload;
+        },
+        SET_LAST_WORD(state, payload){
+            state.lastWord = payload;
         }
     },
     actions: {
@@ -38,10 +42,16 @@ export default {
             return new Promise((resolve, reject) => {
                 axios.post(`/teacher/students/${studentId}/lessons/${lessonId}/words`, {
                     words: getters.wordsToggled,
+                    last_word: getters.lastWord,
                 })
                 .then(resolve)
                 .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
-                .then(() => commit('SET_LOADING', false));
+                .then(() => {
+                    getters.wordsToggled.forEach((word) => {
+                        commit('TOGGLE_WORD', word);
+                    })
+                    commit('SET_LOADING', false);
+                });
             });
         }
     },
@@ -51,5 +61,6 @@ export default {
         knownWords: state => state.words.filter(item => item.isKnown),
         unknownWords: state => state.words.filter(item => !item.isKnown),
         wordsToggled: state => state.wordsToggled,
+        lastWord: state => state.lastWord,
     }
 }
