@@ -21,6 +21,7 @@
         outlined
         @click="goToStudentLessons"
         v-if="lessons_count"
+        width="258"
       >
         Student lessons
       </UBtn>

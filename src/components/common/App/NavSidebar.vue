@@ -137,6 +137,7 @@ export default {
       border-radius: 50%;
       width: 78px;
       height: 78px;
+      overflow: hidden;
       &>img{
         width: 100%;
         height: 100%;
@@ -176,6 +177,8 @@ export default {
     margin-bottom: 50px;
     margin-left: 60px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
     svg{
       fill: none;
     }

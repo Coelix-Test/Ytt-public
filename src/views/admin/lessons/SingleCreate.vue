@@ -12,7 +12,7 @@
             <UTextField
               label="Name"
               v-model="name"
-              class="u-mb-7"
+              class="u-mb-12"
               :error="errors[0]"
             ></UTextField>
           </ValidationProvider>
@@ -20,7 +20,7 @@
             <UTextField
               label="Description"
               v-model="description"
-              class="u-mb-7"
+              class="u-mb-12"
               :error="errors[0]"
             ></UTextField>
           </ValidationProvider>

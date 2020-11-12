@@ -1,6 +1,6 @@
 <template>
   <div>
-    <u-card>
+    <u-card elevation="3">
       <table class="u-data-table is-striped">
         <colgroup>
           <col v-for="column in columns" :key="column.value">
