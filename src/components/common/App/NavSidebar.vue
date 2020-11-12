@@ -146,6 +146,7 @@ export default {
     &__name{
       color: #fff;
       font-size: 36px;
+      text-align: center;
     }
   }
 

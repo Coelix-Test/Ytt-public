@@ -36,7 +36,7 @@
           width="245"
           :loading="saveBtnLoading"
           :disabled="saveBtnLoading || completeBtnLoading"
-          @click="callAction('save')"
+          @click="callAction()"
         >
           Save
         </UBtn>
@@ -85,18 +85,12 @@ export default {
     ...mapActions('Words', [
       'updateStudentsWords'
     ]),
-    callAction(action){
-      let actionFunc;
-      if(action ==='save'){
-        actionFunc = this.updateStudentsWords;
-      }
-      else{
-        actionFunc = this.completeLesson;
-      }
+    callAction(){
 
-      actionFunc({
+      this.updateStudentsWords({
         studentId: this.$route.params.studentId,
         lessonId: this.$route.params.lessonId,
+        isLessonCheck: false,
       })
         .then(() => {
           this.$notify({

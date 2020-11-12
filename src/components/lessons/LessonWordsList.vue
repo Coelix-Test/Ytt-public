@@ -9,6 +9,7 @@
       :image="item.image_url"
       :disabled="item.disabled"
       :has-controls="displayWordsControls"
+      :is-last-word="item.id === lastWord"
     ></WordsListItem>
   </UCard>
 </template>
@@ -16,6 +17,7 @@
 <script>
 import UCard from "@/components/common/UCard";
 import WordsListItem from "@/components/lessons/WordsListItem";
+import {mapGetters} from "vuex";
 
 export default {
   props: {
@@ -31,6 +33,9 @@ export default {
   components: {
     UCard,
     WordsListItem,
+  },
+  computed: {
+    ...mapGetters('Words', ['lastWord']),
   }
 }
 </script>

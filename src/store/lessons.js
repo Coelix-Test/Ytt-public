@@ -155,10 +155,15 @@ export default {
 function setFetchedLesson({ commit }, lesson){
 
     if( lesson.words && lesson.words.length){
+        let lastWord = null;
         let words = lesson.words.map(item => {
             item.isKnown = !!item.is_known;
+            if(item.last_word === 1){
+                lastWord = item.id;
+            }
             return item;
-        })
+        });
+        commit('Words/SET_LAST_WORD', lastWord, { root: true });
         commit('Words/SET_WORDS', words, { root: true });
         delete lesson.words;
     }

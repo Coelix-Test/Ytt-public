@@ -122,6 +122,7 @@ export default {
       actionFunc({
         studentId: this.$route.params.studentId,
         lessonId: this.$route.params.lessonId,
+        isLessonCheck: true,
       })
       .then(() => {
         this.$notify({

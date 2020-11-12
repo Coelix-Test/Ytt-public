@@ -12,6 +12,7 @@
           :key="slide.id"
         >
           <img class="words-slider__image" :src="slide.image_url" alt="">
+          <div class="words-slider__last-word-indicator" v-if="slide.isLastWord">Last word</div>
         </div>
       </transition-group>
 
@@ -40,6 +41,7 @@
 
 <script>
 import UCard from "@/components/common/UCard";
+import {mapGetters} from "vuex";
 
 export default {
   components: {
@@ -55,6 +57,7 @@ export default {
     currentIndex: 0,
   }),
   computed: {
+    ...mapGetters('Words', ['lastWord']),
     progressBarStyle(){
       return {
         width: (this.currentIndex + 1)/this.computedSlides.length * 100 + '%'
@@ -72,10 +75,12 @@ export default {
           {
             id: el.id * 2,
             image_url: el.cropped_image_url,
+            isLastWord: el.id === this.lastWord,
           },
           {
             id: el.id * 2 + 1,
             image_url: el.image_url,
+            isLastWord: el.id === this.lastWord,
           },
         );
       });
@@ -124,6 +129,7 @@ export default {
   &__slide{
     flex: 0 0 100%;
     min-height: 490px;
+    position: relative;
 
     transition: transform 0.3s ease-in-out;
   }
@@ -131,6 +137,15 @@ export default {
   &__image{
     width: 100%;
     height: auto;
+    display: block;
+  }
+
+  &__last-word-indicator{
+    position: absolute;
+    color: $clr-blue;
+    top: 8%;
+    right: 20px;
+    font-size: 20px;
   }
 
 
