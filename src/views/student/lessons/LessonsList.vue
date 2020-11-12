@@ -46,10 +46,18 @@
                 <td class="u-font-weight-light u-text-center pages-col">{{item.words_count}} pages</td>
                 <td class="u-text-right u-pr-25">
                   <UBtn
+                      v-if="item.status !== 'in_review'"
                       :to="{ name: 'student-pass-lesson', params: { id: item.id } }"
                       color="blue"
                   >
                     Pass
+                  </UBtn>
+                  <UBtn
+                    v-else
+                    color="warning"
+                    outlined
+                  >
+                    In review
                   </UBtn>
                 </td>
               </tr>

@@ -12,7 +12,9 @@
 
     <div class="view-lesson__download">
       <UBtn
-        tag="div"
+        tag="a"
+        :href="pdfUrl"
+        download
         size="x-large"
         color="grey"
         width="352"
@@ -24,7 +26,6 @@
           symbol="download"
         ></svg>
         <span class="view-lesson__download-text">Download</span>
-        <a :href="pdfUrl" download name="name.pdf">jjj</a>
       </UBtn>
     </div>
   </ContentContainer>
