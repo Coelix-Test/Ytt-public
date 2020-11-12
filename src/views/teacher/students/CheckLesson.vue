@@ -96,7 +96,7 @@ export default {
     }),
     recordUrl(){
       let recordUrl = null;
-      if(this.lesson !== null && this.lesson.records.length){
+      if(this.lesson !== null && this.lesson.records && this.lesson.records.length){
         recordUrl = this.lesson.records[0].url;
       }
       return recordUrl;
