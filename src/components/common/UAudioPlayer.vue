@@ -165,6 +165,9 @@ export default {
         },
         false
     );
+  },
+  beforeDestroy() {
+    this.audio.pause();
   }
 };
 </script>
@@ -230,6 +233,7 @@ export default {
     flex-direction: column;
     align-items: center;
     margin: 0 20px 0 8px;
+    opacity: 0;
   }
   .toggle-speed{
     font-size: 14px;

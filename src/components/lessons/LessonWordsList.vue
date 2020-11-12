@@ -1,16 +1,18 @@
 <template>
   <UCard class="lesson-words-list">
-    <WordsListItem 
-      class="lesson-words-list__words-list-item"
-      v-for="(item, index) in words"
-      :key="item.id"
-      :index="index+1"
-      :id="item.id"
-      :image="item.image_url"
-      :disabled="item.disabled"
-      :has-controls="displayWordsControls"
-      :is-last-word="item.id === lastWord"
-    ></WordsListItem>
+    <div class="lesson-words-list__inner">
+      <WordsListItem
+        class="lesson-words-list__words-list-item"
+        v-for="(item, index) in words"
+        :key="item.id"
+        :index="index+1"
+        :id="item.id"
+        :image="item.image_url"
+        :disabled="item.disabled"
+        :has-controls="displayWordsControls"
+        :is-last-word="item.id === lastWord"
+      ></WordsListItem>
+    </div>
   </UCard>
 </template>
 
@@ -46,13 +48,17 @@ export default {
 .lesson-words-list{
   padding: 35px 87px 15px 75px;
   //padding: 35px 104px 35px 92px;
-  display: flex;
-  flex-wrap: wrap;
   &__words-list-item{
     width: calc(25% - 34px);
     margin-right: 17px;
     margin-left: 17px;
     margin-bottom: 20px;
+  }
+  &__inner{
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 577px;
+    overflow-y: scroll;
   }
 }
 </style>

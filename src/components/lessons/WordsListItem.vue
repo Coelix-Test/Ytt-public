@@ -139,7 +139,9 @@ export default {
   }
 
   &_disabled{
-    opacity: .3;
+    .words-list-item__img{
+      opacity: .3;
+    }
   }
 
   &__last-word-indicator{

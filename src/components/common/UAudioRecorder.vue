@@ -21,7 +21,7 @@ import AudioRecorder from '@/lib/AudioRecorder';
 export default {
   name: 'UAudioRecorder',
   data: () => ({
-    recorder: new AudioRecorder(),
+    recorder: null,
     recordStatus: '',
     recordExists: false
   }),
@@ -29,6 +29,7 @@ export default {
     isRecording: function() { return this.recordStatus === 'recording'; }
   },
   mounted() {
+    this.recorder = new AudioRecorder();
     this.recorder.onStatusChanged(this.recordingStatusChange);
   },
   methods: {
