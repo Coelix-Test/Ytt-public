@@ -2,7 +2,7 @@
 let _mediaRecorder,
 		_record,
 		_listeners = [];
-const _audioChunks = [];
+let _audioChunks = [];
 
 const recorderIsInitialized = () => {
 	if(!_mediaRecorder)
@@ -32,9 +32,9 @@ class AudioRecorder{
 				});
 				_mediaRecorder.addEventListener('stop', () => {
 					_record = new Blob(_audioChunks,{ type: 'audio/mpeg' });
+					_audioChunks = [];
 					emitStatusChangeEvent(_mediaRecorder.state);
 				});
-				
 			})
 			.catch(console.error);
 	}
