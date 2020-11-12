@@ -39,11 +39,15 @@ export default {
         }
     },
     actions: {
-        updateStudentsWords({ commit, getters }, { studentId, lessonId }){
+        updateStudentsWords({ commit, getters }, { studentId, lessonId, isLessonCheck }){
 
+            let url = `/teacher/students/${studentId}/lessons/${lessonId}`;
+            if(isLessonCheck){
+                url += '/words';
+            }
             commit('SET_LOADING', true);
             return new Promise((resolve, reject) => {
-                axios.post(`/teacher/students/${studentId}/lessons/${lessonId}/words`, {
+                axios.post(url, {
                     words: getters.wordsToggled,
                     last_word: getters.lastWord,
                 })

@@ -20,6 +20,8 @@
           @click="setLastWord(id)"
         ></button>
       </div>
+
+      <div class="words-list-item__last-word-indicator" v-if="isLastWord">Last word</div>
     </div>
 
     <div class="words-list-item__index">{{index}}</div>
@@ -50,10 +52,13 @@ export default {
     hasControls: {
       type: Boolean,
       default: false,
+    },
+    isLastWord: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
-    ...mapGetters('Words', ['lastWord']),
     classes(){
       return {
         'words-list-item_disabled' : this.disabled,
@@ -68,9 +73,6 @@ export default {
       return {
         'words-list-item__button_active' : this.isLastWord,
       };
-    },
-    isLastWord() {
-      return this.id === this.lastWord;
     },
   },
   methods: {
@@ -138,6 +140,14 @@ export default {
 
   &_disabled{
     opacity: .3;
+  }
+
+  &__last-word-indicator{
+    position: absolute;
+    top: 9px;
+    right: 5px;
+    color: $clr-blue;
+    font-size: 15px;
   }
 }
 </style>
