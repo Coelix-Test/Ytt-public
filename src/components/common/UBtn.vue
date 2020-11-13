@@ -217,12 +217,12 @@ export default {
 
   &_color_primary{
     color: #fff;
-    background-color: $clr-primary;
+    background: linear-gradient(227.7deg, #ECBF8C 32.81%, #DFC188 69.13%);
     &:hover{
-      background-color: $clr-darker-primary;
+      background: linear-gradient(227.7deg, #E8BB87 32.81%, #DEBE82 69.13%);
     }
     &:active{
-      background-color: $clr-dark-primary;
+      background: linear-gradient(227.7deg, #DEB17D 32.81%, #D2B680 69.13%);
     }
   }
 
