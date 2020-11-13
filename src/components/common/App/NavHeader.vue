@@ -6,19 +6,30 @@
     <div class="c-nav-header__nav-outer u-flex">
       <div class="c-nav-header__nav-wrap u-flex is-align-center">
         <div class="c-nav-header__menu d-flex">
-          <router-link class="c-nav-header__menu__item"
-            v-for="item in navItems"
-            :key="item.id"
-            :to="item.to"
-          >
-            <span class="u-font-weight-light">{{item.text}}</span>
-          </router-link>
+<!--          <router-link class="c-nav-header__menu__item"-->
+<!--            v-for="item in navItems"-->
+<!--            :key="item.id"-->
+<!--            :to="item.to"-->
+<!--          >-->
+            <UBtn
+              v-for="item in navItems"
+              :key="item.id"
+              :href="item.href"
+              class="c-nav-header__menu__item"
+              tag="a"
+            >
+              {{ item.text }}
+            </UBtn>
+<!--            <span class="u-font-weight-light">{{item.text}}</span>-->
+<!--          </router-link>-->
         </div>
         <div class="c-nav-header__append u-ml-auto">
           <div class="u-flex is-align-center is-justify-center">
             <UBtn
               color="primary"
               size="medium"
+              href="https://yourtorahtutors.com"
+              tag="a"
             >
               Back to site
             </UBtn>
@@ -44,12 +55,12 @@ export default {
       {
         id: 1,
         text: 'Contacts',
-        to: { name: 'admin' },
+        href: 'https://yourtorahtutors.com/contact-us/'
       },
       {
         id: 2,
         text: 'About us',
-        to: { name: 'admin' },
+        href: 'https://yourtorahtutors.com/about-us/'
       },
     ]
   }),
@@ -90,7 +101,9 @@ export default {
     &__item{
       color: #2C2C2C;
       text-decoration: none;
-      margin-right: 50px;
+      margin-right: 48px;
+      background: transparent !important;
+      padding: 0;
     }
   }
 
