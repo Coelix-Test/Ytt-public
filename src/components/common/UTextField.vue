@@ -3,7 +3,8 @@
     class="u-text-field"
     :class="{
       'u-text-field_inset': inset,
-      'u-text-field_error': error
+      'u-text-field_error': error,
+      'u-text-field_padding': padding,
     }"
   >
     <div class="u-text-field__input-wrap">
@@ -63,6 +64,10 @@ export default {
     appendIcon: {
       type: String,
       default: '',
+    },
+    padding: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -116,13 +121,22 @@ export default {
     }
   }
 
+  &_padding{
+    input{
+      padding: 8px 8px 0 18px !important;
+    }
+    label{
+      padding-left: 18px;
+    }
+  }
+
   &__input-container{
     position: relative;
   }
   input{
     flex: 1 1 auto;
     line-height: 38px;
-    padding: 8px 8px 0 18px;
+    padding: 8px 8px 0 0;
     max-width: 100%;
     min-width: 0;
     width: 100%;
@@ -141,7 +155,6 @@ export default {
     color: #000;
     font-weight: 300;
     line-height: 50px;
-    padding-left: 18px;
   }
   &__messages{
     position: absolute;
