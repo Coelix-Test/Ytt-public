@@ -2,7 +2,6 @@
   <UCard class="lesson-words-list">
     <vue-scroll
       ref="scroll"
-      :ops="settings"
     >
       <div class="lesson-words-list__inner">
         <WordsListItem
@@ -34,25 +33,7 @@ export default {
     // vueCustomScrollbar,
   },
   data: () => ({
-    settings: {
-      scrollPanel: {
-        scrollingX: false,
-      },
-      rail: {
-        background: 'rgba(0,0,0,.1)',
-        opacity: 1,
-        size: '1px',
-        specifyBorderRadius: 0,
-        gutterOfEnds: null,
-        gutterOfSide: '2px',
-      },
-      bar: {
-        background: '#2C4CC1',
-        keepShow: true,
-        size: '3px',
-        specifyBorderRadius: 0,
-      },
-    }
+
   }),
   props: {
     words: {
@@ -76,7 +57,7 @@ export default {
 .lesson-words-list{
   padding: 35px 69px 15px 75px;
   height: 577px;
-  overflow-y: scroll;
+  //overflow-y: scroll;
   &__words-list-item{
     width: calc(25% - 34px);
     margin-right: 17px;

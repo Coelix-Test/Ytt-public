@@ -17,7 +17,7 @@
           Log in
         </router-link>
       </div>
-      <transition name="fade">
+      <transition name="fade" mode="out-in">
         <router-view class="l-auth__view-content"/>
       </transition>
     </app-main>

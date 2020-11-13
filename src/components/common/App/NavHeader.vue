@@ -48,14 +48,9 @@ export default {
       },
       {
         id: 2,
-        text: 'Aboout us',
+        text: 'About us',
         to: { name: 'admin' },
       },
-      {
-        id: 3,
-        text: 'FAQ',
-        to: { name: 'admin' },
-      }
     ]
   }),
   methods: {
@@ -86,7 +81,7 @@ export default {
   height: 110px;
   background-color: #fff;
   display: flex;
-  box-shadow: 0 4px 4px rgba(0,0,0,.25);
+  box-shadow: 0px 12px 66px rgba(0, 0, 0, 0.15);
   &__logo{
     padding-left: 80px;
     width: 390px;

@@ -41,9 +41,9 @@
         </UBtn>
       </div>
 
-      <div class="login__forgot">
-        Forgot your password? <a href="#">click here</a>
-      </div>
+<!--      <div class="login__forgot" >-->
+<!--        Forgot your password? <a href="#">click here</a>-->
+<!--      </div>-->
     </u-card>
   </ValidationObserver>
 </template>

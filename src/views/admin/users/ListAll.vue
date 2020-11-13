@@ -1,5 +1,5 @@
 <template>
-  <div class="u-container u-ml-auto u-mr-auto u-pt-9">
+  <div class="u-container u-ml-auto u-mr-auto u-pt-15">
     <div class="u-row">
       <div class="u-col-7">
         <div class="u-flex is-align-center">
