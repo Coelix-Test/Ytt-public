@@ -1,7 +1,7 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
     <u-card class="login">
-      <SocialsAuth/>
+<!--      <SocialsAuth/>-->
       <div class="login__form">
         <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
           <UTextField
@@ -60,7 +60,7 @@ export default {
   data: () => ({
     form:{
       email: 'admin@email.com',
-      password: 'admin',
+      password: 'test123',
       remember: false
     }
   }),
@@ -106,12 +106,12 @@ export default {
   padding: 45px 75px 25px;
 
   &__form{
-    margin-top: 66px;
+    //margin-top: 66px;
     &-input{
       margin-top: 20px;
     }
     &-remember{
-      margin-top: 85px;
+      margin-top: 30px;
     }
   }
 

@@ -22,7 +22,7 @@
             >
               Back to site
             </UBtn>
-            <span class="random-hebrew u-ml-6">םשה תרזעב</span>
+            <span class="random-hebrew u-ml-6">B”h</span>
           </div>
         </div>
       </div>
@@ -109,5 +109,6 @@ export default {
 }
 .random-hebrew{
   color: #A3A3A3;
+  font-size: 17px;
 }
 </style>

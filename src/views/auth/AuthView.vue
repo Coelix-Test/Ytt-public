@@ -3,13 +3,13 @@
     <nav-header></nav-header>
     <app-main class="u-flex is-flex-column is-align-center">
       <div class="l-auth__nav u-flex is-justify-center is-align-center">
-        <router-link class="l-auth__nav-item"
-          :class="{ 'is-active' : !loginActive}"
-          :to="{ name: 'auth-register' }"
-        >
-          Sign up
-        </router-link>
-        <div class="l-auth__nav-divider"></div>
+<!--        <router-link class="l-auth__nav-item"-->
+<!--          :class="{ 'is-active' : !loginActive}"-->
+<!--          :to="{ name: 'auth-register' }"-->
+<!--        >-->
+<!--          Sign up-->
+<!--        </router-link>-->
+<!--        <div class="l-auth__nav-divider"></div>-->
         <router-link class="l-auth__nav-item"
           :class="{ 'is-active' : loginActive}"
           :to="{ name: 'auth-login' }"

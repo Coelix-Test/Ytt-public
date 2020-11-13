@@ -10,6 +10,7 @@ import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
 import cookie from 'js-cookie';
 import Notifications from 'vue-notification';
+import vuescroll from 'vuescroll';
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -43,6 +44,7 @@ Vue.use(SvgSprite, {
 
 Vue.use(VModal);
 Vue.use(Notifications);
+Vue.use(vuescroll);
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);

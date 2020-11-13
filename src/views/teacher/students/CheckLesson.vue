@@ -129,6 +129,7 @@ export default {
           title: 'Lesson saved.',
           type: 'success'
         });
+        this.redirect();
       })
       .catch(({ message }) => {
         this.$notify({
