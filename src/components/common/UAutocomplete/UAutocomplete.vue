@@ -252,6 +252,7 @@ export default {
     position: relative;
     padding-right: 90px;
     padding-left: 15px;
+    min-height: 70px;
 
     input{
       flex: 1 1;
