@@ -44,7 +44,27 @@ Vue.use(SvgSprite, {
 
 Vue.use(VModal);
 Vue.use(Notifications);
-Vue.use(vuescroll);
+Vue.use(vuescroll, {
+  ops: {
+    scrollPanel: {
+      scrollingX: false,
+    },
+    rail: {
+      background: 'rgba(0,0,0,.1)',
+      opacity: 1,
+      size: '1px',
+      specifyBorderRadius: 0,
+      gutterOfEnds: null,
+      gutterOfSide: '2px',
+    },
+    bar: {
+      background: '#2C4CC1',
+      keepShow: true,
+      size: '3px',
+      specifyBorderRadius: 0,
+    },
+  }
+});
 
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);

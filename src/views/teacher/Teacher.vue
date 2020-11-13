@@ -3,7 +3,7 @@
     <nav-header></nav-header>
     <nav-sidebar></nav-sidebar>
     <app-main class="admin-main">
-      <transition name="fade">
+      <transition name="fade" mode="out-in">
         <router-view/>
       </transition>
     </app-main>
