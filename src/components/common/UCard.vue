@@ -33,7 +33,7 @@ export default {
 <style lang="scss">
 .u-card{
   background: #fff;
-  border-radius: 50px;
+  border-radius: 28px;
   max-width: 100%;
   overflow: hidden;
 }
