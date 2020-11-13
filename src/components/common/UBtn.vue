@@ -80,7 +80,7 @@ export default {
     },
   },
   methods: {
-    changeRoute(){
+    changeRoute(event){
       this.$router.push(this.to);
     },
     preventClick(event){

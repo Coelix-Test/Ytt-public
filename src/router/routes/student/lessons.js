@@ -1,6 +1,7 @@
 import Lessons from '@/views/teacher/lessons/Lessons';
 import StudentLessonsList from '@/views/student/lessons/StudentLessonsList';
 import StudentPassLesson from '@/views/student/lessons/PassLesson';
+import StudentViewLesson from "@/views/student/lessons/StudentViewLesson";
 import LessonsList from "@/views/student/lessons/LessonsList";
 
 export default {
@@ -13,9 +14,14 @@ export default {
             name: 'student-lessons-all',
         },
         {
-            path: ':id',
+            path: ':id/pass',
             component: StudentPassLesson,
             name: 'student-pass-lesson',
+        },
+        {
+            path: ':id',
+            component: StudentViewLesson,
+            name: 'student-view-lesson',
         },
     ]
 }
