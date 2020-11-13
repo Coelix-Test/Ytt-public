@@ -33,7 +33,11 @@
               </tr>
               </thead>
               <tbody>
-              <tr v-for="item in lessonsList" :key="item.id">
+              <tr
+                v-for="item in lessonsList"
+                :key="item.id"
+                @click="viewLesson(item.id)"
+              >
                 <td class="u-pl-13 u-font-weight-light">
                   <svg
                       v-svg
@@ -47,9 +51,9 @@
                 <td class="u-text-right u-pr-25">
                   <UBtn
                       v-if="item.status !== 'in_review'"
-                      :to="{ name: 'student-pass-lesson', params: { id: item.id } }"
                       color="blue"
                       width="180"
+                      @click="goToPassLesson(item.id, $event)"
                   >
                     Pass
                   </UBtn>
@@ -108,7 +112,16 @@ export default {
     ...mapGetters('Lessons', ['lessonsList'])
   },
   methods: {
-    ...mapActions('Lessons', ['fetchLessonList'])
+    ...mapActions('Lessons', ['fetchLessonList']),
+    viewLesson(lessonId){
+      this.$router.push({name: 'student-view-lesson', params: {id: lessonId}});
+    },
+    goToPassLesson(lessonId, event){
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      this.$router.push({ name: 'student-pass-lesson', params: { id: lessonId } });
+    },
+
   },
   mounted(){
     this.fetchLessonList(STUDENT);
@@ -129,6 +142,7 @@ tr:hover .pages-col{
 table{
   tbody{
     tr{
+      cursor: pointer;
       td{
         &:hover{
           button.u-btn_color_blue{
