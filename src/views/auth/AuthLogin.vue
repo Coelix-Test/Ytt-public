@@ -5,6 +5,7 @@
       <div class="login__form">
         <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
           <UTextField
+            padding
             label="Email"
             v-model="form.email"
             placeholder="myemail@example.com"
@@ -15,6 +16,7 @@
         </ValidationProvider>
         <ValidationProvider rules="required" name="Password" v-slot="{ errors }">
           <UTextField
+            padding
             label="Password"
             v-model="form.password"
             placeholder="******"

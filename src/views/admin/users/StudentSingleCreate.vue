@@ -70,6 +70,7 @@
             </ValidationProvider>
           </div>
           <div class="u-col-6">
+            <label>Avatar</label>
             <file-upload
               v-model="avatar"
               accept="image/*"
@@ -79,6 +80,7 @@
                   size="large"
                   color="primary"
                   tag="div"
+                  class="add-photo"
                 >
                   Add photo
                 </UBtn>
@@ -119,5 +121,17 @@ export default {
 <style lang="scss" scoped>
 .screen-container{
   min-height: 100%;
+}
+label{
+  font-size: 24px;
+  color: #000;
+  font-weight: 300;
+  line-height: 46px;
+  padding-left: 18px;
+  display: inline-block;
+}
+
+.add-photo{
+  margin-top: 11px;
 }
 </style>
