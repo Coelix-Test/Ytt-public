@@ -128,7 +128,6 @@ label{
   color: #000;
   font-weight: 300;
   line-height: 46px;
-  padding-left: 18px;
   display: inline-block;
 }
 
