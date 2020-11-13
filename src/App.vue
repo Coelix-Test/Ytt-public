@@ -19,7 +19,8 @@ export default {
     this.fetchUser()
       .then(this.navigateToStartPage)
       .catch(console.error);
-
+    if((typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1))
+      this.$router.push({ name: 'no-access-from-mobile' });
   },
   computed: {
     ...mapGetters(['loading'])
