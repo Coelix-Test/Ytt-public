@@ -49,6 +49,7 @@
                       v-if="item.status !== 'in_review'"
                       :to="{ name: 'student-pass-lesson', params: { id: item.id } }"
                       color="blue"
+                      width="180"
                   >
                     Pass
                   </UBtn>
@@ -56,6 +57,7 @@
                     v-else
                     color="warning"
                     outlined
+                    width="180"
                   >
                     In review
                   </UBtn>
@@ -122,5 +124,19 @@ tr:hover .pages-col{
 }
 .pages-col{
   color: $clr-grey;
+}
+
+table{
+  tbody{
+    tr{
+      td{
+        &:hover{
+          button.u-btn_color_blue{
+            border: 1px solid white;
+          }
+        }
+      }
+    }
+  }
 }
 </style>
