@@ -1,20 +1,17 @@
 <template>
   <UCard class="words-slider" v-if="words.length">
     <div class="words-slider__inner">
-      <transition-group
-        tag="div"
-        name="slide-carousel"
-        class="words-slider__list"
-      >
+      <div class="words-slider__list">
         <div
           class="words-slider__slide"
-          v-for="slide in computedSlides"
-          :key="slide.id"
+          :class="{ 'words-slider__slide_show': currentIndex === index }"
+          v-for="(slide, index) in computedSlides"
+          :key="index"
         >
           <img class="words-slider__image" :src="slide.image_url" alt="">
           <div class="words-slider__last-word-indicator" v-if="slide.isLastWord">Last word</div>
         </div>
-      </transition-group>
+      </div>
 
       <div class="words-slider__prev" @click="prevSlide"></div>
       <div class="words-slider__next" @click="nextSlide"></div>
@@ -85,24 +82,24 @@ export default {
         );
       });
 
-      let slidesToPlaceInEnd = slides.slice(0, this.currentIndex);
-      let slidesToPlaceInStart = slides.slice(this.currentIndex);
+      // let slidesToPlaceInEnd = slides.slice(0, this.currentIndex);
+      // let slidesToPlaceInStart = slides.slice(this.currentIndex);
 
-      return slidesToPlaceInStart.concat(slidesToPlaceInEnd);
+      return slides;// slidesToPlaceInStart.concat(slidesToPlaceInEnd);
     },
   },
   methods: {
     prevSlide(){
 
-      if(this.currentIndex !== 0){
+      if(this.currentIndex !== 0)
         this.currentIndex--;
-      }
+
     },
     nextSlide(){
 
-      if(this.currentIndex !== this.computedSlides.length - 1){
+      if(this.currentIndex !== this.computedSlides.length - 1)
         this.currentIndex++;
-      }
+
     }
   }
 }
@@ -124,14 +121,25 @@ export default {
     //justify-content: center;
     overflow: hidden;
     width: 100%;
-    min-height: 490px;
+    min-height: 780px;
+    position: relative;
   }
   &__slide{
     flex: 0 0 100%;
     min-height: 490px;
-    position: relative;
+    position: absolute;
 
-    transition: transform 0.3s ease-in-out;
+    transition: all 0.3s linear;
+    transition-delay: 0.3s;
+    opacity: 0;
+    visibility: hidden;
+    width: 100%;
+
+    &_show{
+      opacity: 1;
+      visibility: visible;
+      transition: all 0.3s linear;
+    }
   }
 
   &__image{
