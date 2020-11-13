@@ -2,7 +2,7 @@
   <div class="u-container u-ml-auto u-mr-auto">
     <div class="u-row">
       <div class="u-col-12">
-        <u-card class="u-px-20 u-py-16 u-my-10" elevation="1">
+        <u-card class="settings-container u-px-20 u-py-16 u-my-10" elevation="1">
           <div class="u-flex">
             <div class="u-text-h2 u-mr-auto">Add users</div>
 
@@ -42,5 +42,7 @@ export default {
 </script>
 
 <style>
-
+.settings-container{
+  border-radius: 62px;
+}
 </style>
