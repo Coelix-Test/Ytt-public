@@ -53,7 +53,7 @@
 import UCard from "@/components/common/UCard";
 import LastWordButton from "@/components/partials/WordsControlls/LastWordButton";
 import ToggleWordButton from "@/components/partials/WordsControlls/ToggleWordButton";
-import { mapGetters, mapMutations } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -74,9 +74,6 @@ export default {
   data: () => ({
     currentIndex: 0,
   }),
-  beforeDestroy() {
-    this.SET_WORDS([]);
-  },
   computed: {
     ...mapGetters('Words', ['lastWord']),
     progressBarStyle(){
@@ -115,7 +112,6 @@ export default {
     },
   },
   methods: {
-    ...mapMutations('Words', ['SET_WORDS']),
     prevSlide(){
 
       if(this.currentIndex !== 0)

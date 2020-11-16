@@ -52,8 +52,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
-import { STUDENT, TEACHER } from '@/constants/roles';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 import WordsView from "@/components/lessons/WordsView";
 import ContentContainer from "@/components/common/ContentContainer";
@@ -85,6 +84,9 @@ export default {
       saveBtnLoading : 'loading',
     }),
   },
+  beforeDestroy() {
+    this.SET_WORDS([]);
+  },
   methods: {
     ...mapActions('Lessons', [
       'fetchStudentsLesson',
@@ -93,6 +95,7 @@ export default {
     ...mapActions('Words', [
       'updateStudentsWords'
     ]),
+    ...mapMutations('Words', ['SET_WORDS']),
     callAction(){
 
       this.updateStudentsWords({

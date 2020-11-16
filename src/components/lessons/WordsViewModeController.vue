@@ -4,7 +4,7 @@
       <div
         class="words-view-mode-controller__button words-view-mode-controller__button-slider"
         :class="{'words-view-mode-controller__button-slider_active' : this.value }"
-        @click="toggle"
+        @click="setSliderView"
       >
       </div>
     </div>
@@ -12,7 +12,7 @@
       <div
         class="words-view-mode-controller__button words-view-mode-controller__button-grid"
         :class="{'words-view-mode-controller__button-grid_active' : !this.value }"
-        @click="toggle"
+        @click="setGridView"
       >
       </div>
     </div>
@@ -29,8 +29,11 @@ export default {
     }
   },
   methods: {
-    toggle(){
-      this.$emit('input', !this.value);
+    setSliderView(){
+      this.$emit('input', true);
+    },
+    setGridView(){
+      this.$emit('input', false);
     }
   },
 }
