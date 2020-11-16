@@ -2,6 +2,7 @@
   <div class="words-view">
     <WordsSlider
       v-if="sliderMode"
+      :display-words-controls="displayWordsControls"
       :words="displayWords"
     ></WordsSlider>
     <LessonWordsList
