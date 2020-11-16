@@ -7,7 +7,7 @@
           class="words-slider__slide"
           :class="{ 'words-slider__slide_show': currentIndex === index }"
           v-for="(slide, index) in computedSlides"
-          :key="slide.id"
+          :key="slide.keyId"
         >
           <img class="words-slider__image" :src="slide.image_url" alt="">
           <div class="words-slider__last-word-indicator" v-if="slide.isLastWord && !displayWordsControls">Last word</div>
@@ -94,12 +94,14 @@ export default {
       this.words.forEach((el) => {
         slides.push(
           {
-            id: el.id * 2,
+            keyId: el.id * 2,
+            id: el.id,
             image_url: el.cropped_image_url,
             isLastWord: el.id === this.lastWord,
           },
           {
-            id: el.id * 2 + 1,
+            keyId: el.id * 2 + 1,
+            id: el.id,
             image_url: el.image_url,
             isLastWord: el.id === this.lastWord,
           },
