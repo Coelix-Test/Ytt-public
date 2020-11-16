@@ -50,7 +50,7 @@
                 <td class="u-font-weight-light u-text-center pages-col">{{item.words_count}} pages</td>
                 <td class="u-text-right u-pr-25">
                   <UBtn
-                      v-if="item.status !== 'in_review'"
+                      v-if="['in_progress', 'new'].includes(item.status)"
                       color="blue"
                       width="180"
                       @click="goToPassLesson(item.id, $event)"
@@ -58,10 +58,21 @@
                     Pass
                   </UBtn>
                   <UBtn
-                    v-else
+                      width="180"
+                      size="small"
+                      color="success"
+                      outlined
+                      @click="goToPassLesson(item.id, $event)"
+                      v-if="item.status === 'completed'"
+                  >
+                    Passed
+                  </UBtn>
+                  <UBtn
+                    v-if="item.status === 'in_review'"
                     color="warning"
                     outlined
                     width="180"
+                    @click="viewLesson(item.id)"
                   >
                     In review
                   </UBtn>
