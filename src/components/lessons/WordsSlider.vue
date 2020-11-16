@@ -19,7 +19,7 @@
 
       <div class="words-slider__progress">
         <div class="words-slider__progress-text">
-          {{currentIndex+1}}/{{computedSlides.length}}
+          {{ (currentIndex - currentIndex % 2) / 2 + 1 }}/{{computedSlides.length/2}}
           <svg
             v-svg
             symbol="icon-shuffle"
@@ -177,17 +177,6 @@ export default {
     transform-origin: 50% 50%;
     transform: rotate(180deg) translate( -100%, 50%);
   }
-
-
-  //&__test{
-  //  position: absolute;
-  //  height: 1px;
-  //  right: -100px;
-  //  left: -100px;
-  //  width: calc(100% + 200px);
-  //  top: 50%;
-  //  background-color: red;
-  //}
 
 
   &__progress{
