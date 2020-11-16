@@ -2,6 +2,7 @@
   <UCard class="words-slider" v-if="words.length">
     <div class="words-slider__inner">
       <div class="words-slider__list">
+        <img class="words-slider__slide_plug" :src="currentSlide.image_url" alt="">
         <div
           class="words-slider__slide"
           :class="{ 'words-slider__slide_show': currentIndex === index }"
@@ -121,24 +122,30 @@ export default {
     //justify-content: center;
     overflow: hidden;
     width: 100%;
-    min-height: 780px;
+    //min-height: 780px;
     position: relative;
   }
   &__slide{
     flex: 0 0 100%;
     min-height: 490px;
     position: absolute;
-
-    transition: all 0.3s linear;
-    transition-delay: 0.3s;
+    $transition-duration: 0.2s;
+    transition: all $transition-duration linear;
+    transition-delay: $transition-duration;
     opacity: 0;
     visibility: hidden;
     width: 100%;
 
+    &_plug{
+      width: 100%;
+      opacity: 0;
+      z-index: 0;
+    }
+
     &_show{
       opacity: 1;
       visibility: visible;
-      transition: all 0.3s linear;
+      transition: all $transition-duration linear;
     }
   }
 
