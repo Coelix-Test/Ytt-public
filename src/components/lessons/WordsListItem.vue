@@ -9,16 +9,16 @@
       >
 
       <div class="words-list-item__controls" v-if="hasControls">
-        <button
-          class="words-list-item__button words-list-item__button_eye"
-          :class="eyeBtnClasses"
-          @click="toggleWord(id)"
-        ></button>
-        <button
-          class="words-list-item__button words-list-item__button_check"
-          :class="checkBtnClasses"
-          @click="setLastWord(id)"
-        ></button>
+        <ToggleWordButton
+          class="words-list-item__toggle-word-button"
+          :word-id="id"
+          :active="!disabled"
+        ></ToggleWordButton>
+        <LastWordButton
+          class="words-list-item__last-word-button"
+          :word-id="id"
+          :active="isLastWord"
+        ></LastWordButton>
       </div>
 
       <div class="words-list-item__last-word-indicator" v-if="isLastWord">Last word</div>
@@ -30,6 +30,8 @@
 
 <script>
 import {mapGetters, mapMutations} from 'vuex';
+import LastWordButton from "@/components/partials/WordsControlls/LastWordButton";
+import ToggleWordButton from "@/components/partials/WordsControlls/ToggleWordButton";
 
 export default {
   props: {
@@ -58,28 +60,19 @@ export default {
       default: false,
     }
   },
+  components: {
+    LastWordButton,
+    ToggleWordButton,
+  },
   computed: {
     classes(){
       return {
         'words-list-item_disabled' : this.disabled,
       };
     },
-    eyeBtnClasses(){
-      return {
-        'words-list-item__button_active' : !this.disabled,
-      };
-    },
-    checkBtnClasses(){
-      return {
-        'words-list-item__button_active' : this.isLastWord,
-      };
-    },
   },
   methods: {
-    ...mapMutations('Words', {
-      toggleWord: 'TOGGLE_WORD',
-      setLastWord: 'SET_LAST_WORD',
-    })
+
   }
 }
 </script>
@@ -107,28 +100,10 @@ export default {
     transform: translateY(50%);
 
   }
-  &__button{
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: $clr-primary;
-    border: 0;
+  &__toggle-word-button,
+  &__last-word-button{
     margin: 0 4px;
-    cursor: pointer;
-    outline: none;
-    &_eye{
-      background: url('~@/assets/svg/eye.svg') no-repeat center;
-      background-color: $clr-grey3;
-      background-size: 17px 12px;
-    }
-    &_check{
-      background: url('~@/assets/svg/check.svg') no-repeat center;
-      background-color: $clr-grey3;
-      background-size: 17px 12px;
-    }
-    &_active{
-      background-color: $clr-primary;
-    }
+
   }
   &__index{
     text-align: center;
