@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex';
 
 import UCard from '@/components/common/UCard.vue';
 import UAutocomplete from '@/components/common/UAutocomplete/UAutocomplete.vue';
@@ -59,6 +59,7 @@ export default {
     ...mapActions('Students', {
       getItems : 'fetchStudentsList',
     }),
+    ...mapMutations('Students', ['RESET_STUDENTS_LIST']),
     onSelectItems(items){
       this.$emit('input', items);
     },
@@ -72,7 +73,10 @@ export default {
   },
   mounted(){
     this.getItems(this.userRole);
-  }
+  },
+  beforeDestroy() {
+    this.RESET_STUDENTS_LIST();
+  },
 }
 </script>
 

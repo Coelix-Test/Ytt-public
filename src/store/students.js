@@ -27,7 +27,10 @@ export default {
                 }
                 return item;
             });
-        }
+        },
+        RESET_STUDENTS_LIST(state){
+            state.studentsList = null;
+        },
     },
     actions: {
         fetchStudentsList(context, role){

@@ -72,7 +72,7 @@
 
 <script>
 import { LessonsApi } from '@/api';
-import { mapActions } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 import UCard from '@/components/common/UCard';
 
 import SelectStudent from '@/components/modals/SelectStudent';
@@ -110,6 +110,7 @@ export default {
   },
   methods: {
     ...mapActions('Lessons', ['addAccessForStudents']),
+    ...mapMutations('Lessons', ['RESET_LESSONS_LIST']),
     getItems(){
       LessonsApi.getPage({}, 'teacher').then(response => {
         this.items = response.data;
@@ -142,6 +143,9 @@ export default {
   },
   mounted(){
     this.getItems();
+  },
+  beforeDestroy() {
+    this.RESET_LESSONS_LIST();
   },
 }
 </script>

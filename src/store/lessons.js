@@ -19,6 +19,9 @@ export default {
         SET_LESSON(state, payload){
             state.lesson = payload;
         },
+        RESET_LESSONS_LIST(state){
+            state.lessonsList = null;
+        },
     },
     actions: {
         createLesson(context, lesson){

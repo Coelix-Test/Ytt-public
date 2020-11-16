@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import UCard from '@/components/common/UCard.vue';
 import UAutocomplete from '@/components/common/UAutocomplete/UAutocomplete.vue';
 
@@ -59,6 +59,7 @@ export default {
   },
   methods: {
     ...mapActions('Lessons', ['fetchLessonList']),
+    ...mapMutations('Lessons', ['RESET_LESSONS_LIST']),
     onSelectItems(items){
       this.$emit('input', items);
     },
@@ -77,7 +78,11 @@ export default {
   },
   mounted(){
     this.fetchLessonList(this.userRole);
-  }
+  },
+  beforeDestroy() {
+    console.log('TRIGGER LESSON RESET');
+    this.RESET_LESSONS_LIST();
+  },
 }
 </script>
 

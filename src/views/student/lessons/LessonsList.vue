@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { STUDENT } from '@/constants/roles';
 import UCard from '@/components/common/UCard';
 
@@ -113,6 +113,7 @@ export default {
   },
   methods: {
     ...mapActions('Lessons', ['fetchLessonList']),
+    ...mapMutations('Lessons', ['RESET_LESSONS_LIST']),
     viewLesson(lessonId){
       this.$router.push({name: 'student-view-lesson', params: {id: lessonId}});
     },
@@ -125,6 +126,9 @@ export default {
   },
   mounted(){
     this.fetchLessonList(STUDENT);
+  },
+  beforeDestroy() {
+    this.RESET_LESSONS_LIST();
   }
 }
 </script>
