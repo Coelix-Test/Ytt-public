@@ -5,6 +5,11 @@
       <div class="teacher-check-lesson__header">
         <BackBtn class="teacher-check-lesson__back-btn" label="Back"></BackBtn>
         <div class="u-text-h2">Edit lesson</div>
+
+        <WordsViewModeController
+          class="teacher-check-lesson__words-view-mode-controller"
+          v-model="sliderMode"
+        ></WordsViewModeController>
       </div>
 
       <UTabs
@@ -14,14 +19,14 @@
       >
         <UTab label="Known words">
           <WordsView
-            :slider-mode="false"
+            :slider-mode="sliderMode"
             :display-known="true"
             :display-words-controls="true"
           ></WordsView>
         </UTab>
         <UTab label="Unknown words">
           <WordsView
-            :slider-mode="false"
+            :slider-mode="sliderMode"
             :display-known="false"
             :display-words-controls="true"
           ></WordsView>
@@ -68,6 +73,7 @@ import { STUDENT, TEACHER } from '@/constants/roles';
 
 import WordsView from "@/components/lessons/WordsView";
 import ContentContainer from "@/components/common/ContentContainer";
+import WordsViewModeController from "@/components/lessons/WordsViewModeController";
 
 import UTabs from '@/components/common/UTabs/UTabs';
 import UTab from '@/components/common/UTabs/UTab';
@@ -77,6 +83,7 @@ import BackBtn from "@/components/common/BackBtn";
 export default {
   data: () => ({
     activeTab: 0,
+    sliderMode: false,
   }),
   components: {
     ContentContainer,
@@ -85,6 +92,7 @@ export default {
     UTab,
     BackBtn,
     UAudioPlayer,
+    WordsViewModeController,
   },
   computed: {
     ...mapGetters('Lessons', {
@@ -161,7 +169,11 @@ export default {
 .teacher-check-lesson{
   &__header{
     display: flex;
+    align-items: center;
     margin-bottom: 20px;
+  }
+  &__words-view-mode-controller{
+    margin-left: auto;
   }
   &__back-btn{
     margin-right: 50px;
