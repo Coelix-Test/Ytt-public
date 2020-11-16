@@ -58,7 +58,7 @@ export default {
     ...mapGetters('Words', ['lastWord']),
     progressBarStyle(){
       return {
-        width: (this.currentIndex + 1)/this.computedSlides.length * 100 + '%'
+        width: (Math.floor((this.currentIndex + 1) / 2))/this.computedSlides.length * 100 + '%'
       }
     },
     currentSlide(){
