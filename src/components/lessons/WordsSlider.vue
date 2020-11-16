@@ -52,7 +52,7 @@
 <script>
 import UCard from "@/components/common/UCard";
 import LastWordButton from "@/components/partials/WordsControlls/LastWordButton";
-import ToggleWordButton from "@/components/partials/WordsControlls/ToggleWordButton";import { mapGetters, mapMutations } from "vuex";
+import ToggleWordButton from "@/components/partials/WordsControlls/ToggleWordButton";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
