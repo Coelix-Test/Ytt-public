@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { STUDENT } from '@/constants/roles';
 
 import WordsView from "@/components/lessons/WordsView";
@@ -66,6 +66,7 @@ export default {
     ...mapGetters('Lessons', ['loading'])
   },
   methods: {
+    ...mapActions('Lessons', ['fetchLesson'])
   },
   mounted(){
     this.fetchLesson({

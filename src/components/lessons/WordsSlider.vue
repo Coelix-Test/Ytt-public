@@ -39,7 +39,7 @@
 
 <script>
 import UCard from "@/components/common/UCard";
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -58,11 +58,11 @@ export default {
     ...mapGetters('Words', ['lastWord']),
     progressBarStyle(){
       return {
-        width: (Math.floor((this.currentIndex + 1) / 2))/this.computedSlides.length * 100 + '%'
+        width: (Math.floor((this.currentIndex + 1) / 2)) / (this.computedSlides.length / 2) * 100 + '%'
       }
     },
     currentSlide(){
-      return this.words.find((el, index) => index === this.currentIndex);
+      return this.words.find((el, index) => index === Math.floor(this.currentIndex / 2));
     },
     computedSlides(){
 
