@@ -59,7 +59,6 @@
                   </UBtn>
                   <UBtn
                       width="180"
-                      size="small"
                       color="success"
                       outlined
                       @click="goToPassLesson(item.id, $event)"
