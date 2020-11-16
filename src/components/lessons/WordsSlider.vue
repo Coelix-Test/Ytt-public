@@ -6,10 +6,22 @@
           class="words-slider__slide"
           :class="{ 'words-slider__slide_show': currentIndex === index }"
           v-for="(slide, index) in computedSlides"
-          :key="index"
+          :key="slide.keyId"
         >
           <img class="words-slider__image" :src="slide.image_url" alt="">
-          <div class="words-slider__last-word-indicator" v-if="slide.isLastWord">Last word</div>
+          <div class="words-slider__last-word-indicator" v-if="slide.isLastWord && !displayWordsControls">Last word</div>
+          <div class="words-slider__word-controls" v-if="displayWordsControls">
+            <ToggleWordButton
+              class="words-slider__toggle-word-button"
+              :word-id="slide.id"
+              :active="true"
+            ></ToggleWordButton>
+            <LastWordButton
+              class="words-slider__last-word-button"
+              :word-id="slide.id"
+              :active="slide.isLastWord"
+            ></LastWordButton>
+          </div>
         </div>
       </div>
 
@@ -38,16 +50,24 @@
 
 <script>
 import UCard from "@/components/common/UCard";
+import LastWordButton from "@/components/partials/WordsControlls/LastWordButton";
+import ToggleWordButton from "@/components/partials/WordsControlls/ToggleWordButton";
 import {mapGetters} from "vuex";
 
 export default {
   components: {
     UCard,
+    LastWordButton,
+    ToggleWordButton,
   },
   props: {
     words: {
       type: Array,
       default: () => [],
+    },
+    displayWordsControls: {
+      type: Boolean,
+      default: false,
     }
   },
   data: () => ({
@@ -57,7 +77,7 @@ export default {
     ...mapGetters('Words', ['lastWord']),
     progressBarStyle(){
       return {
-        width: (this.currentIndex + 1)/this.computedSlides.length * 100 + '%'
+        width: (((this.currentIndex - this.currentIndex % 2) / 2 + 1)/this.computedSlides.length * 2) * 100 + '%'
       }
     },
     currentSlide(){
@@ -70,12 +90,14 @@ export default {
       this.words.forEach((el) => {
         slides.push(
           {
-            id: el.id * 2,
+            keyId: el.id * 2,
+            id: el.id,
             image_url: el.cropped_image_url,
             isLastWord: el.id === this.lastWord,
           },
           {
-            id: el.id * 2 + 1,
+            keyId: el.id * 2 + 1,
+            id: el.id,
             image_url: el.image_url,
             isLastWord: el.id === this.lastWord,
           },
@@ -154,6 +176,21 @@ export default {
     top: 8%;
     right: 20px;
     font-size: 20px;
+  }
+
+  &__word-controls{
+    position: absolute;
+    top: 30px;
+    right: 45px;
+  }
+  &__toggle-word-button,
+  &__last-word-button{
+    width: 48px;
+    height: 48px;
+    background-size: 27px 18px;
+  }
+  &__last-word-button{
+    margin-left: 15px;
   }
 
 

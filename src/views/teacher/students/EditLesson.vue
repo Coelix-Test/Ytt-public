@@ -5,6 +5,11 @@
       <div class="teacher-edit-lesson__header">
         <BackBtn class="teacher-edit-lesson__back-btn" label="Back"></BackBtn>
         <div class="u-text-h2">Edit lesson</div>
+
+        <WordsViewModeController
+          class="teacher-edit-lesson__words-view-mode-controller"
+          v-model="sliderMode"
+        ></WordsViewModeController>
       </div>
 
       <UTabs
@@ -14,14 +19,14 @@
       >
         <UTab label="Known words">
           <WordsView
-            :slider-mode="false"
+            :slider-mode="sliderMode"
             :display-known="true"
             :display-words-controls="true"
           ></WordsView>
         </UTab>
         <UTab label="Unknown words">
           <WordsView
-            :slider-mode="false"
+            :slider-mode="sliderMode"
             :display-known="false"
             :display-words-controls="true"
           ></WordsView>
@@ -56,10 +61,12 @@ import ContentContainer from "@/components/common/ContentContainer";
 import UTabs from '@/components/common/UTabs/UTabs';
 import UTab from '@/components/common/UTabs/UTab';
 import BackBtn from "@/components/common/BackBtn";
+import WordsViewModeController from "@/components/lessons/WordsViewModeController";
 
 export default {
   data: () => ({
     activeTab: 0,
+    sliderMode: false,
   }),
   components: {
     ContentContainer,
@@ -67,6 +74,7 @@ export default {
     UTabs,
     UTab,
     BackBtn,
+    WordsViewModeController,
   },
   computed: {
     ...mapGetters('Lessons', {
@@ -128,10 +136,14 @@ export default {
 .teacher-edit-lesson{
   &__header{
     display: flex;
+    align-items: center;
     margin-bottom: 20px;
   }
   &__back-btn{
     margin-right: 50px;
+  }
+  &__words-view-mode-controller{
+    margin-left: auto;
   }
   &__tabs{
     margin-bottom: 38px;
