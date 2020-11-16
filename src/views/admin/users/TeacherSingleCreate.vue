@@ -72,7 +72,7 @@
           </div>
           <div class="u-col-6">
             <label>Avatar</label>
-            <file-upload7
+            <file-upload
                 v-model="avatar"
                 accept="image/*"
               >
@@ -86,7 +86,7 @@
                     Add photo
                   </UBtn>
                 </template>
-              </file-upload7>
+              </file-upload>
           </div>
         </div>
       </div>
