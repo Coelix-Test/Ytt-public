@@ -11,8 +11,8 @@
           <div class="track" @mousedown="startDrag"></div>
         </div>
         <div class="speed-container">
-          <div class="toggle-speed active">x1.5</div>
-          <div class="toggle-speed">x2</div>
+          <div @click="() => changeSpeed(1.5)" class="toggle-speed" :class="{ 'toggle-speed_active': playerSpeed === 1.5 }">x1.5</div>
+          <div @click="() => changeSpeed(2)" class="toggle-speed" :class="{ 'toggle-speed_active': playerSpeed === 2 }">x2</div>
         </div>
         <div class="play-container">
           <div class="toggle-play play" ref="playBtn">
@@ -36,9 +36,18 @@ export default {
     audio: null,
     audioPlayer: null,
     timeToSeek: null,
-    refreshTimelineInterval: null
+    refreshTimelineInterval: null,
+    playerSpeed: 1
   }),
   methods: {
+    changeSpeed(val){
+      if(this.audio.playbackRate === val)
+        this.audio.playbackRate = 1;
+      else
+        this.audio.playbackRate = val;
+
+      this.playerSpeed = this.audio.playbackRate;
+    },
     startDrag() {
       this.dragging = true;
       console.log(this.refreshTimelineInterval);
@@ -84,7 +93,6 @@ export default {
         }
 
         if(this.audio !== null){
-          console.log('INTERVAL: ', currentTime);
           progressBar.style.width = currentTime / this.audio.duration * 100 + "%";
           track.style.left = currentTime / this.audio.duration * 100 + "%";
           this.audioPlayer.querySelector(".time").textContent = this.getTimeCodeFromNum(currentTime);
@@ -233,7 +241,6 @@ export default {
     flex-direction: column;
     align-items: center;
     margin: 0 20px 0 8px;
-    opacity: 0;
   }
   .toggle-speed{
     font-size: 14px;
@@ -244,7 +251,7 @@ export default {
     &:first-child{
       margin-bottom: 5px;
     }
-    &.active{
+    &_active{
       font-weight: 500;
       opacity: 1;
     }
