@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import SvgSprite from 'vue-svg-sprite';
 import VModal from 'vue-js-modal';
-import App from './App.vue'
-import '@/styles/app.scss'
-import router from './router'
-import store from './store'
+import AlertPlugin from '@/lib/AlertPlugin';
+import App from './App.vue';
+import '@/styles/app.scss';
+import router from './router';
+import store from './store';
 import axios from 'axios';
 import { extend, ValidationProvider, ValidationObserver } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
@@ -42,7 +43,14 @@ Vue.use(SvgSprite, {
   url: '/sprite.svg',
 });
 
-Vue.use(VModal);
+Vue.use(VModal, {
+  dynamicDefaults: {
+    height: 'auto',
+    classes: 'u-modal',
+    width: '1140',
+  }
+});
+Vue.use(AlertPlugin);
 Vue.use(Notifications);
 Vue.use(vuescroll, {
   ops: {
