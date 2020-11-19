@@ -70,10 +70,8 @@ Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('UBtn', UBtn);
 
-extend('isTrue', {
-  validate: value => value === true,
-  message: '{filed} is required'
-});
+import validateRules from "@/config/validateRules";
+validateRules();
 
 Vue.config.productionTip = false
 

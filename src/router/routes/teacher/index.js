@@ -2,6 +2,7 @@ import Teacher from '@/views/teacher/Teacher';
 
 import lessons from './lessons';
 import students from './students';
+import settings from "./settings";
 
 import { TEACHER } from '@/constants/roles';
 import routesExtendMeta from '@/router/routesExtendMeta';
@@ -18,6 +19,7 @@ const routes = {
 	children: [
 		lessons,
 		students,
+		settings,
 	]
 };
 

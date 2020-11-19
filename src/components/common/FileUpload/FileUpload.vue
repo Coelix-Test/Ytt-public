@@ -29,12 +29,12 @@
         ></svg>
         <div
           class="file-upload__image-preview"
-          :style="{ 'background-image': `url(${imagePreview})` }"
+          :style="{ 'background-image': `url(${compImage.preview})` }"
           v-if="hasImage"
         ></div>
 
         <span class="file-upload__label-text">
-          {{value.name}}
+          {{compImage.name}}
         </span>
       </div>
     </label>
@@ -62,7 +62,7 @@ export default {
       type: Function,
     },
     value: {
-      type: [Object, Array, File],
+      type: [Object, Array, File, String],
       default: () => null,
     },
     accept: {
@@ -93,7 +93,21 @@ export default {
       return this.hasValue && this.value.type === 'application/pdf';
     },
     hasImage(){
-      return this.hasValue && this.value['type'].split('/')[0] === 'image';
+      return this.hasValue && this.accept === 'image/*';
+    },
+    compImage(){
+      let compImage = {};
+      if(this.hasImage){
+        if(typeof this.value === 'string'){
+          compImage.preview = this.value;
+          compImage.name = this.value.split('/').pop();
+        }
+        else{
+          compImage.preview = this.imagePreview;
+          compImage.name = this.value.name;
+        }
+      }
+      return compImage;
     }
   },
   methods: {
