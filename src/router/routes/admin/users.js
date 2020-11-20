@@ -1,6 +1,7 @@
 import Users from '@/views/admin/users/Users';
 import StudentSingleCreate from '@/views/admin/users/StudentSingleCreate';
 import TeacherSingleCreate from '@/views/admin/users/TeacherSingleCreate';
+import EditSingle from "@/views/admin/users/EditSingle";
 
 import ListAll from '@/views/admin/users/ListAll';
 
@@ -22,6 +23,11 @@ export default {
       path: 'create-student',
       component: StudentSingleCreate,
       name: 'admin-student-create',
+    },
+    {
+      path: 'edit/:id',
+      component: EditSingle,
+      name: 'admin-user-edit',
     },
   ]
 }

@@ -143,7 +143,7 @@ export default {
     position: absolute;
     z-index: 1;
     bottom: 16px;
-    left: 23px;
+    left: 15px;
   }
 
   &__list{
