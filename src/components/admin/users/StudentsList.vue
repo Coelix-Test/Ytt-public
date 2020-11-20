@@ -36,23 +36,34 @@
           <td class="grey-col">{{item.email}}</td>
           <td class="grey-col">{{item.phone}}</td>
           <td class="u-pr-25 u-text-right">
+            <div class="actions-col">
+              <UBtn
+                color="primary"
+                size="small"
+                @click="openSelectTeacherModal(item)"
+                v-if="!item.teacher_id"
+              >
+                Add teacher
+              </UBtn>
+              <UBtn
+                color="primary"
+                size="small"
+                @click="openSelectTeacherModal(item)"
+                v-else
+              >
+                Change teacher
+              </UBtn>
 
-            <UBtn
-              color="primary"
-              size="small"
-              @click="openSelectTeacherModal(item)"
-              v-if="!item.teacher_id"
-            >
-              Add teacher
-            </UBtn>
-            <UBtn
-              color="primary"
-              size="small"
-              @click="openSelectTeacherModal(item)"
-              v-else
-            >
-              Change teacher
-            </UBtn>
+              <RouterLink
+                class="edit-user-btn"
+                :to="{ name: 'admin-user-edit', params: { id: item.id }}"
+              >
+                <svg
+                  v-svg
+                  symbol="icon-pencil"
+                ></svg>
+              </RouterLink>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -168,5 +179,29 @@ tr:hover .grey-col{
 }
 .grey-col{
   color: $clr-grey;
+}
+
+.edit-user-btn{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+  svg{
+    width: 18px;
+    height: 18px;
+  }
+  &:hover{
+    background-color: #fff;
+    svg{
+      fill: $clr-blue;
+    }
+  }
+}
+.actions-col{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

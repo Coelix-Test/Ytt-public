@@ -87,6 +87,13 @@ export default {
           icon: 'icon-user-group',
           active: false,
         },
+        {
+          id: 3,
+          text: 'Settings',
+          to: {name: 'teacher-settings'},
+          icon: 'icon-settings',
+          active: false,
+        },
       ],
       [STUDENT]: [
         {
@@ -95,6 +102,13 @@ export default {
           to: {name: 'student-lessons-all'},
           icon: 'icon-file',
           active: true,
+        },
+        {
+          id: 2,
+          text: 'Settings',
+          to: {name: 'student-settings'},
+          icon: 'icon-settings',
+          active: false,
         },
       ]
     }
