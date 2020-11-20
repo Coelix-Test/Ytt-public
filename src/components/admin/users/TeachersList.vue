@@ -44,6 +44,11 @@
             >
               Add lesson
             </UBtn>
+
+            <svg
+              v-svg
+              symbol="icon-pencil"
+            ></svg>
           </td>
         </tr>
         </tbody>
