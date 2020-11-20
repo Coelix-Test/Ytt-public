@@ -204,7 +204,7 @@ export default {
 <style lang="scss">
 .user-settings{
   &__title{
-    margin-bottom: 60px;
+    margin-bottom: 40px;
   }
   &__form{
     display: flex;
@@ -217,7 +217,7 @@ export default {
       margin-right: $gutter;
       margin-left: $gutter;
 
-      margin-bottom: 45px;
+      margin-bottom: 32px;
     }
     &-submit{
       flex-basis: 100%;

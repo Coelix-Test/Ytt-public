@@ -3,6 +3,7 @@
     <div class="words-slider__inner">
       <div class="words-slider__list">
         <img class="words-slider__slide_plug" :src="currentSlide.image_url" alt="">
+        <img class="words-slider__logo" src="@/assets/logo.svg" alt="">
         <div
           class="words-slider__slide"
           :class="{ 'words-slider__slide_show': currentIndex === index }"
@@ -138,6 +139,13 @@ export default {
     position: relative;
   }
 
+  &__logo{
+    position: absolute;
+    z-index: 1;
+    bottom: 16px;
+    left: 23px;
+  }
+
   &__list{
     display: flex;
     justify-content: flex-start;
@@ -176,6 +184,7 @@ export default {
     height: auto;
     display: block;
   }
+
 
   &__last-word-indicator{
     position: absolute;
