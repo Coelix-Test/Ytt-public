@@ -72,7 +72,7 @@ export default {
 			if(!getters.user)
 				return new Error('Store/NavigateToStartPage: user is not defined');
 
-			switch (getters.user.role){
+			switch (getters.user.role_id){
 				case ADMIN:
 					return router.push({ name: 'admin-lessons-all' });
 				case TEACHER:
@@ -87,7 +87,7 @@ export default {
 		userRole: state => {
 			let userRole = null;
 			if(state.user){
-				userRole = state.user.role;
+				userRole = state.user.role_id;
 			}
 			return userRole;
 		},

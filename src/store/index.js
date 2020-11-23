@@ -11,6 +11,7 @@ import Lessons from '@/store/lessons';
 import Users from '@/store/users';
 import Students from '@/store/students';
 import Words from '@/store/words';
+import Coins from '@/store/coins';
 
 export default new Vuex.Store({
   state: {
@@ -33,5 +34,6 @@ export default new Vuex.Store({
     Users,
     Students,
     Words,
+    Coins,
   }
 })

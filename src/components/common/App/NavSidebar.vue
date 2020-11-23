@@ -6,11 +6,20 @@
         <img :src="user.avatar" alt="">
       </div>
       <div class="c-nav-sidebar__user__name u-font-weight-light">{{user.name}}</div>
+
+      <div class="c-nav-sidebar__user-coins" v-if="showCoins">
+        <div class="c-nav-sidebar__user-coins-label">My coins</div>
+        <div class="c-nav-sidebar__user-coins-count">{{user.balance}}</div>
+        <img
+          class="c-nav-sidebar__user-coins-icon"
+          src="@/assets/svg/coin.svg"
+        >
+      </div>
     </div>
 
     <div class="c-nav-sidebar__nav-list">
       <router-link
-        v-for="item in navItems[user.role]"
+        v-for="item in navItems[user.role_id]"
         :key="item.id"
         class="c-nav-sidebar__nav-item u-flex is-align-center"
         active-class="is-active"
@@ -114,7 +123,10 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters('Auth', ['user'])
+    ...mapGetters('Auth', ['user']),
+    showCoins(){
+      return this.user.role_id === STUDENT;
+    },
   },
   methods: {
     ...mapActions('Auth', ['logout']),
@@ -162,6 +174,26 @@ export default {
       color: #fff;
       font-size: 36px;
       text-align: center;
+    }
+
+    &-coins{
+      font-size: 18px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      font-weight: 300;
+      margin-top: 20px;
+      &-count{
+        font-size: 24px;
+        font-weight: 500;
+        color: $clr-primary;
+        margin-right: 7px;
+        margin-left: 16px;
+      }
+      &-icon{
+        width: 29px;
+        height: 29px;
+      }
     }
   }
 

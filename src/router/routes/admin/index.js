@@ -3,6 +3,7 @@ import Admin from '@/views/admin/Admin';
 import lessons from './lessons';
 import users from './users';
 import settings from './settings';
+import coins from './coins';
 
 import { ADMIN } from '@/constants/roles';
 import routesExtendMeta from '@/router/routesExtendMeta';
@@ -19,6 +20,7 @@ const routes = {
 		lessons,
 		users,
 		settings,
+		coins,
 	]
 };
 
