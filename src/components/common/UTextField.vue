@@ -80,7 +80,6 @@ export default {
   },
   methods: {
     onInput(event){
-      console.log(event);
       this.$emit('input', event.target.value);
     },
     togglePasswordVisibility(){
