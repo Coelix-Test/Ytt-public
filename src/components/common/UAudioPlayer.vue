@@ -13,7 +13,6 @@
         <div class="speed-container">
           <div @click="() => changeSpeed(1.5)" class="toggle-speed" :class="{ 'toggle-speed_active': playerSpeed === 1.5 }">x1.5</div>
           <div @click="() => changeSpeed(2)" class="toggle-speed" :class="{ 'toggle-speed_active': playerSpeed === 2 }">x2</div>
-          <div @click="() => changeSpeed(0.5)" class="toggle-speed" :class="{ 'toggle-speed_active': playerSpeed === 0.5 }">x0.5</div>
         </div>
         <div class="play-container">
           <div class="toggle-play play" ref="playBtn">
