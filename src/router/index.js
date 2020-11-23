@@ -31,7 +31,7 @@ router.beforeEach(async (to, from, next) => {
 	const access = roleAccess ? Array.isArray(roleAccess) ? roleAccess : [roleAccess] : []
 	console.log('beforeEach[access]: ', access);
 	
-	if(!access.includes(user.role))
+	if(!access.includes(user.role_id))
 		return next(from);
 	
 	

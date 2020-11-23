@@ -19,7 +19,7 @@
 
     <div class="c-nav-sidebar__nav-list">
       <router-link
-        v-for="item in navItems[user.role]"
+        v-for="item in navItems[user.role_id]"
         :key="item.id"
         class="c-nav-sidebar__nav-item u-flex is-align-center"
         active-class="is-active"
@@ -125,7 +125,7 @@ export default {
   computed: {
     ...mapGetters('Auth', ['user']),
     showCoins(){
-      return this.user.role === STUDENT;
+      return this.user.role_id === STUDENT;
     },
   },
   methods: {
