@@ -1,51 +1,52 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
     <u-card class="login">
+      <form  @submit.prevent="() => handleSubmit(() => signIn(form))">
 <!--      <SocialsAuth/>-->
-      <div class="login__form">
-        <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
-          <UTextField
-            padding
-            label="Email"
-            v-model="form.email"
-            placeholder="myemail@example.com"
-            class="login__form-input"
-            :error="errors[0]"
-            inset
-          ></UTextField>
-        </ValidationProvider>
-        <ValidationProvider rules="required" name="Password" v-slot="{ errors }">
-          <UTextField
-            padding
-            label="Password"
-            v-model="form.password"
-            placeholder="******"
-            type="password"
-            :error="errors[0]"
-            class="login__form-input"
-          ></UTextField>
-        </ValidationProvider>
+        <div class="login__form">
+          <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
+            <UTextField
+              padding
+              label="Email"
+              v-model="form.email"
+              placeholder="myemail@example.com"
+              class="login__form-input"
+              :error="errors[0]"
+              inset
+            ></UTextField>
+          </ValidationProvider>
+          <ValidationProvider rules="required" name="Password" v-slot="{ errors }">
+            <UTextField
+              padding
+              label="Password"
+              v-model="form.password"
+              placeholder="******"
+              type="password"
+              :error="errors[0]"
+              class="login__form-input"
+            ></UTextField>
+          </ValidationProvider>
 
-        <UCheckbox class="login__form-remember" v-model="form.remember">
-          Automatic  login
-        </UCheckbox>
-      </div>
+          <UCheckbox class="login__form-remember" v-model="form.remember">
+            Automatic  login
+          </UCheckbox>
+        </div>
 
-      <div class="u-flex is-justify-center">
-        <UBtn
-          class="login__btn"
-          size="x-large"
-          color="primary"
-          @click="() => handleSubmit(() => signIn(form))"
-          :loading="loading"
-        >
-          Log in
-        </UBtn>
-      </div>
+        <div class="u-flex is-justify-center">
+          <UBtn
+            class="login__btn"
+            size="x-large"
+            color="primary"
+            :loading="loading"
+          >
+            Log in
+          </UBtn>
+        </div>
 
 <!--      <div class="login__forgot" >-->
 <!--        Forgot your password? <a href="#">click here</a>-->
 <!--      </div>-->
+      </form>
     </u-card>
   </ValidationObserver>
 </template>
