@@ -9,25 +9,6 @@
       class="view-lesson__lesson-words-list"
       :words="words"
     ></LessonWordsList>
-
-    <div class="view-lesson__download">
-      <UBtn
-        tag="a"
-        :href="pdfUrl"
-        download
-        size="x-large"
-        color="grey"
-        width="352"
-        outlined
-      >
-        <svg
-          class="view-lesson__download-icon"
-          v-svg
-          symbol="download"
-        ></svg>
-        <span class="view-lesson__download-text">Download</span>
-      </UBtn>
-    </div>
   </ContentContainer>
 </template>
 
