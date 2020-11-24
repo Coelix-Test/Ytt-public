@@ -86,6 +86,16 @@ export default {
                     .then(() => context.commit('SET_LOADING', false))
             });
         },
+        deleteUser(context, { userId }){
+            context.commit('SET_LOADING', true);
+            return new Promise((resolve, reject) => {
+                axios.delete(`/admin/users/${userId}`)
+                    .then(resolve)
+                    .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+                    .then(() => context.commit('DELETE_USER', userId))
+                    .then(() => context.commit('SET_LOADING', false));
+            });
+        }
     },
     getters: {
         loading: state => state.loading,

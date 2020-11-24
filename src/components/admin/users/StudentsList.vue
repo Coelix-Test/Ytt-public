@@ -20,7 +20,7 @@
           </template>
         </tr>
       </thead>
-      <tbody v-if="items.length">
+      <tbody v-if="items && items.length">
         <tr
           v-for="item in items"
           :key="item.id"
@@ -54,15 +54,27 @@
                 Change teacher
               </UBtn>
 
-              <RouterLink
-                class="edit-user-btn"
+              <UIconBtn
+                class="u-data-table__action-btn u-ml-3"
                 :to="{ name: 'admin-user-edit', params: { id: item.id }}"
+                icon="icon-pencil"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
               >
-                <svg
-                  v-svg
-                  symbol="icon-pencil"
-                ></svg>
-              </RouterLink>
+              </UIconBtn>
+
+              <UIconBtn
+                class="u-mx-1"
+                icon="icon-trash"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
+                @click="deleteUserAlert(item)"
+              >
+              </UIconBtn>
             </div>
           </td>
         </tr>
@@ -85,14 +97,23 @@
 <script>
 import UCard from '@/components/common/UCard';
 import SelectTeacher from '@/components/modals/SelectTeacher';
+import UIconBtn from "@/components/common/UIconBtn";
 
 import { UsersApi, StudentsApi } from '@/api';
+import {mapActions, mapMutations, mapGetters } from "vuex";
+import { ADMIN } from "@/constants/roles";
+import DeleteUserMixin from '@/mixins/delete-user.mixin'
 
 export default {
+  components: {
+    UCard,
+    SelectTeacher,
+    UIconBtn,
+  },
+  mixins: [ DeleteUserMixin ],
   data: () => ({
     currentSelectedTeacher: null,
     currentSelectedStudent: null,
-    items: [],
     columns: [
       {
         text: 'Name',
@@ -116,14 +137,15 @@ export default {
       },
     ],
   }),
-  components: {
-    UCard,
-    SelectTeacher,
+  computed: {
+    ...mapGetters('Students', {
+      items: 'studentsList'
+    }),
   },
   methods: {
-    getAll(){
-      UsersApi.getPage({ role: 3 }).then(response => {this.items = response.data});
-    },
+    ...mapActions('Users', ['deleteUser']),
+    ...mapActions('Students', ['fetchStudentsList']),
+    ...mapMutations('Students', ['RESET_STUDENTS_LIST']),
     onSelectTeachers(teacher){
       console.log('selected teacher: ', teacher);
       this.currentSelectedTeacher = teacher;
@@ -154,7 +176,10 @@ export default {
     },
   },
   mounted(){
-    this.getAll();
+    this.fetchStudentsList(ADMIN);
+  },
+  beforeDestroy() {
+    this.RESET_STUDENTS_LIST();
   }
 }
 </script>
@@ -181,25 +206,6 @@ tr:hover .grey-col{
   color: $clr-grey;
 }
 
-.edit-user-btn{
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 15px;
-  svg{
-    width: 18px;
-    height: 18px;
-  }
-  &:hover{
-    background-color: #fff;
-    svg{
-      fill: $clr-blue;
-    }
-  }
-}
 .actions-col{
   display: flex;
   justify-content: flex-end;
