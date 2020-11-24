@@ -4,11 +4,11 @@
       <form  @submit.prevent="() => handleSubmit(() => signIn(form))">
 <!--      <SocialsAuth/>-->
         <div class="login__form">
-          <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
+          <ValidationProvider rules="email|required" name="Email|Login" v-slot="{ errors }">
             <UTextField
               padding
               label="Email"
-              v-model="form.email"
+              v-model="form.login"
               placeholder="myemail@example.com"
               class="login__form-input"
               :error="errors[0]"
@@ -62,7 +62,7 @@ export default {
 
   data: () => ({
     form:{
-      email: '',
+      login: '',
       password: '',
       remember: false
     }
