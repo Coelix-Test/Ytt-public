@@ -39,6 +39,17 @@
             </ValidationProvider>
           </div>
           <div class="u-col-6 u-mb-8">
+            <ValidationProvider rules="required" name="Username" v-slot="{ errors }">
+              <u-text-field
+                label="Username"
+                placeholder="Username"
+                v-model="username"
+                :error="errors[0]"
+              >
+              </u-text-field>
+            </ValidationProvider>
+          </div>
+          <div class="u-col-6 u-mb-8">
             <u-text-field
               label="City"
               placeholder="City"
@@ -46,6 +57,7 @@
             >
             </u-text-field>
           </div>
+          <div class="u-col-6 u-mb-8"></div>
           <div class="u-col-6 u-mb-8">
             <ValidationProvider rules="min:6|max:20|required" name="Password" v-slot="{ errors }">
               <u-text-field
