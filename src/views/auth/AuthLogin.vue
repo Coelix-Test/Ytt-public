@@ -8,7 +8,7 @@
             <UTextField
               padding
               label="Email"
-              v-model="form.email"
+              v-model="form.login"
               placeholder="myemail@example.com"
               class="login__form-input"
               :error="errors[0]"
@@ -62,7 +62,7 @@ export default {
 
   data: () => ({
     form:{
-      email: '',
+      login: '',
       password: '',
       remember: false
     }
