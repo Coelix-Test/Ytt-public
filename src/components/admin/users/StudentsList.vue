@@ -72,7 +72,7 @@
                 icon-hover-color="blue"
                 bg-hover-color="white"
                 hoverable
-                @click="deleteUserAlert(item)"
+                @click.native="deleteUserAlert(item)"
               >
               </UIconBtn>
             </div>
