@@ -41,7 +41,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in items" :key="item.id">
+                <tr
+                  v-for="item in items"
+                  :key="item.id"
+                  :class="{ 'lesson-item_hidden' : !!item.hidden }"
+                >
                   <td class="u-pl-13 u-font-weight-light">
                     <svg
                       v-svg
@@ -53,21 +57,45 @@
                   </td>
                   <td class="u-font-weight-light u-text-center pages-col">{{item.words_count}} pages</td>
                   <td class="u-text-right u-pr-25">
-                    <UBtn
-                      class="u-mr-9"
-                      size="medium"
-                      color="primary"
-                      :to="{name: 'admin-lessons-view', params: {id: item.id }}"
-                    >
-                      <span class="u-font-weight-regular">Edit lesson</span>
-                    </UBtn>
-                    <UBtn
-                      size="medium"
-                      color="primary"
-                      @click="openSelectTeacherModal(item)"
-                    >
-                      <span class="u-font-weight-regular">Add to teacher</span>
-                    </UBtn>
+                    <div class="u-flex is-justify-end">
+                      <UBtn
+                        class="u-mr-7"
+                        size="small"
+                        color="primary"
+                        :to="{name: 'admin-lessons-view', params: {id: item.id }}"
+                      >
+                        <span class="u-font-weight-regular">Edit lesson</span>
+                      </UBtn>
+                      <UBtn
+                        class="u-mx-1"
+                        size="small"
+                        color="primary"
+                        @click="openSelectTeacherModal(item)"
+                      >
+                        <span class="u-font-weight-regular">Add to teacher</span>
+                      </UBtn>
+
+                      <UIconBtn
+                        class="u-mx-1"
+                        icon="icon-eye2"
+                        icon-color="grey"
+                        icon-hover-color="blue"
+                        bg-hover-color="white"
+                        hoverable
+                        @click.native="hideLessonToggleAlert(item)"
+                      >
+                      </UIconBtn>
+                      <UIconBtn
+                        class="u-mx-1"
+                        icon="icon-trash"
+                        icon-color="grey"
+                        icon-hover-color="blue"
+                        bg-hover-color="white"
+                        hoverable
+                        @click.native="deleteLessonAlert(item)"
+                      >
+                      </UIconBtn>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -87,7 +115,10 @@
 
 <script>
 import { LessonsApi } from '@/api';
+import { mapActions, mapGetters } from 'vuex';
+import { ADMIN } from "@/constants/roles";
 import UCard from '@/components/common/UCard';
+import UIconBtn from "@/components/common/UIconBtn";
 
 import SelectTeacher from '@/components/modals/SelectTeacher';
 
@@ -96,11 +127,11 @@ export default {
   components: {
     UCard,
     SelectTeacher,
+    UIconBtn,
   },
   data: () => ({
-    items: [],
     selectedTeachers: [],
-    selectedLessonId: null,
+    selectedLesson: null,
     columns: [
       {
         text: 'Name',
@@ -120,14 +151,12 @@ export default {
     ],
   }),
   computed: {
-
+    ...mapGetters('Lessons', {
+      items: 'lessonsList'
+    })
   },
   methods: {
-    getItems(){
-      LessonsApi.getPage({}).then(response => {
-        this.items = response.data;
-      });
-    },
+    ...mapActions('Lessons', [ 'deleteLesson', 'hideLesson', 'fetchLessonList' ]),
     shareLessonToTeacher(){
 
       LessonsApi.addAccessToTeacher(this.selectedLesson.id, {
@@ -144,9 +173,74 @@ export default {
       this.selectedTeachers = [ ...lesson.teachers ];
       this.$modal.show('select-teacher');
     },
+    hideLessonToggleAlert(lesson){
+      this.selectedLesson = { ...lesson };
+      let title = this.selectedLesson.hidden ?
+        'Are you sure you want to unhide lesson?' :
+        'Are you sure you want to hide lesson?';
+      this.$alert({
+        title: title,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        onConfirm: this.onConfirmHideLessonToggle,
+      });
+    },
+    onConfirmHideLessonToggle(){
+      console.log(this.selectedLesson);
+      this.hideLesson({
+        lessonId: this.selectedLesson.id,
+      })
+        .then(() => {
+          let message = this.selectedLesson.hidden ?
+            'Lesson was successfully unhidden' :
+            'Lesson was successfully hidden';
+          this.$notify({
+            text: message,
+            type: 'success'
+          });
+          this.selectedLesson = null;
+        })
+        .catch(({ message }) => {
+          this.$notify({
+            title: "Error",
+            text: message,
+            type: 'error'
+          });
+        })
+    },
+    deleteLessonAlert(lesson){
+      this.selectedLesson = lesson;
+      this.$alert({
+        title: 'Are you sure you want to delete lesson?',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
+        onConfirm: this.onConfirmDeleteLesson,
+      });
+    },
+    onConfirmDeleteLesson(){
+      this.deleteLesson({
+        lessonId: this.selectedLesson.id,
+      })
+      .then(() => {
+        this.selectedLesson = null;
+        this.$notify({
+          title: 'Lesson successfully deleted',
+          type: 'success'
+        });
+      })
+      .catch(({ message }) => {
+        this.$notify({
+          title: "Error",
+          text: message,
+          type: 'error'
+        });
+      })
+    }
   },
   mounted(){
-    this.getItems();
+    this.fetchLessonList(ADMIN);
   },
 }
 </script>
@@ -159,5 +253,11 @@ tr:hover .pages-col{
 }
 .pages-col{
   color: $clr-grey;
+}
+
+.lesson-item{
+  &_hidden{
+    opacity: .3;
+  }
 }
 </style>

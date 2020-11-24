@@ -19,6 +19,9 @@ export default {
         SET_STUDENT(state, payload){
           state.student = payload;
         },
+        DELETE_STUDENT(state, { studentId }){
+            state.studentsList = state.studentsList.filter(e => e.id !== studentId);
+        },
         UPDATE_STUDENTS_LESSONS(state, {studentId, lessons}){
             state.studentsList = state.studentsList.map(item => {
                 if(item.id === studentId){
@@ -49,7 +52,7 @@ export default {
             return new Promise((resolve, reject) => {
                 axios.get(url, {params})
                     .then(response => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         context.commit('SET_STUDENTS_LIST', response.data);
                     })
                     .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
