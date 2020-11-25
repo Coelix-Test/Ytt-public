@@ -86,8 +86,8 @@
                       >
                       </UIconBtn>
                       <UIconBtn
-                        class="u-mx-1"
-                        icon="icon-trash qa-delete-lesson-btn"
+                        class="u-mx-1 qa-delete-lesson-btn"
+                        icon="icon-trash"
                         icon-color="grey"
                         icon-hover-color="blue"
                         bg-hover-color="white"
