@@ -60,6 +60,16 @@ export default {
 			});
 
 		},
+		loginAsUser(context, userId){
+			context.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.get(`/auth/impersonate/${userId}`)
+					.then(res => processAuthResponse(context, res.data))
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => context.commit('SET_LOADING', false))
+			});
+		},
 		register(context, credentials){
 			return new Promise((resolve, reject) => {
 				axios.post('/auth/register', credentials)

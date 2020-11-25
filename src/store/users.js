@@ -97,7 +97,7 @@ export default {
                     .then(() => context.commit('DELETE_USER', userId))
                     .then(() => context.commit('SET_LOADING', false));
             });
-        }
+        },
     },
     getters: {
         loading: state => state.loading,

@@ -57,7 +57,19 @@
               </UBtn>
 
               <UIconBtn
-                class="u-ml-3 qa-edit-student-btn"
+                class="u-mx-1 qa-login-as-teacher-btn login-as-icon-btn"
+                icon="icon-enter"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
+                @click.native="onLoginAsUserClick(item)"
+                title="Login as user"
+              >
+              </UIconBtn>
+
+              <UIconBtn
+                class="u-mx-1 qa-edit-student-btn"
                 :to="{ name: 'admin-user-edit', params: { id: item.id }}"
                 icon="icon-pencil"
                 icon-color="grey"
@@ -145,6 +157,7 @@ export default {
     }),
   },
   methods: {
+    ...mapActions('Auth', ['loginAsUser']),
     ...mapActions('Users', ['deleteUser']),
     ...mapActions('Students', ['fetchStudentsList']),
     ...mapMutations('Students', ['RESET_STUDENTS_LIST']),
@@ -176,6 +189,20 @@ export default {
       });
 
     },
+    onLoginAsUserClick(user){
+      this.loginAsUser(user.id).then(() => {
+        this.$notify({
+          title: 'Welcome!',
+          type: 'success'
+        });
+      }).catch(({ message }) => {
+        this.$notify({
+          title: 'Login error',
+          text: message,
+          type: 'error'
+        });
+      })
+    }
   },
   mounted(){
     this.fetchStudentsList(ADMIN);
@@ -211,5 +238,10 @@ tr:hover .grey-col{
 .actions-col{
   display: flex;
   justify-content: flex-end;
+}
+
+.login-as-icon-btn{
+  position: relative;
+  left: -2px;
 }
 </style>
