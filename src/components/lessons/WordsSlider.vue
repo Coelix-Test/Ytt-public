@@ -120,11 +120,34 @@ export default {
 
     },
     nextSlide(){
-
+      console.log('next slide output: this.currentIndex', this.currentIndex);
       if(this.currentIndex !== this.computedSlides.length - 1)
         this.currentIndex++;
 
+    },
+    handleKeyPress(e){
+      console.log('keypress output');
+      e.preventDefault();
+      if(e.keyCode === 32 || e.keyCode === 39){
+        this.nextSlide();
+      }
+      else if(e.keyCode === 37){
+        this.prevSlide();
+      }
+    },
+    preventScrollOnSpacebar(e){
+      if(e.keyCode == 32 && e.target == document.body){
+        e.preventDefault();
+      }
     }
+  },
+  mounted() {
+    window.addEventListener('keyup', this.handleKeyPress );
+    window.addEventListener('keydown', this.preventScrollOnSpacebar);
+  },
+  beforeDestroy() {
+    window.removeEventListener('keyup', this.handleKeyPress);
+    window.removeEventListener('keydown', this.preventScrollOnSpacebar);
   }
 }
 </script>
