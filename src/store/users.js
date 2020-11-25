@@ -20,6 +20,8 @@ export default {
         create(context, user){
 
             context.commit('SET_LOADING', true);
+            let url = `/admin/users/${ROLE_MAP[user.role]}s`;
+            delete user.role;
 
             const formData = new FormData();
             for(let field in user){
@@ -27,7 +29,7 @@ export default {
             }
 
             return new Promise((resolve, reject) => {
-                axios.post('/admin/users', formData)
+                axios.post(url, formData)
                     .then(resolve)
                     .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
                     .then(() => context.commit('SET_LOADING', false))
@@ -86,6 +88,16 @@ export default {
                     .then(() => context.commit('SET_LOADING', false))
             });
         },
+        deleteUser(context, { userId }){
+            context.commit('SET_LOADING', true);
+            return new Promise((resolve, reject) => {
+                axios.delete(`/admin/users/${userId}`)
+                    .then(resolve)
+                    .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+                    .then(() => context.commit('DELETE_USER', userId))
+                    .then(() => context.commit('SET_LOADING', false));
+            });
+        }
     },
     getters: {
         loading: state => state.loading,

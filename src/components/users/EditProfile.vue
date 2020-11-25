@@ -37,6 +37,17 @@
         </ValidationProvider>
       </div>
       <div class="user-settings__form-col">
+        <ValidationProvider rules="required" name="Username" v-slot="{ errors }">
+          <u-text-field
+            label="Username"
+            placeholder="Username"
+            v-model="username"
+            :error="errors[0]"
+          >
+          </u-text-field>
+        </ValidationProvider>
+      </div>
+      <div class="user-settings__form-col user-settings__form-col_city">
         <u-text-field
           label="City"
           placeholder="City"
@@ -129,6 +140,7 @@ export default {
     name: '',
     phone: '',
     email: '',
+    username: '',
     city: '',
     password: '',
     repeatPassword: '',
@@ -156,6 +168,7 @@ export default {
       this.name = this.user.name;
       this.phone = this.user.phone;
       this.email = this.user.email;
+      this.username = this.user.username;
       this.city = this.user.city;
       this.avatar = this.user.avatar;
     },
@@ -164,6 +177,7 @@ export default {
         name: this.name,
         phone: this.phone,
         email: this.email,
+        username: this.username,
         city: this.city,
       };
 

@@ -21,7 +21,7 @@
           </template>
         </tr>
         </thead>
-        <tbody v-if="items.length">
+        <tbody v-if="items && items.length">
         <tr
             v-for="item in items"
             :key="item.id"
@@ -39,6 +39,7 @@
           <td class="u-pr-25 u-text-right">
             <div class="actions-col">
               <UBtn
+                class="u-mx-1 qa-open-add-lesson-popup-btn"
                 color="primary"
                 size="small"
                 @click="openAddLessonPopup(item)"
@@ -46,15 +47,27 @@
                 Add lesson
               </UBtn>
 
-              <RouterLink
-                class="edit-user-btn"
+              <UIconBtn
+                class="u-mx-1 qa-edit-teacher-btn"
                 :to="{ name: 'admin-user-edit', params: { id: item.id }}"
+                icon="icon-pencil"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
               >
-                <svg
-                  v-svg
-                  symbol="icon-pencil"
-                ></svg>
-              </RouterLink>
+              </UIconBtn>
+
+              <UIconBtn
+                class="u-mx-1 qa-delete-teacher-btn"
+                icon="icon-trash"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
+                @click.native="deleteUserAlert(item)"
+              >
+              </UIconBtn>
             </div>
           </td>
         </tr>
@@ -81,15 +94,25 @@
 
 <script>
 import UCard from '@/components/common/UCard';
+import UIconBtn from "@/components/common/UIconBtn";
 import SelectLesson from "@/components/modals/SelectLesson";
 
 import { UsersApi } from '@/api';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import {ADMIN} from "@/constants/roles";
+
+import DeleteUserMixin from '@/mixins/delete-user.mixin'
 
 export default {
+  components: {
+    UCard,
+    SelectLesson,
+    UIconBtn,
+  },
+  mixins: [DeleteUserMixin],
   data: () => ({
     selectedTeacher: null,
     selectedLessons: null,
-    items: [],
     columns: [
       {
         text: 'Name',
@@ -113,14 +136,15 @@ export default {
       },
     ],
   }),
-  components: {
-    UCard,
-    SelectLesson,
+  computed: {
+    ...mapGetters('Teachers', {
+      items: 'teachersList'
+    }),
   },
   methods: {
-    getAll(){
-      UsersApi.getPage({ role: 2 }).then(response => {this.items = response.data});
-    },
+    ...mapActions('Users', ['deleteUser']),
+    ...mapActions('Teachers', [ 'fetchTeachersList' ]),
+    ...mapMutations('Teachers', ['RESET_TEACHERS_LIST']),
     openAddLessonPopup(item){
       this.selectedTeacher = item;
       this.selectedLessons = [ ...item.lessons ];
@@ -139,7 +163,10 @@ export default {
     },
   },
   mounted(){
-    this.getAll();
+    this.fetchTeachersList(ADMIN);
+  },
+  beforeDestroy() {
+    this.RESET_TEACHERS_LIST();
   }
 }
 </script>

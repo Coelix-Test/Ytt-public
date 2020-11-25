@@ -4,10 +4,10 @@
       <form  @submit.prevent="() => handleSubmit(() => signIn(form))">
 <!--      <SocialsAuth/>-->
         <div class="login__form">
-          <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
+          <ValidationProvider rules="required" name="Email or username" v-slot="{ errors }">
             <UTextField
               padding
-              label="Email"
+              label="Email or username"
               v-model="form.login"
               placeholder="myemail@example.com"
               class="login__form-input"

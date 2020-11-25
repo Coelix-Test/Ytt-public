@@ -10,6 +10,7 @@ import Auth from '@/store/auth';
 import Lessons from '@/store/lessons';
 import Users from '@/store/users';
 import Students from '@/store/students';
+import Teachers from '@/store/teachers';
 import Words from '@/store/words';
 import Coins from '@/store/coins';
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
     Lessons,
     Users,
     Students,
+    Teachers,
     Words,
     Coins,
   }
