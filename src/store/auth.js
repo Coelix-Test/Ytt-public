@@ -10,7 +10,8 @@ export default {
 	state: {
 		user: null,
 		loading: false,
-		userIsFetching: false
+		userIsFetching: false,
+		userFetched: false
 	},
 	mutations: {
 		SET_USER(state, user){
@@ -21,6 +22,9 @@ export default {
 		},
 		SET_USER_FETCHING(state, isFetching){
 			state.userIsFetching = isFetching;
+		},
+		SET_USER_FETCHED(state, userFetched){
+			state.userFetched = userFetched;
 		}
 	},
 	actions: {
@@ -35,7 +39,8 @@ export default {
 			} catch(err){
 				console.error(err);
 			}
-			commit('SET_USER_FETCHING', false);
+			commit('SET_USER_FETCHING', false)
+			return commit('SET_USER_FETCHED', true);
 		},
 		logout({ commit }){
 			const clearAuthData = () => {
@@ -102,7 +107,8 @@ export default {
 			return userRole;
 		},
 		loading: state => state.loading,
-		userIsFetching: state => state.userIsFetching
+		userIsFetching: state => state.userIsFetching,
+		userFetched: state => state.userFetched
 	}
 }
 

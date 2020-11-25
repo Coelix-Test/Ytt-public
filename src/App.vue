@@ -15,14 +15,8 @@ import Loader from '@/components/Loader';
 
 export default {
   mounted(){
-    console.log('APP: mounted');
-
     if((typeof window.orientation !== 'undefined') || (navigator.userAgent.indexOf('IEMobile') !== -1))
       this.$router.push({ name: 'no-access-from-mobile' });
-    else
-      this.fetchUser()
-          .then(this.navigateToStartPage)
-          .catch(console.error);
   },
   computed: {
     ...mapGetters(['loading'])
