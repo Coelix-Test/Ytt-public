@@ -67,7 +67,7 @@
                         <span class="u-font-weight-regular">Edit lesson</span>
                       </UBtn>
                       <UBtn
-                        class="u-mx-1"
+                        class="u-mx-1 qa-admin-add-teacher-to-lesson"
                         size="small"
                         color="primary"
                         @click="openSelectTeacherModal(item)"
@@ -76,7 +76,7 @@
                       </UBtn>
 
                       <UIconBtn
-                        class="u-mx-1"
+                        class="u-mx-1 qa-hide-lesson-btn"
                         icon="icon-eye2"
                         icon-color="grey"
                         icon-hover-color="blue"
@@ -87,7 +87,7 @@
                       </UIconBtn>
                       <UIconBtn
                         class="u-mx-1"
-                        icon="icon-trash"
+                        icon="icon-trash qa-delete-lesson-btn"
                         icon-color="grey"
                         icon-hover-color="blue"
                         bg-hover-color="white"

@@ -39,7 +39,7 @@
           <td class="u-pr-25 u-text-right">
             <div class="actions-col">
               <UBtn
-                class="u-mx-1"
+                class="u-mx-1 qa-open-add-lesson-popup-btn"
                 color="primary"
                 size="small"
                 @click="openAddLessonPopup(item)"
@@ -48,7 +48,7 @@
               </UBtn>
 
               <UIconBtn
-                class="u-mx-1"
+                class="u-mx-1 qa-edit-teacher-btn"
                 :to="{ name: 'admin-user-edit', params: { id: item.id }}"
                 icon="icon-pencil"
                 icon-color="grey"
@@ -59,7 +59,7 @@
               </UIconBtn>
 
               <UIconBtn
-                class="u-mx-1"
+                class="u-mx-1 qa-delete-teacher-btn"
                 icon="icon-trash"
                 icon-color="grey"
                 icon-hover-color="blue"

@@ -38,6 +38,7 @@
           <td class="u-pr-25 u-text-right">
             <div class="actions-col">
               <UBtn
+                class="qa-assign-students-teacher-btn"
                 color="primary"
                 size="small"
                 @click="openSelectTeacherModal(item)"
@@ -46,6 +47,7 @@
                 Add teacher
               </UBtn>
               <UBtn
+                class="qa-change-students-teacher-btn"
                 color="primary"
                 size="small"
                 @click="openSelectTeacherModal(item)"
@@ -55,7 +57,7 @@
               </UBtn>
 
               <UIconBtn
-                class="u-data-table__action-btn u-ml-3"
+                class="u-ml-3 qa-edit-student-btn"
                 :to="{ name: 'admin-user-edit', params: { id: item.id }}"
                 icon="icon-pencil"
                 icon-color="grey"
@@ -66,7 +68,7 @@
               </UIconBtn>
 
               <UIconBtn
-                class="u-mx-1"
+                class="u-mx-1 qa-delete-student-btn"
                 icon="icon-trash"
                 icon-color="grey"
                 icon-hover-color="blue"
