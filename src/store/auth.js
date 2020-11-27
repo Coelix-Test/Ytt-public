@@ -83,6 +83,16 @@ export default {
 					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
 			});
 		},
+		forgotPassword(context, login){
+			return new Promise((resolve, reject) => {
+				axios.post('/auth/forgot-password', { login })
+					.then(res => {
+						res.data
+					})
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+			});
+		},
 		navigateToStartPage({ getters }){
 			if(!getters.user)
 				return new Error('Store/NavigateToStartPage: user is not defined');

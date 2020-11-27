@@ -43,11 +43,13 @@
           </UBtn>
         </div>
 
-<!--      <div class="login__forgot" >-->
-<!--        Forgot your password? <a href="#">click here</a>-->
-<!--      </div>-->
+      <div class="login__forgot">
+        Forgot your password? <span @click="openResetPasswordModal">click here</span>
+      </div>
       </form>
     </u-card>
+    <ResetPassword></ResetPassword>
+
   </ValidationObserver>
 </template>
 
@@ -55,7 +57,7 @@
 import UCard from '@/components/common/UCard.vue';
 import UTextField from '@/components/common/UTextField.vue';
 import UCheckbox from '@/components/common/UCheckbox.vue';
-import SocialsAuth from '@/components/partials/SocialsAuth';
+import ResetPassword from '@/components/modals/ResetPassword';
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -74,7 +76,7 @@ export default {
     UCard,
     UTextField,
     UCheckbox,
-    SocialsAuth
+    ResetPassword
   },
   computed: {
     ...mapGetters('Auth', ['loading'])
@@ -96,6 +98,9 @@ export default {
           type: 'error'
         });
       })
+    },
+    openResetPasswordModal(){
+      this.$modal.show('reset-password');
     }
   }
 }
@@ -131,6 +136,10 @@ export default {
     line-height: 20px;
     color: #2E2E2E;
     margin-top: 15px;
+    span{
+      color: #3C54AC;
+      cursor: pointer;
+    }
   }
 
 }
