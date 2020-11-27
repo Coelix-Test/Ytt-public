@@ -16,6 +16,7 @@
       :display-known="true"
       :display-words-controls="true"
       :active-tab="activeTab"
+      :display-tabs="displayTabs"
       @tab-change="onTabChange"
     ></ShuffleWordsView>
 
@@ -31,13 +32,13 @@
       </UBtn>
     </div>
 
-    <div class="shuffle-lesson-view__submit-row">
+    <div class="shuffle-lesson-view__submit-row" v-if="displayVoiceRecord">
       <VoiceRecordSubmit
         @after-submit="onAfterSubmit"
       ></VoiceRecordSubmit>
     </div>
-    
-    
+
+
   </ContentContainer>
 </template>
 
@@ -58,12 +59,23 @@ export default {
     ShuffleWordsView,
     VoiceRecordSubmit,
   },
+  props: {
+    displayVoiceRecord: {
+      type: Boolean,
+      default: true,
+    },
+    displayTabs: {
+      type: Boolean,
+      default: true,
+    }
+  },
   data: () => ({
     sliderMode: false,
     activeTab: 0,
   }),
   computed: {
     ...mapGetters('Words', ['shuffleBottomEdge', 'shuffleTopEdge']),
+    ...mapGetters('Auth', ['userRole']),
   },
   methods: {
     ...mapActions('Lessons', ['sendRecord', 'fetchLesson']),
@@ -73,7 +85,9 @@ export default {
     }),
     handleShuffle(){
       this.SHUFFLE();
-      this.activeTab = 2;
+      if(this.displayTabs){
+        this.activeTab = 2;
+      }
       this.sliderMode = true;
     },
     onAfterSubmit(){
@@ -85,7 +99,7 @@ export default {
   },
   mounted(){
     this.fetchLesson({
-      role: STUDENT,
+      role: this.userRole,
       id: this.$route.params.id,
     })
       .catch(({ message }) => {

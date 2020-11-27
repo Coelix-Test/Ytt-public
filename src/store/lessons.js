@@ -200,6 +200,7 @@ function setFetchedLesson({ commit }, lesson){
         commit('Words/SET_WORDS', words, { root: true });
         delete lesson.words;
     }
+
     if(lesson.last_word){
         commit('Words/SET_LAST_WORD', lesson.last_word, { root: true });
     }

@@ -1,6 +1,7 @@
 import Lessons from '@/views/teacher/lessons/Lessons';
 import TeacherLessonsList from '@/views/teacher/lessons/LessonsList';
 import SingleView from "@/views/teacher/lessons/SingleView";
+import ShuffleView from "@/views/teacher/lessons/ShuffleView";
 
 export default {
     path: 'lessons',
@@ -13,7 +14,7 @@ export default {
         },
         {
             path: ':id',
-            component: SingleView,
+            component: ShuffleView,
             name: 'teacher-lessons-view',
         },
     ]

@@ -1,7 +1,7 @@
 <template>
   <div class="shuffle-words-view">
     <UTabs
-      v-if="sliderMode"
+      v-if="sliderMode && displayTabs"
       class="shuffle-lesson-view__tabs"
       :disabled="disabledTabs"
       :value="activeTab"
@@ -43,6 +43,9 @@ export default {
     disabledTabs: false,
   }),
   props: {
+    displayTabs: {
+
+    },
     sliderMode: {
       type: Boolean,
       default: true,
@@ -58,8 +61,8 @@ export default {
       'wordsShuffled',
     ]),
     filteredWords(){
-      //gets list of all words
-      //with 'disabled' property dependent on displayKnown prop
+      //gets list of all words with indexes
+      //TODO: remove when indexes will be realized on backend
 
       return this.words.map( (item, index) => {
         return {
@@ -69,15 +72,28 @@ export default {
       })
     },
     sliderWords(){
-      if(this.activeTab === 0){
-        return this.knownWords;
-      }
-      else if(this.activeTab === 1){
-        return this.unknownWords;
+      let words;
+      if(this.displayTabs){
+        if(this.activeTab === 0){
+          words = this.knownWords;
+        }
+        else if(this.activeTab === 1){
+          words = this.unknownWords;
+        }
+        else{
+          words = this.wordsShuffled;
+        }
       }
       else{
-        return this.wordsShuffled;
+        if(this.wordsShuffled.length){
+          words = this.wordsShuffled;
+        }
+        else{
+          words = this.filteredWords;
+        }
       }
+      return words;
+
     },
   },
   methods: {

@@ -2,7 +2,6 @@ import Lessons from '@/views/teacher/lessons/Lessons';
 import StudentPassLesson from '@/views/student/lessons/PassLesson';
 import StudentViewLesson from "@/views/student/lessons/StudentViewLesson";
 import LessonsList from "@/views/student/lessons/LessonsList";
-import ShuffleLesson from "@/views/student/lessons/ShuffleLesson";
 
 export default {
     path: 'lessons',
@@ -17,11 +16,6 @@ export default {
             path: ':id/pass',
             component: StudentPassLesson,
             name: 'student-pass-lesson',
-        },
-        {
-            path: ':id/shuffle',
-            component: ShuffleLesson,
-            name: 'student-shuffle-lesson',
         },
         {
             path: ':id',
