@@ -14,12 +14,7 @@ const getDefaultState = () => ({
 
 export default {
     namespaced: true,
-    state: {
-        words: [],
-        wordsToggled: [],
-        lastWord: null,
-        loading: false,
-    },
+    state: getDefaultState(),
     mutations: {
         SET_WORDS(state, payload){
             state.words = payload;
