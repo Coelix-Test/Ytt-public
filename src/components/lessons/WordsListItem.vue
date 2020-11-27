@@ -8,18 +8,20 @@
         :src="image" alt=""
       >
 
-      <div class="words-list-item__controls" v-if="hasControls">
-        <ToggleWordButton
-          class="words-list-item__toggle-word-button"
-          :word-id="id"
-          :active="!disabled"
-        ></ToggleWordButton>
-        <LastWordButton
-          class="words-list-item__last-word-button"
-          :word-id="id"
-          :active="isLastWord"
-        ></LastWordButton>
-      </div>
+        <div class="words-list-item__controls" v-if="hasControls">
+          <slot name="word-controls">
+            <ToggleWordButton
+              class="words-list-item__toggle-word-button"
+              :word-id="id"
+              :active="!disabled"
+            ></ToggleWordButton>
+            <LastWordButton
+              class="words-list-item__last-word-button"
+              :word-id="id"
+              :active="isLastWord"
+            ></LastWordButton>
+          </slot>
+        </div>
 
       <div class="words-list-item__last-word-indicator" v-if="isLastWord">Last word</div>
     </div>

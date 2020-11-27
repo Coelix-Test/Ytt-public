@@ -2,6 +2,16 @@ import axios from "axios";
 import {ROLE_MAP} from "@/constants/roles";
 import ErrorHelper from "@/helpers/ErrorHelper";
 
+const getDefaultState = () => ({
+    words: [],
+    wordsToggled: [],
+    wordsShuffled: [],
+    shuffleTopEdge: null,
+    shuffleBottomEdge: null,
+    lastWord: null,
+    loading: false,
+});
+
 export default {
     namespaced: true,
     state: {
@@ -16,6 +26,14 @@ export default {
         },
         RESET_TOGGLED_WORDS(state){
           state.wordsToggled = [];
+        },
+        SET_SHUFFLE_TOP_EDGE(state, payload){
+            state.shuffleTopEdge = payload;
+            state.wordsShuffled = [];
+        },
+        SET_SHUFFLE_BOTTOM_EDGE(state, payload){
+            state.shuffleBottomEdge = payload;
+            state.wordsShuffled = [];
         },
         TOGGLE_WORD(state, wordId){
             state.words = state.words.map((item) => {
@@ -36,6 +54,14 @@ export default {
         },
         SET_LAST_WORD(state, payload){
             state.lastWord = payload;
+        },
+        SHUFFLE(state){
+            let words = state.words.slice(state.shuffleBottomEdge, state.shuffleTopEdge + 1);
+            words.sort(() => Math.random() - 0.5);
+            state.wordsShuffled = words;
+        },
+        RESET(state){
+            Object.assign(state, getDefaultState());
         }
     },
     actions: {
@@ -63,6 +89,9 @@ export default {
     getters: {
         loading: state => state.loading,
         words: state => state.words,
+        wordsShuffled: state => state.wordsShuffled,
+        shuffleBottomEdge: state => state.shuffleBottomEdge,
+        shuffleTopEdge: state => state.shuffleTopEdge,
         knownWords: state => state.words.filter(item => item.isKnown),
         unknownWords: state => state.words.filter(item => !item.isKnown),
         wordsToggled: state => state.wordsToggled,
