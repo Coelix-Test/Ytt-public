@@ -1,7 +1,7 @@
 <template>
-  <ContentContainer class="student-shuffle-lesson-view">
-    <div class="student-shuffle-lesson-view__header">
-      <BackBtn class="student-shuffle-lesson-view__back-btn"></BackBtn>
+  <ContentContainer class="shuffle-lesson-view">
+    <div class="shuffle-lesson-view__header">
+      <BackBtn class="shuffle-lesson-view__back-btn"></BackBtn>
       <div class="u-text-h2">Shuffle words inside Lesson</div>
 
       <WordsViewModeController
@@ -11,15 +11,17 @@
     </div>
 
     <ShuffleWordsView
-      class="student-shuffle-lesson-view__words-view"
+      class="shuffle-lesson-view__words-view"
       :slider-mode="sliderMode"
       :display-known="true"
       :display-words-controls="true"
+      :active-tab="activeTab"
+      @tab-change="onTabChange"
     ></ShuffleWordsView>
 
-    <div class="student-shuffle-lesson-view__shuffle-btn-wrap">
+    <div class="shuffle-lesson-view__shuffle-btn-wrap">
       <UBtn
-        class="student-shuffle-lesson-view__shuffle-btn"
+        class="shuffle-lesson-view__shuffle-btn"
         size="x-large"
         width="352"
         @click="handleShuffle"
@@ -29,7 +31,7 @@
       </UBtn>
     </div>
 
-    <div class="student-shuffle-lesson-view__submit-row">
+    <div class="shuffle-lesson-view__submit-row">
       <VoiceRecordSubmit
         @after-submit="onAfterSubmit"
       ></VoiceRecordSubmit>
@@ -58,6 +60,7 @@ export default {
   },
   data: () => ({
     sliderMode: false,
+    activeTab: 0,
   }),
   computed: {
     ...mapGetters('Words', ['shuffleBottomEdge', 'shuffleTopEdge']),
@@ -70,10 +73,14 @@ export default {
     }),
     handleShuffle(){
       this.SHUFFLE();
+      this.activeTab = 2;
       this.sliderMode = true;
     },
     onAfterSubmit(){
       this.$router.push({ name: 'student-lessons-all' });
+    },
+    onTabChange(tabId){
+      this.activeTab = tabId;
     }
   },
   mounted(){
@@ -96,7 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.student-shuffle-lesson-view{
+.shuffle-lesson-view{
   &__header{
     display: flex;
   }
