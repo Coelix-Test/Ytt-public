@@ -12,6 +12,7 @@
             <UTextField
               label="Name"
               v-model="name"
+              placeholder="Name"
               class="u-mb-12"
               :error="errors[0]"
             ></UTextField>
@@ -19,6 +20,7 @@
           <ValidationProvider rules="required" name="Description" v-slot="{ errors }">
             <UTextField
               label="Description"
+              placeholder="Description"
               v-model="description"
               class="u-mb-12"
               :error="errors[0]"

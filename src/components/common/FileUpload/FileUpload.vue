@@ -29,12 +29,12 @@
         ></svg>
         <div
           class="file-upload__image-preview"
-          :style="{ 'background-image': `url(${compImage.preview})` }"
+          :style="{ 'background-image': `url(${compImagePreview})` }"
           v-if="hasImage"
         ></div>
 
         <span class="file-upload__label-text">
-          {{compImage.name}}
+          {{compFilename}}
         </span>
       </div>
     </label>
@@ -95,19 +95,27 @@ export default {
     hasImage(){
       return this.hasValue && this.accept === 'image/*';
     },
-    compImage(){
-      let compImage = {};
+    compImagePreview(){
+      let compImagePreview;
       if(this.hasImage){
         if(typeof this.value === 'string'){
-          compImage.preview = this.value;
-          compImage.name = this.value.split('/').pop();
+          compImagePreview = this.value;
         }
         else{
-          compImage.preview = this.imagePreview;
-          compImage.name = this.value.name;
+          compImagePreview = this.imagePreview;
         }
       }
-      return compImage;
+      return compImagePreview;
+    },
+    compFilename(){
+      let compFilename;
+      if(typeof this.value === 'string'){
+        compFilename = this.value.split('/').pop();
+      }
+      else{
+        compFilename = this.value.name;
+      }
+      return compFilename;
     }
   },
   methods: {
