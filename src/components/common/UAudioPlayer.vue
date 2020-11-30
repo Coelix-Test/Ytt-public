@@ -122,6 +122,10 @@ export default {
           this.audio.volume = .75;
         }
       );
+      this.audio.addEventListener('ended', () =>{
+        this.$refs.playBtn.classList.remove("pause");
+        this.$refs.playBtn.classList.add("play");
+      });
     }
   },
   watch: {
