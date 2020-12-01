@@ -1,5 +1,8 @@
 <template>
-  <ShuffleLessonView></ShuffleLessonView>
+  <ShuffleLessonView
+    :display-tabs="false"
+    :display-voice-record="false"
+  ></ShuffleLessonView>
 </template>
 
 <script>
@@ -8,10 +11,10 @@ import ShuffleLessonView from "@/components/lessons/ShuffleLessonView";
 export default {
   components: {
     ShuffleLessonView,
-  },
+  }
 }
 </script>
 
-<style lang="scss" scoped>
-@import '@/styles/vars';
+<style lang="scss" >
+
 </style>

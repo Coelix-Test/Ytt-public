@@ -59,9 +59,10 @@
                   <td class="u-text-right u-pr-25">
                     <div class="u-flex is-justify-end">
                       <UBtn
-                        class="u-mr-7"
+                        class="u-mr-5 admin-view-lesson-btn"
                         size="small"
-                        color="primary"
+                        color="blue"
+                        outlined
                         :to="{name: 'admin-lessons-view', params: {id: item.id }}"
                       >
                         <span class="u-font-weight-regular">Edit lesson</span>
@@ -196,7 +197,7 @@ export default {
             'Lesson was successfully unhidden' :
             'Lesson was successfully hidden';
           this.$notify({
-            text: message,
+            title: message,
             type: 'success'
           });
           this.selectedLesson = null;
@@ -248,8 +249,16 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/vars';
 
-tr:hover .pages-col{
-  color: #fff;
+tr:hover {
+  .pages-col{
+    color: #fff;
+  }
+  .admin-view-lesson-btn{
+    color: #fff;
+    &:hover{
+      background-color: rgba(255,255,255, .09);
+    }
+  }
 }
 .pages-col{
   color: $clr-grey;

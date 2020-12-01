@@ -14,7 +14,11 @@
           :disabled="item.disabled"
           :has-controls="displayWordsControls"
           :is-last-word="item.id === lastWord"
-        ></WordsListItem>
+        >
+          <template v-slot:word-controls>
+            <slot name="word-controls"></slot>
+          </template>
+        </WordsListItem>
       </div>
     </vue-scroll>
   </UCard>

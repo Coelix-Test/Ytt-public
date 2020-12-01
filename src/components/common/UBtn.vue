@@ -240,6 +240,11 @@ export default {
     }
   }
 
+  &_color_white {
+    color: #fff;
+    background-color: #fff;
+  }
+
   &_color_red{
     color: #fff;
     background-color: $clr-red;
@@ -284,6 +289,16 @@ export default {
       }
       &:active{
         background-color: rgba($clr-blue, .17);
+      }
+    }
+
+    &.u-btn_color_white{
+      color: #fff;
+      &:hover{
+        background-color: rgba(#fff, .06);
+      }
+      &:active{
+        background-color: rgba(#fff, .17);
       }
     }
 
