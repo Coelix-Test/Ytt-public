@@ -10,12 +10,9 @@
 <!--          Sign up-->
 <!--        </router-link>-->
 <!--        <div class="l-auth__nav-divider"></div>-->
-        <router-link class="l-auth__nav-item"
-          :class="{ 'is-active' : loginActive}"
-          :to="{ name: 'auth-login' }"
-        >
-          Log in
-        </router-link>
+        <h3 class="l-auth__nav-item">
+          {{ this.title }}
+        </h3>
       </div>
       <transition name="fade" mode="out-in">
         <router-view class="l-auth__view-content"/>
@@ -29,6 +26,11 @@ import NavHeader from '@/components/common/App/NavHeader.vue';
 import AppContainer from '@/components/common/App/AppContainer.vue';
 import AppMain from '@/components/common/App/AppMain.vue';
 
+const routeTitlesMap = {
+  'auth-login': 'Log in',
+  'auth-reset-password': 'Reset Password',
+};
+
 export default {
   components: {
     NavHeader,
@@ -38,6 +40,9 @@ export default {
   computed: {
     loginActive(){
       return this.$route.name === 'auth-login';
+    },
+    title(){
+      return routeTitlesMap[this.$route.name];
     }
   }
 }
@@ -62,17 +67,11 @@ export default {
     margin: 0 45px;
   }
   &__nav-item{
-    font-weight: 300;
-    opacity: 0.2;
     color: #fff;
     text-decoration: none;
-
-    width: 258px;
+    margin: 0;
     text-align: center;
-    &.is-active{
-      opacity: 1;
-      font-weight: bold;
-    }
+    font-weight: bold;
   }
   &__view-content{
     margin-bottom: 100px;

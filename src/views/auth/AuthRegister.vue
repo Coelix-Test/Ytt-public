@@ -14,9 +14,9 @@
             inset
           />
         </ValidationProvider>
-        <ValidationProvider rules="min:6|max:20|required" name="Password" v-slot="{ errors }">
+        <ValidationProvider rules="min:6|max:20|required" name="New Password" v-slot="{ errors }">
           <UTextField
-            label="Password"
+            label="New Password"
             v-model="form.password"
             type="password"
             placeholder="******"

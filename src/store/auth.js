@@ -11,7 +11,8 @@ export default {
 		user: null,
 		loading: false,
 		userIsFetching: false,
-		userFetched: false
+		userFetched: false,
+		resetTokenValid: false
 	},
 	mutations: {
 		SET_USER(state, user){
@@ -25,6 +26,9 @@ export default {
 		},
 		SET_USER_FETCHED(state, userFetched){
 			state.userFetched = userFetched;
+		},
+		SET_RESET_TOKEN_VALID(state, valid){
+			state.resetTokenValid = valid;
 		}
 	},
 	actions: {
@@ -86,11 +90,27 @@ export default {
 		forgotPassword(context, login){
 			return new Promise((resolve, reject) => {
 				axios.post('/auth/forgot-password', { login })
-					.then(res => {
-						res.data
-					})
 					.then(resolve)
 					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+			});
+		},
+		resetTokenValid(context, token){
+			this.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.get(`/auth/forgot-password/${token}`)
+					.then(res => res.data.isValid)
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => this.commit('SET_LOADING', false))
+			});
+		},
+		resetPassword(context, { token, password, password_confirmation }){
+			this.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.post(`/auth/forgot-password/${token}`, { password, password_confirmation })
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => this.commit('SET_LOADING', false))
 			});
 		},
 		navigateToStartPage({ getters }){

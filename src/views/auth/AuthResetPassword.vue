@@ -1,19 +1,8 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
-    <u-card class="login">
-      <form  @submit.prevent="() => handleSubmit(() => signIn(form))">
-        <div class="login__form">
-          <ValidationProvider rules="required" name="Email or username" v-slot="{ errors }">
-            <UTextField
-              padding
-              label="Email or username"
-              v-model="form.login"
-              placeholder="myemail@example.com"
-              class="login__form-input"
-              :error="errors[0]"
-              inset
-            ></UTextField>
-          </ValidationProvider>
+    <u-card class="reset-password">
+      <form  @submit.prevent="() => handleSubmit(changePassword)">
+        <div class="reset-password__form">
           <ValidationProvider rules="required" name="Password" v-slot="{ errors }">
             <UTextField
               padding
@@ -22,29 +11,32 @@
               placeholder="******"
               type="password"
               :error="errors[0]"
-              class="login__form-input"
+              class="reset-password__form-input"
             ></UTextField>
           </ValidationProvider>
-
-          <UCheckbox class="login__form-remember" v-model="form.remember">
-            Automatic  login
-          </UCheckbox>
+          <ValidationProvider rules="confirmed:Password" name="Repeat Password" v-slot="{ errors }">
+            <UTextField
+                padding
+                label="Repeat Password"
+                v-model="form.confirmPassword"
+                placeholder="******"
+                type="password"
+                :error="errors[0]"
+                class="reset-password__form-input"
+            ></UTextField>
+          </ValidationProvider>
         </div>
 
         <div class="u-flex is-justify-center">
           <UBtn
-            class="login__btn"
+            class="reset-password__btn"
             size="x-large"
             color="primary"
             :loading="loading"
           >
-            Log in
+            Reset
           </UBtn>
         </div>
-
-      <div class="login__forgot">
-        Forgot your password? <span @click="openResetPasswordModal">click here</span>
-      </div>
       </form>
     </u-card>
     <ResetPassword></ResetPassword>
@@ -55,7 +47,6 @@
 <script>
 import UCard from '@/components/common/UCard.vue';
 import UTextField from '@/components/common/UTextField.vue';
-import UCheckbox from '@/components/common/UCheckbox.vue';
 import ResetPassword from '@/components/modals/ResetPassword';
 import { mapActions, mapGetters } from 'vuex'
 
@@ -63,43 +54,69 @@ export default {
 
   data: () => ({
     form:{
-      login: '',
       password: '',
+      confirmPassword: '',
       remember: false
     }
   }),
-  mounted(){
-
+  beforeRouteUpdate(route){
+    this.checkToken(route);
+  },
+  mounted() {
+    this.checkToken(this.$route);
   },
   components: {
     UCard,
     UTextField,
-    UCheckbox,
     ResetPassword
   },
   computed: {
     ...mapGetters('Auth', ['loading'])
   },
   methods: {
-    ...mapActions('Auth', ['login']),
-    signIn(credentials){
-      this.login(credentials)
+    ...mapActions('Auth', ['resetTokenValid', 'resetPassword']),
+
+    checkToken(route){
+      this.resetTokenValid(route.params.token)
+        .then(valid => {
+          if(!valid) {
+            this.$notify({
+              title: 'Token is not valid',
+              text: `Token has expired or doesn't exist`,
+              type: 'warn'
+            });
+            this.$router.push({ name: 'auth-login' });
+          }
+        })
+          .catch(({ message }) => {
+            this.$notify({
+              title: 'Reset password error',
+              text: message,
+              type: 'error'
+            });
+          });
+    },
+    changePassword(){
+      this.resetPassword({
+        token: this.$route.params.token,
+        password: this.form.password,
+        password_confirmation: this.form.confirmPassword
+      })
       .then(() => {
         this.$notify({
-          title: 'Welcome!',
+          title: 'Success',
+          text: `Your password successfully changed.`,
           type: 'success'
         });
+        this.$router.push({ name: 'auth-login' });
       })
       .catch(({ message }) => {
         this.$notify({
-          title: 'Login error',
+          title: 'Reset password error',
           text: message,
           type: 'error'
         });
-      })
-    },
-    openResetPasswordModal(){
-      this.$modal.show('reset-password');
+      });
     }
   }
 }
@@ -108,17 +125,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/vars';
 
-.title{
-  font-weight: 300;
-  opacity: 0.2;
-  color: #fff;
-  text-decoration: none;
-
-  width: 258px;
-  text-align: center;
-}
-
-.login{
+.reset-password{
   width: $popup-width-xl;
   padding: 45px 75px 25px;
 
