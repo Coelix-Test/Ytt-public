@@ -112,13 +112,13 @@ export default {
           icon: 'icon-file',
           active: true,
         },
-        {
-          id: 2,
-          text: 'Settings',
-          to: {name: 'student-settings'},
-          icon: 'icon-settings',
-          active: false,
-        },
+        // {
+        //   id: 2,
+        //   text: 'Settings',
+        //   to: {name: 'student-settings'},
+        //   icon: 'icon-settings',
+        //   active: false,
+        // },
       ]
     }
   }),

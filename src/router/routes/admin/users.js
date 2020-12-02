@@ -1,5 +1,7 @@
 import Users from '@/views/admin/users/Users';
 import StudentSingleCreate from '@/views/admin/users/StudentSingleCreate';
+import StudentInvite from '@/views/admin/users/StudentInvite';
+import TeacherInvite from '@/views/admin/users/TeacherInvite';
 import TeacherSingleCreate from '@/views/admin/users/TeacherSingleCreate';
 import EditSingle from "@/views/admin/users/EditSingle";
 
@@ -23,6 +25,16 @@ export default {
       path: 'create-student',
       component: StudentSingleCreate,
       name: 'admin-student-create',
+    },
+    {
+      path: 'student-invite',
+      component: StudentInvite,
+      name: 'admin-student-invite',
+    },
+    {
+      path: 'teacher-invite',
+      component: TeacherInvite,
+      name: 'admin-teacher-invite',
     },
     {
       path: 'edit/:id',

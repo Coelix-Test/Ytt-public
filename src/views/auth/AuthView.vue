@@ -29,6 +29,7 @@ import AppMain from '@/components/common/App/AppMain.vue';
 const routeTitlesMap = {
   'auth-login': 'Log in',
   'auth-reset-password': 'Reset Password',
+  'auth-invite': 'Create your account',
 };
 
 export default {

@@ -2,6 +2,7 @@ import AuthView from '@/views/auth/AuthView';
 import AuthLogin from '@/views/auth/AuthLogin';
 import AuthRegister from '@/views/auth/AuthRegister';
 import AuthResetPassword from '@/views/auth/AuthResetPassword';
+import AuthInvite from '@/views/auth/AuthInvite';
 
 import routesExtendMeta from '@/router/routesExtendMeta';
 
@@ -27,6 +28,11 @@ const auth = {
 			path: 'reset-password/:token',
 			component: AuthResetPassword,
 			name: 'auth-reset-password',
+		},
+		{
+			path: 'invites/:token',
+			component: AuthInvite,
+			name: 'auth-invite'
 		},
 	]
 };

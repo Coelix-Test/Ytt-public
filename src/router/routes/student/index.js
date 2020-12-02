@@ -1,7 +1,7 @@
 import Student from '@/views/student/Student';
 
 import lessons from './lessons';
-import settings from "./settings";
+// import settings from "./settings";
 
 import { STUDENT } from '@/constants/roles';
 import routesExtendMeta from '@/router/routesExtendMeta';
@@ -17,7 +17,7 @@ const routes = {
 	},
 	children: [
 		lessons,
-		settings,
+		// settings,
 	]
 };
 

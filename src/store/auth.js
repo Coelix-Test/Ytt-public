@@ -113,6 +113,34 @@ export default {
 					.then(() => this.commit('SET_LOADING', false))
 			});
 		},
+		inviteUser(context, { email, role }){
+			context.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.post(`/admin/invites`, { email, role })
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => context.commit('SET_LOADING', false))
+			});
+		},
+		inviteTokenValid(context, token){
+			this.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.get(`/auth/invites/${token}`)
+					.then(res => resolve(res.data))
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => this.commit('SET_LOADING', false))
+			});
+		},
+		createAccountInvite(context, { token, ...account }){
+			this.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.post(`/auth/invites/${token}`, account)
+					.then(res => processAuthResponse(context, res.data))
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => this.commit('SET_LOADING', false))
+			});
+		},
 		navigateToStartPage({ getters }){
 			if(!getters.user)
 				return new Error('Store/NavigateToStartPage: user is not defined');
