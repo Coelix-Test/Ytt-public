@@ -64,6 +64,7 @@ export default {
         'u-btn' : true,
         'u-btn_block' : this.block,
         'u-btn_disabled' : this.disabled || this.loading,
+        'u-btn_loading' : this.loading,
         'u-btn_outlined' : this.outlined,
         [ `u-btn_size_${this.size}` ] : true,
         [ `u-btn_color_${this.color}` ] : true,
@@ -118,7 +119,7 @@ export default {
         on: Object.assign({}, this.$listeners, eventHandlers),
       },
       [
-        this.$slots.default,
+        createElement('span', { class: 'u-btn__content' }, [this.$slots.default]),
         createElement(Loader, {
           props: {
             show: this.loading
@@ -166,6 +167,12 @@ export default {
     }
   }
 
+  &__content{
+    opacity: 1;
+    visibility: visible;
+    transition: all .3s;
+  }
+
   &_block{
     width: 100%;
   }
@@ -173,6 +180,13 @@ export default {
   &_disabled{
     opacity: .3;
     cursor: default;
+  }
+
+  &_loading{
+    .u-btn__content{
+      opacity: 0;
+      visibility: hidden;
+    }
   }
 
   &_theme-dark{
@@ -226,6 +240,11 @@ export default {
     }
   }
 
+  &_color_white {
+    color: #fff;
+    background-color: #fff;
+  }
+
   &_color_red{
     color: #fff;
     background-color: $clr-red;
@@ -270,6 +289,16 @@ export default {
       }
       &:active{
         background-color: rgba($clr-blue, .17);
+      }
+    }
+
+    &.u-btn_color_white{
+      color: #fff;
+      &:hover{
+        background-color: rgba(#fff, .06);
+      }
+      &:active{
+        background-color: rgba(#fff, .17);
       }
     }
 

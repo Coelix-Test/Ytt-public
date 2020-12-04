@@ -3,8 +3,9 @@
     <div class="u-flex is-flex-column u-flex-grow u-pb-25 screen-container">
       <div class="u-container u-mr-auto u-ml-auto">
         <div class="u-row">
-          <div class="u-col-12">
+          <div class="head">
             <div class="u-text-h2 u-mb-10 u-mt-10">Add teacher</div>
+            <UBtn :to="{ name: 'admin-teacher-invite' }" color="blue">Add via e-mail invite</UBtn>
           </div>
         </div>
         <div class="u-row">
@@ -39,6 +40,17 @@
             </ValidationProvider>
           </div>
           <div class="u-col-6 u-mb-8">
+            <ValidationProvider rules="required" name="Username" v-slot="{ errors }">
+              <u-text-field
+                label="Username"
+                placeholder="Username"
+                v-model="username"
+                :error="errors[0]"
+              >
+              </u-text-field>
+            </ValidationProvider>
+          </div>
+          <div class="u-col-6 u-mb-8">
             <u-text-field
               label="City"
               placeholder="City"
@@ -46,6 +58,7 @@
             >
             </u-text-field>
           </div>
+          <div class="u-col-6 u-mb-8"></div>
           <div class="u-col-6 u-mb-8">
             <ValidationProvider rules="min:6|max:20|required" name="Password" v-slot="{ errors }">
               <u-text-field
@@ -133,5 +146,11 @@ label{
 
 .add-photo{
   margin-top: 11px;
+}
+.head{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>

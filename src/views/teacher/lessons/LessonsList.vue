@@ -46,13 +46,18 @@
                 </td>
                 <td class="u-font-weight-light u-text-center pages-col">{{item.words_count}} pages</td>
                 <td class="u-text-right u-pr-25">
-                  <button
-                      class="u-btn is-medium is-bg-primary is-dark u-font-weight-regular"
-                      @click="openSelectStudentModal(item)"
-                      id="select_student_modal_open"
+                  <UBtn
+                    class="u-mr-2"
+                    :to="{ name: 'teacher-lessons-view', params: { id: item.id }}"
+                  >
+                    View lesson
+                  </UBtn>
+                  <UBtn
+                    id="select_student_modal_open"
+                    @click="openSelectStudentModal(item)"
                   >
                     Add to student
-                  </button>
+                  </UBtn>
                 </td>
               </tr>
               </tbody>

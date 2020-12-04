@@ -20,7 +20,7 @@
           </template>
         </tr>
       </thead>
-      <tbody v-if="items.length">
+      <tbody v-if="items && items.length">
         <tr
           v-for="item in items"
           :key="item.id"
@@ -36,23 +36,60 @@
           <td class="grey-col">{{item.email}}</td>
           <td class="grey-col">{{item.phone}}</td>
           <td class="u-pr-25 u-text-right">
+            <div class="actions-col">
+              <UBtn
+                class="qa-assign-students-teacher-btn"
+                color="primary"
+                size="small"
+                @click="openSelectTeacherModal(item)"
+                v-if="!item.teacher_id"
+              >
+                Add teacher
+              </UBtn>
+              <UBtn
+                class="qa-change-students-teacher-btn"
+                color="primary"
+                size="small"
+                @click="openSelectTeacherModal(item)"
+                v-else
+              >
+                Change teacher
+              </UBtn>
 
-            <UBtn
-              color="primary"
-              size="small"
-              @click="openSelectTeacherModal(item)"
-              v-if="!item.teacher_id"
-            >
-              Add teacher
-            </UBtn>
-            <UBtn
-              color="primary"
-              size="small"
-              @click="openSelectTeacherModal(item)"
-              v-else
-            >
-              Change teacher
-            </UBtn>
+              <UIconBtn
+                class="u-mx-1 qa-login-as-teacher-btn login-as-icon-btn"
+                icon="icon-enter"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
+                @click.native="onLoginAsUserClick(item)"
+                title="Login as user"
+              >
+              </UIconBtn>
+
+              <UIconBtn
+                class="u-mx-1 qa-edit-student-btn"
+                :to="{ name: 'admin-user-edit', params: { id: item.id }}"
+                icon="icon-pencil"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
+              >
+              </UIconBtn>
+
+              <UIconBtn
+                class="u-mx-1 qa-delete-student-btn"
+                icon="icon-trash"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
+                @click.native="deleteUserAlert(item)"
+              >
+              </UIconBtn>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -74,14 +111,23 @@
 <script>
 import UCard from '@/components/common/UCard';
 import SelectTeacher from '@/components/modals/SelectTeacher';
+import UIconBtn from "@/components/common/UIconBtn";
 
 import { UsersApi, StudentsApi } from '@/api';
+import {mapActions, mapMutations, mapGetters } from "vuex";
+import { ADMIN } from "@/constants/roles";
+import DeleteUserMixin from '@/mixins/delete-user.mixin'
 
 export default {
+  components: {
+    UCard,
+    SelectTeacher,
+    UIconBtn,
+  },
+  mixins: [ DeleteUserMixin ],
   data: () => ({
     currentSelectedTeacher: null,
     currentSelectedStudent: null,
-    items: [],
     columns: [
       {
         text: 'Name',
@@ -105,14 +151,16 @@ export default {
       },
     ],
   }),
-  components: {
-    UCard,
-    SelectTeacher,
+  computed: {
+    ...mapGetters('Students', {
+      items: 'studentsList'
+    }),
   },
   methods: {
-    getAll(){
-      UsersApi.getPage({ role: 3 }).then(response => {this.items = response.data});
-    },
+    ...mapActions('Auth', ['loginAsUser']),
+    ...mapActions('Users', ['deleteUser']),
+    ...mapActions('Students', ['fetchStudentsList']),
+    ...mapMutations('Students', ['RESET_STUDENTS_LIST']),
     onSelectTeachers(teacher){
       console.log('selected teacher: ', teacher);
       this.currentSelectedTeacher = teacher;
@@ -141,9 +189,26 @@ export default {
       });
 
     },
+    onLoginAsUserClick(user){
+      this.loginAsUser(user.id).then(() => {
+        this.$notify({
+          title: 'Welcome!',
+          type: 'success'
+        });
+      }).catch(({ message }) => {
+        this.$notify({
+          title: 'Login error',
+          text: message,
+          type: 'error'
+        });
+      })
+    }
   },
   mounted(){
-    this.getAll();
+    this.fetchStudentsList(ADMIN);
+  },
+  beforeDestroy() {
+    this.RESET_STUDENTS_LIST();
   }
 }
 </script>
@@ -168,5 +233,15 @@ tr:hover .grey-col{
 }
 .grey-col{
   color: $clr-grey;
+}
+
+.actions-col{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-as-icon-btn{
+  position: relative;
+  left: -2px;
 }
 </style>

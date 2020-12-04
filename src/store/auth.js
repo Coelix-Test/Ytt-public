@@ -10,7 +10,9 @@ export default {
 	state: {
 		user: null,
 		loading: false,
-		userIsFetching: false
+		userIsFetching: false,
+		userFetched: false,
+		resetTokenValid: false
 	},
 	mutations: {
 		SET_USER(state, user){
@@ -21,6 +23,12 @@ export default {
 		},
 		SET_USER_FETCHING(state, isFetching){
 			state.userIsFetching = isFetching;
+		},
+		SET_USER_FETCHED(state, userFetched){
+			state.userFetched = userFetched;
+		},
+		SET_RESET_TOKEN_VALID(state, valid){
+			state.resetTokenValid = valid;
 		}
 	},
 	actions: {
@@ -35,7 +43,8 @@ export default {
 			} catch(err){
 				console.error(err);
 			}
-			commit('SET_USER_FETCHING', false);
+			commit('SET_USER_FETCHING', false)
+			return commit('SET_USER_FETCHED', true);
 		},
 		logout({ commit }){
 			const clearAuthData = () => {
@@ -60,6 +69,16 @@ export default {
 			});
 
 		},
+		loginAsUser(context, userId){
+			context.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.get(`/auth/impersonate/${userId}`)
+					.then(res => processAuthResponse(context, res.data))
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => context.commit('SET_LOADING', false))
+			});
+		},
 		register(context, credentials){
 			return new Promise((resolve, reject) => {
 				axios.post('/auth/register', credentials)
@@ -68,11 +87,65 @@ export default {
 					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
 			});
 		},
+		forgotPassword(context, login){
+			return new Promise((resolve, reject) => {
+				axios.post('/auth/forgot-password', { login })
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+			});
+		},
+		resetTokenValid(context, token){
+			this.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.get(`/auth/forgot-password/${token}`)
+					.then(res => res.data.isValid)
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => this.commit('SET_LOADING', false))
+			});
+		},
+		resetPassword(context, { token, password, password_confirmation }){
+			this.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.post(`/auth/forgot-password/${token}`, { password, password_confirmation })
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => this.commit('SET_LOADING', false))
+			});
+		},
+		inviteUser(context, { email, role }){
+			context.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.post(`/admin/invites`, { email, role })
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => context.commit('SET_LOADING', false))
+			});
+		},
+		inviteTokenValid(context, token){
+			this.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.get(`/auth/invites/${token}`)
+					.then(res => resolve(res.data))
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => this.commit('SET_LOADING', false))
+			});
+		},
+		createAccountInvite(context, { token, ...account }){
+			this.commit('SET_LOADING', true);
+			return new Promise((resolve, reject) => {
+				axios.post(`/auth/invites/${token}`, account)
+					.then(res => processAuthResponse(context, res.data))
+					.then(resolve)
+					.catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+					.then(() => this.commit('SET_LOADING', false))
+			});
+		},
 		navigateToStartPage({ getters }){
 			if(!getters.user)
 				return new Error('Store/NavigateToStartPage: user is not defined');
 
-			switch (getters.user.role){
+			switch (getters.user.role_id){
 				case ADMIN:
 					return router.push({ name: 'admin-lessons-all' });
 				case TEACHER:
@@ -87,12 +160,13 @@ export default {
 		userRole: state => {
 			let userRole = null;
 			if(state.user){
-				userRole = state.user.role;
+				userRole = state.user.role_id;
 			}
 			return userRole;
 		},
 		loading: state => state.loading,
-		userIsFetching: state => state.userIsFetching
+		userIsFetching: state => state.userIsFetching,
+		userFetched: state => state.userFetched
 	}
 }
 

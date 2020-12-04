@@ -1,52 +1,54 @@
 <template>
   <ValidationObserver v-slot="{ handleSubmit }">
     <u-card class="login">
-<!--      <SocialsAuth/>-->
-      <div class="login__form">
-        <ValidationProvider rules="email|required" name="Email" v-slot="{ errors }">
-          <UTextField
-            padding
-            label="Email"
-            v-model="form.email"
-            placeholder="myemail@example.com"
-            class="login__form-input"
-            :error="errors[0]"
-            inset
-          ></UTextField>
-        </ValidationProvider>
-        <ValidationProvider rules="required" name="Password" v-slot="{ errors }">
-          <UTextField
-            padding
-            label="Password"
-            v-model="form.password"
-            placeholder="******"
-            type="password"
-            :error="errors[0]"
-            class="login__form-input"
-          ></UTextField>
-        </ValidationProvider>
+      <form  @submit.prevent="() => handleSubmit(() => signIn(form))">
+        <div class="login__form">
+          <ValidationProvider rules="required" name="Email or username" v-slot="{ errors }">
+            <UTextField
+              padding
+              label="Email or username"
+              v-model="form.login"
+              placeholder="myemail@example.com"
+              class="login__form-input"
+              :error="errors[0]"
+              inset
+            ></UTextField>
+          </ValidationProvider>
+          <ValidationProvider rules="required" name="Password" v-slot="{ errors }">
+            <UTextField
+              padding
+              label="Password"
+              v-model="form.password"
+              placeholder="******"
+              type="password"
+              :error="errors[0]"
+              class="login__form-input"
+            ></UTextField>
+          </ValidationProvider>
 
-        <UCheckbox class="login__form-remember" v-model="form.remember">
-          Automatic  login
-        </UCheckbox>
+          <UCheckbox class="login__form-remember" v-model="form.remember">
+            Automatic  login
+          </UCheckbox>
+        </div>
+
+        <div class="u-flex is-justify-center">
+          <UBtn
+            class="login__btn"
+            size="x-large"
+            color="primary"
+            :loading="loading"
+          >
+            Log in
+          </UBtn>
+        </div>
+
+      <div class="login__forgot">
+        Forgot your password? <span @click="openResetPasswordModal">click here</span>
       </div>
-
-      <div class="u-flex is-justify-center">
-        <UBtn
-          class="login__btn"
-          size="x-large"
-          color="primary"
-          @click="() => handleSubmit(() => signIn(form))"
-          :loading="loading"
-        >
-          Log in
-        </UBtn>
-      </div>
-
-<!--      <div class="login__forgot" >-->
-<!--        Forgot your password? <a href="#">click here</a>-->
-<!--      </div>-->
+      </form>
     </u-card>
+    <ResetPassword></ResetPassword>
+
   </ValidationObserver>
 </template>
 
@@ -54,14 +56,14 @@
 import UCard from '@/components/common/UCard.vue';
 import UTextField from '@/components/common/UTextField.vue';
 import UCheckbox from '@/components/common/UCheckbox.vue';
-import SocialsAuth from '@/components/partials/SocialsAuth';
+import ResetPassword from '@/components/modals/ResetPassword';
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
 
   data: () => ({
     form:{
-      email: '',
+      login: '',
       password: '',
       remember: false
     }
@@ -73,7 +75,7 @@ export default {
     UCard,
     UTextField,
     UCheckbox,
-    SocialsAuth
+    ResetPassword
   },
   computed: {
     ...mapGetters('Auth', ['loading'])
@@ -95,6 +97,9 @@ export default {
           type: 'error'
         });
       })
+    },
+    openResetPasswordModal(){
+      this.$modal.show('reset-password');
     }
   }
 }
@@ -102,6 +107,16 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/styles/vars';
+
+.title{
+  font-weight: 300;
+  opacity: 0.2;
+  color: #fff;
+  text-decoration: none;
+
+  width: 258px;
+  text-align: center;
+}
 
 .login{
   width: $popup-width-xl;
@@ -130,6 +145,10 @@ export default {
     line-height: 20px;
     color: #2E2E2E;
     margin-top: 15px;
+    span{
+      color: #3C54AC;
+      cursor: pointer;
+    }
   }
 
 }

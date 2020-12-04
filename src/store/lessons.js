@@ -22,6 +22,17 @@ export default {
         RESET_LESSONS_LIST(state){
             state.lessonsList = null;
         },
+        DELETE_LESSON(state, lessonId){
+            state.lessonsList = state.lessonsList.filter(lesson => lesson.id !== lessonId);
+        },
+        TOGGLE_HIDE_LESSON(state, lessonId){
+            state.lessonsList = state.lessonsList.map(lesson => {
+                if(lesson.id === lessonId){
+                    lesson.hidden = !(!!lesson.hidden);
+                }
+                return lesson;
+            });
+        },
     },
     actions: {
         createLesson(context, lesson){
@@ -140,6 +151,30 @@ export default {
                     .then(() => context.commit('SET_LOADING', false));
             });
         },
+
+        deleteLesson(context, { lessonId }){
+            context.commit('SET_LOADING', true);
+            return new Promise((resolve, reject) => {
+                axios.delete(`/admin/lessons/${lessonId}`)
+                    .then(() => {
+                        context.commit('DELETE_LESSON', lessonId);
+                        resolve();
+                    })
+                    .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+                    .then(() => context.commit('SET_LOADING', false));
+            });
+        },
+
+        hideLesson(context, { lessonId }){
+            context.commit('SET_LOADING', true);
+            return new Promise((resolve, reject) => {
+                axios.post(`/admin/lessons/${lessonId}/hide`)
+                    .then(resolve)
+                    .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))
+                    .then(() => context.commit('TOGGLE_HIDE_LESSON', lessonId))
+                    .then(() => context.commit('SET_LOADING', false));
+            });
+        },
     },
     getters: {
         lessonsList: state => state.lessonsList,
@@ -165,6 +200,7 @@ function setFetchedLesson({ commit }, lesson){
         commit('Words/SET_WORDS', words, { root: true });
         delete lesson.words;
     }
+
     if(lesson.last_word){
         commit('Words/SET_LAST_WORD', lesson.last_word, { root: true });
     }

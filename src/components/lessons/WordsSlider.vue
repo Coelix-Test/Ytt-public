@@ -4,6 +4,7 @@
       <div class="words-slider__list">
         <img class="words-slider__slide_plug" :src="currentSlide.image_url" alt="">
         <img class="words-slider__logo" src="@/assets/logo.svg" alt="">
+        <div class="words-slider__page-number">{{ currentSlide.serial }}</div>
         <div
           class="words-slider__slide"
           :class="{ 'words-slider__slide_show': currentIndex === index }"
@@ -120,11 +121,34 @@ export default {
 
     },
     nextSlide(){
-
+      console.log('next slide output: this.currentIndex', this.currentIndex);
       if(this.currentIndex !== this.computedSlides.length - 1)
         this.currentIndex++;
 
+    },
+    handleKeyPress(e){
+      console.log('keypress output');
+      e.preventDefault();
+      if(e.keyCode === 32 || e.keyCode === 39){
+        this.nextSlide();
+      }
+      else if(e.keyCode === 37){
+        this.prevSlide();
+      }
+    },
+    preventScrollOnSpacebar(e){
+      if(e.keyCode == 32 && e.target == document.body){
+        e.preventDefault();
+      }
     }
+  },
+  mounted() {
+    window.addEventListener('keyup', this.handleKeyPress );
+    window.addEventListener('keydown', this.preventScrollOnSpacebar);
+  },
+  beforeDestroy() {
+    window.removeEventListener('keyup', this.handleKeyPress);
+    window.removeEventListener('keydown', this.preventScrollOnSpacebar);
   }
 }
 </script>
@@ -143,7 +167,14 @@ export default {
     position: absolute;
     z-index: 1;
     bottom: 16px;
-    left: 23px;
+    left: 15px;
+  }
+  &__page-number{
+    position: absolute;
+    z-index: 1;
+    bottom: 30px;
+    right: 65px;
+    text-align: center;
   }
 
   &__list{

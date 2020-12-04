@@ -19,6 +19,9 @@ export default {
         SET_STUDENT(state, payload){
           state.student = payload;
         },
+        DELETE_STUDENT(state, { studentId }){
+            state.studentsList = state.studentsList.filter(e => e.id !== studentId);
+        },
         UPDATE_STUDENTS_LESSONS(state, {studentId, lessons}){
             state.studentsList = state.studentsList.map(item => {
                 if(item.id === studentId){
@@ -36,10 +39,20 @@ export default {
         fetchStudentsList(context, role){
             context.commit('SET_LOADING', true);
 
+            let url = '', params = {};
+            if(role === ADMIN){
+                url = `/${ROLE_MAP[ADMIN]}/users`;
+                params.role = STUDENT;
+            }
+            else if(role === TEACHER){
+                url = `/${ROLE_MAP[TEACHER]}/students`;
+            }
+            console.log(params);
+
             return new Promise((resolve, reject) => {
-                axios.get(`/${ROLE_MAP[role]}/students`)
+                axios.get(url, {params})
                     .then(response => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         context.commit('SET_STUDENTS_LIST', response.data);
                     })
                     .catch(err => reject(ErrorHelper.getErrorWithMessage(err)))

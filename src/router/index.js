@@ -14,28 +14,29 @@ const router = new VueRouter({ routes });
 
 router.beforeEach(async (to, from, next) => {
 	const { auth, roleAccess, forUnauthorized } = to.meta;
-	console.log('beforeEach[to]: ', to);
-	console.log('beforeEach[from]: ', from);
-	if(!auth)
-		return next();
-	
-	const user = store.getters['Auth/user']
-	console.log('beforeEach[user]: ', user);
-	
+
+	let user;
+	const userFetched = store.getters['Auth/userFetched']
+
+	if(!userFetched)
+		await store.dispatch('Auth/fetchUser');
+
+	user = store.getters['Auth/user']
+
 	if(user && forUnauthorized)
 		return await store.dispatch('Auth/navigateToStartPage');
-	
+
+	if(!auth)
+		return next();
+
 	if(!user)
 		return next({ name: 'auth-login' });
 	
 	const access = roleAccess ? Array.isArray(roleAccess) ? roleAccess : [roleAccess] : []
-	console.log('beforeEach[access]: ', access);
 	
-	if(!access.includes(user.role))
+	if(!access.includes(user.role_id))
 		return next(from);
-	
-	
-		
+
 	return next();
 });
 

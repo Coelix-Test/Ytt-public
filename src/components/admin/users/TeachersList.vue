@@ -21,7 +21,7 @@
           </template>
         </tr>
         </thead>
-        <tbody v-if="items.length">
+        <tbody v-if="items && items.length">
         <tr
             v-for="item in items"
             :key="item.id"
@@ -37,13 +37,50 @@
           <td class="grey-col">{{item.email}}</td>
           <td class="grey-col">{{item.phone}}</td>
           <td class="u-pr-25 u-text-right">
-            <UBtn
-              color="primary"
-              size="small"
-              @click="openAddLessonPopup(item)"
-            >
-              Add lesson
-            </UBtn>
+            <div class="actions-col">
+              <UBtn
+                class="u-mx-1 qa-open-add-lesson-popup-btn"
+                color="primary"
+                size="small"
+                @click="openAddLessonPopup(item)"
+              >
+                Add lesson
+              </UBtn>
+
+              <UIconBtn
+                class="u-mx-1 qa-login-as-teacher-btn login-as-icon-btn"
+                icon="icon-enter"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
+                @click.native="onLoginAsUserClick(item)"
+                title="Login as user"
+              >
+              </UIconBtn>
+
+              <UIconBtn
+                class="u-mx-1 qa-edit-teacher-btn"
+                :to="{ name: 'admin-user-edit', params: { id: item.id }}"
+                icon="icon-pencil"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
+              >
+              </UIconBtn>
+
+              <UIconBtn
+                class="u-mx-1 qa-delete-teacher-btn"
+                icon="icon-trash"
+                icon-color="grey"
+                icon-hover-color="blue"
+                bg-hover-color="white"
+                hoverable
+                @click.native="deleteUserAlert(item)"
+              >
+              </UIconBtn>
+            </div>
           </td>
         </tr>
         </tbody>
@@ -69,15 +106,25 @@
 
 <script>
 import UCard from '@/components/common/UCard';
+import UIconBtn from "@/components/common/UIconBtn";
 import SelectLesson from "@/components/modals/SelectLesson";
 
 import { UsersApi } from '@/api';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
+import {ADMIN} from "@/constants/roles";
+
+import DeleteUserMixin from '@/mixins/delete-user.mixin'
 
 export default {
+  components: {
+    UCard,
+    SelectLesson,
+    UIconBtn,
+  },
+  mixins: [DeleteUserMixin],
   data: () => ({
     selectedTeacher: null,
     selectedLessons: null,
-    items: [],
     columns: [
       {
         text: 'Name',
@@ -101,14 +148,16 @@ export default {
       },
     ],
   }),
-  components: {
-    UCard,
-    SelectLesson,
+  computed: {
+    ...mapGetters('Teachers', {
+      items: 'teachersList'
+    }),
   },
   methods: {
-    getAll(){
-      UsersApi.getPage({ role: 2 }).then(response => {this.items = response.data});
-    },
+    ...mapActions('Auth', ['loginAsUser']),
+    ...mapActions('Users', ['deleteUser']),
+    ...mapActions('Teachers', [ 'fetchTeachersList' ]),
+    ...mapMutations('Teachers', ['RESET_TEACHERS_LIST']),
     openAddLessonPopup(item){
       this.selectedTeacher = item;
       this.selectedLessons = [ ...item.lessons ];
@@ -125,9 +174,26 @@ export default {
       });
 
     },
+    onLoginAsUserClick(user){
+      this.loginAsUser(user.id).then(() => {
+        this.$notify({
+          title: 'Welcome!',
+          type: 'success'
+        });
+      }).catch(({ message }) => {
+        this.$notify({
+          title: 'Login error',
+          text: message,
+          type: 'error'
+        });
+      })
+    }
   },
   mounted(){
-    this.getAll();
+    this.fetchTeachersList(ADMIN);
+  },
+  beforeDestroy() {
+    this.RESET_TEACHERS_LIST();
   }
 }
 </script>
@@ -152,5 +218,34 @@ tr:hover .grey-col{
 }
 .grey-col{
   color: $clr-grey;
+}
+
+.edit-user-btn{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 15px;
+  svg{
+    width: 18px;
+    height: 18px;
+  }
+  &:hover{
+    background-color: #fff;
+    svg{
+      fill: $clr-blue;
+    }
+  }
+}
+.actions-col{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-as-icon-btn{
+  position: relative;
+  left: -2px;
 }
 </style>
