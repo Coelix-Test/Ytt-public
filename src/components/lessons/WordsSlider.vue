@@ -4,7 +4,7 @@
       <div class="words-slider__list">
         <img class="words-slider__slide_plug" :src="currentSlide.image_url" alt="">
         <img class="words-slider__logo" src="@/assets/logo.svg" alt="">
-        <div class="words-slider__page-number">9</div>
+        <div class="words-slider__page-number">{{ currentSlide.serial }}</div>
         <div
           class="words-slider__slide"
           :class="{ 'words-slider__slide_show': currentIndex === index }"
